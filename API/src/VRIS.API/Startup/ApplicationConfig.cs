@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Valtech.Labs.ValtechPointer.Portal.Application
+namespace VRIS.API.Startup
 {
     /// <summary>
     /// Application Config for the VRIS Api
