@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Valtech.Labs.ValtechPointer.Portal.Application
+namespace VRIS.API.Startup
 {
     /// <summary>
     /// Service configuration for the API project
@@ -20,7 +20,9 @@ namespace Valtech.Labs.ValtechPointer.Portal.Application
             SwaggerConfig.ConfigureSwaggerServices(services, configuration["Swagger:Path"]);
 
             // Add custom services
-            services.AddMvc();
+            services
+                .AddMvcCore()
+                .AddApiExplorer();
 
             // Add repositories
         }

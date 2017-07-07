@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace Valtech.Labs.ValtechPointer.Portal.Application
+namespace VRIS.API.Startup
 {
     /// <summary>
     /// Services configuration for Swagger specifically 
@@ -41,7 +41,7 @@ namespace Valtech.Labs.ValtechPointer.Portal.Application
             applicationBuilder.UseSwagger();
             applicationBuilder.UseSwaggerUI(swaggerOptions =>
             {
-                swaggerOptions.SwaggerEndpoint($"/swagger/{SwaggerInfo.Title}/swagger.json", SwaggerInfo.Title);
+                swaggerOptions.SwaggerEndpoint($"/swagger/{SwaggerInfo.Version}/swagger.json", SwaggerInfo.Title);
             });
         }
     }
