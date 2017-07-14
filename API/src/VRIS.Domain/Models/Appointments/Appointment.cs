@@ -21,5 +21,10 @@ namespace VRIS.Domain.Models.Appointments
         /// The Office
         /// </summary>
         [Required] public Office Office { get; set; }
+
+        /// <summary>
+        /// Flag indicating whether or not this is an all day appointment (For Frontend)
+        /// </summary>
+        public virtual bool AllDay => true;
     }
 }

@@ -8,7 +8,6 @@ namespace VRIS.Domain.Models.Appointments
     /// </summary>
     public class SlotAppointment : Appointment
     {
-
         /// <summary>
         /// The Date and Time this appointment starts (In UTC)
         /// </summary>
@@ -18,5 +17,8 @@ namespace VRIS.Domain.Models.Appointments
         /// The Date and Time this appointment ends (In UTC)
         /// </summary>
         [Required] public DateTime EndUtc { get; set; }
+
+        /// <inheritdoc cref="Appointment"/>
+        public override bool AllDay => false;
     }
 }
