@@ -18,6 +18,14 @@ namespace VRIS.API.Controllers
         /// List all the <see cref="Appointment"/>s for this <see cref="Office"/>
         /// </summary>
         /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
+        /// <returns></returns>
+        [HttpGet("{officeId:int:required}"), ProducesResponseType(typeof(IEnumerable<Appointment>), (int) HttpStatusCode.OK)]
+        public IEnumerable<Appointment> List([Required] int officeId) => List(officeId, DateTime.UtcNow);
+
+        /// <summary>
+        /// List all the <see cref="Appointment"/>s for this <see cref="Office"/>
+        /// </summary>
+        /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
         /// <param name="date">The day to show the <see cref="Appointment"/>s from</param>
         /// <returns></returns>
         [HttpGet("{officeId:int:required}/{date:datetime:required}"), ProducesResponseType(typeof(IEnumerable<Appointment>), (int)HttpStatusCode.OK)]
@@ -36,8 +44,8 @@ namespace VRIS.API.Controllers
             {
                 Id = 949,
                 Subject = "Test2",
-                StartUtc = DateTime.UtcNow,
-                EndUtc = DateTime.UtcNow.AddHours(2),
+                StartUtc = date.ToUniversalTime(),
+                EndUtc = date.ToUniversalTime().AddHours(2),
                 Office = new Office
                 {
                     Id = officeId,
