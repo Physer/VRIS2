@@ -20,10 +20,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\VRIS.Business\VRIS.Business.csproj" />
+    <ProjectReference Include="..\VRIS.Domain\VRIS.Domain.csproj" />
   </ItemGroup>
 
 </Project>

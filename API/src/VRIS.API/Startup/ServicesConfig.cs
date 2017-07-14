@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using VRIS.Business.HttpFilters;
 
 namespace VRIS.API.Startup
 {
@@ -19,13 +23,22 @@ namespace VRIS.API.Startup
             VRIS.Business.Startup.ServicesConfig.Configure(services, configuration);
             SwaggerConfig.ConfigureSwaggerServices(services, configuration["Swagger:Path"]);
 
+            var showStackTraceSetting = configuration["Debug:ShowStackTrace"];
+            var showStackTrace = !String.IsNullOrWhiteSpace(showStackTraceSetting) && 
+                Convert.ToBoolean(showStackTraceSetting);
+
             // Add custom services
             services
-                .AddMvcCore()
+                .AddMvcCore(config =>
+                    // config.Filters.Add(new AuthorizeFilter(AuthorizationPolicy.Combine()));
+                    config.Filters.Add(new GlobalExceptionFilter(showStackTrace)))
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                })
                 .AddJsonFormatters()
                 .AddApiExplorer();
-
-            // Add repositories
         }
     }
 }
