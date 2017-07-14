@@ -32,28 +32,14 @@ public class DummyContent {
 
     static {
         // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }
+        addItem(new Reservation(1, new Date(2017,7,14,9,30), new Date(2017,7,14,10,30), new Person(1, "Meneer Een"), new Room(1, "5B")));
+        addItem(new Reservation(2, new Date(2017,7,14,10,45), new Date(2017,7,14,11,30), new Person(2, "Meneer Twee"), new Room(2, "5B")));
+        addItem(new Reservation(3, new Date(2017,7,14,13,00), new Date(2017,7,14,13,45), new Person(3, "Meneer Drie"), new Room(3, "5B")));
+        addItem(new Reservation(4, new Date(2017,7,14,15,15), new Date(2017,7,14,17,0), new Person(4, "Meneer Vier"), new Room(4, "5B")));
     }
 
     private static void addItem(Reservation item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.getId(), item);
-    }
-
-    private static Reservation createDummyItem(int position) {
-        Person person = new Person(position, "testperson");
-        Room room = new Room(position, "5B");
-        return new Reservation(position, new Date(), new Date(), person, room);
-    }
-
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
     }
 }

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.BufferedStreamContentReader;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.GsonDesynchronizer;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.NetworkModelLoader;
+import com.valtech.amsterdam.vris.ui.OnClickListener;
 
 import java.util.List;
 
@@ -15,11 +16,10 @@ import java.util.List;
 public class Recyclist<TModel> {
 
     private Recyclistener mListener;
-    private String mBaseUrl;
-    private Class<TModel> mModelClass;
     private RecyclistViewBinder<TModel> mViewBinder;
     private int mRowViewResourceId;
     private RecyclerView mRecyclerView;
+    private OnClickListener mClickListener;
 
     private LoadListCommand<TModel> mLoadListCommand;
 
@@ -27,12 +27,10 @@ public class Recyclist<TModel> {
         mLoadListCommand = loadListCommand;
     }
 
-    public void startBind(Recyclistener listener, String baseUrl, Class<TModel> modelClass, RecyclistViewBinder<TModel> viewBinder, int rowViewResourceId, RecyclerView recyclerView) {
+    public void startBind(Recyclistener listener, RecyclistViewBinder<TModel> viewBinder, int rowViewResourceId, RecyclerView recyclerView) {
         if (mLoadListCommand == null) onLoadError("Previous task is still running");
 
         mListener = listener;
-        mBaseUrl = baseUrl;
-        mModelClass = modelClass;
         mViewBinder = viewBinder;
         mRowViewResourceId = rowViewResourceId;
         mRecyclerView = recyclerView;
@@ -67,11 +65,15 @@ public class Recyclist<TModel> {
     private void onLoadComplete(List<TModel> results) {
         mLoadListCommand = null;
 
-        RecyclistAdapter<TModel> adapter = new RecyclistAdapter<>(results, mViewBinder, mRowViewResourceId);
+        RecyclistAdapter<TModel> adapter = new RecyclistAdapter<>(results, mViewBinder, mRowViewResourceId, mClickListener);
         mRecyclerView.setAdapter(adapter);
 
         mListener.hideProgress();
         mListener.showResults();
         mListener.hideError();
+    }
+
+    public void setClickListener(OnClickListener clickListener) {
+        mClickListener = clickListener;
     }
 }

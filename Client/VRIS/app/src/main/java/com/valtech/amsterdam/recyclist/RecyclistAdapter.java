@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.valtech.amsterdam.vris.ui.OnClickListener;
+
 import java.util.List;
 
 /**
@@ -15,11 +17,13 @@ public class RecyclistAdapter<TModel> extends RecyclerView.Adapter<RecyclistAdap
     private List<TModel> mObjects;
     private RecyclistViewBinder<TModel> mViewBinder;
     private int mRowViewResourceId;
+    private OnClickListener mClickListener;
 
-    public RecyclistAdapter(List<TModel> objects, RecyclistViewBinder<TModel> viewBinder, int rowViewResourceId) {
+    public RecyclistAdapter(List<TModel> objects, RecyclistViewBinder<TModel> viewBinder, int rowViewResourceId, OnClickListener clickListener) {
         mObjects = objects;
         mViewBinder = viewBinder;
         mRowViewResourceId = rowViewResourceId;
+        mClickListener = clickListener;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class RecyclistAdapter<TModel> extends RecyclerView.Adapter<RecyclistAdap
         TModel model = mObjects.get(position);
         if (model == null) return;
 
-        holder.getViewBinder().bindView(holder.getView(), model);
+        holder.getViewBinder().bindView(holder.getView(), model, mClickListener);
     }
 
     @Override

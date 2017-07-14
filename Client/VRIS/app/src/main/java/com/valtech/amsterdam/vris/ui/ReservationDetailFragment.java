@@ -1,4 +1,4 @@
-package com.valtech.amsterdam.vris;
+package com.valtech.amsterdam.vris.ui;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -8,8 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.dummy.DummyContent;
 import com.valtech.amsterdam.vris.model.Reservation;
+
+import java.text.SimpleDateFormat;
 
 /**
  * A fragment representing a single Reservation detail screen.
@@ -61,7 +65,10 @@ public class ReservationDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.reservation_detail)).setText(mItem.getRoom().getName());
+            ((TextView) rootView.findViewById(R.id.booker)).setText(mItem.getBooker().getName());
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+            ((TextView) rootView.findViewById(R.id.from)).setText(formatter.format(mItem.getStart()));
+            ((TextView) rootView.findViewById(R.id.to)).setText(formatter.format(mItem.getEnd()));
         }
 
         return rootView;
