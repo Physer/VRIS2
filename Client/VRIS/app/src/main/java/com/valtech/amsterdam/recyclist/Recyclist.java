@@ -57,6 +57,8 @@ public class Recyclist<TModel> {
     }
 
     private void onLoadError(String message) {
+        mLoadListCommand = null;
+
         mListener.hideProgress();
         mListener.hideResults();
         mListener.showError(message);

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 
 import com.valtech.amsterdam.vris.dummy.DummyContent;
+import com.valtech.amsterdam.vris.model.Reservation;
 
 import java.util.List;
 
@@ -73,9 +74,9 @@ public class ReservationListActivity extends AppCompatActivity {
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<Reservation> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<Reservation> items) {
             mValues = items;
         }
 
@@ -89,15 +90,15 @@ public class ReservationListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
+            holder.mContentView.setText(Integer.toString(mValues.get(position).getRoom().getId()));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ReservationDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
                         ReservationDetailFragment fragment = new ReservationDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -106,7 +107,7 @@ public class ReservationListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ReservationDetailActivity.class);
-                        intent.putExtra(ReservationDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        intent.putExtra(ReservationDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
 
                         context.startActivity(intent);
                     }
@@ -123,7 +124,7 @@ public class ReservationListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public Reservation mItem;
 
             public ViewHolder(View view) {
                 super(view);

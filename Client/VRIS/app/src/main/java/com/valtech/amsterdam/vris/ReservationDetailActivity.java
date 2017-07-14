@@ -54,8 +54,8 @@ public class ReservationDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ReservationDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(ReservationDetailFragment.ARG_ITEM_ID));
+            arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID,
+                    getIntent().getIntExtra(ReservationDetailFragment.ARG_ITEM_ID, -1));
             ReservationDetailFragment fragment = new ReservationDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
