@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRIS.API", "src\VRIS.API\VR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRIS.Business", "src\VRIS.Business\VRIS.Business.csproj", "{585BA9FE-6FF4-45B7-B964-5A587E3F3028}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRIS.OutlookConnect", "src\VRIS.OutlookConnect\VRIS.OutlookConnect.csproj", "{DB50F46E-3BEF-46B7-AA32-932D4862FB8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRIS.Domain", "src\VRIS.Domain\VRIS.Domain.csproj", "{623F6A5D-2DB6-4D08-A8C6-1F6737DC867D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRIS.Domain", "src\VRIS.Domain\VRIS.Domain.csproj", "{623F6A5D-2DB6-4D08-A8C6-1F6737DC867D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRIS.OutlookConnect", "src\VRIS.OutlookConnect\VRIS.OutlookConnect.csproj", "{AAEA8BD2-59AD-45CD-938F-0AA802F268F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{585BA9FE-6FF4-45B7-B964-5A587E3F3028}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{585BA9FE-6FF4-45B7-B964-5A587E3F3028}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{585BA9FE-6FF4-45B7-B964-5A587E3F3028}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB50F46E-3BEF-46B7-AA32-932D4862FB8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB50F46E-3BEF-46B7-AA32-932D4862FB8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB50F46E-3BEF-46B7-AA32-932D4862FB8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB50F46E-3BEF-46B7-AA32-932D4862FB8E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{623F6A5D-2DB6-4D08-A8C6-1F6737DC867D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{623F6A5D-2DB6-4D08-A8C6-1F6737DC867D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{623F6A5D-2DB6-4D08-A8C6-1F6737DC867D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{623F6A5D-2DB6-4D08-A8C6-1F6737DC867D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAEA8BD2-59AD-45CD-938F-0AA802F268F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAEA8BD2-59AD-45CD-938F-0AA802F268F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAEA8BD2-59AD-45CD-938F-0AA802F268F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAEA8BD2-59AD-45CD-938F-0AA802F268F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

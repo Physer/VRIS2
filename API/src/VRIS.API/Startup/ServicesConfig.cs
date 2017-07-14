@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using VRIS.Business.HttpFilters;
+using VRIS.Domain.Startup;
 
 namespace VRIS.API.Startup
 {
@@ -19,6 +20,9 @@ namespace VRIS.API.Startup
         /// <param name="configuration"></param>
         public static void Configure(IServiceCollection services, IConfigurationRoot configuration)
         {
+            // Setup Config sections
+            ConfigSectionConfig.Configure(services, configuration);
+
             // Initiate other configs
             VRIS.Business.Startup.ServicesConfig.Configure(services, configuration);
             SwaggerConfig.ConfigureSwaggerServices(services, configuration["Swagger:Path"]);

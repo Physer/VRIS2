@@ -34,11 +34,7 @@ namespace VRIS.API.Controllers
             {
                 Id = 99,
                 Subject = "Test",
-                Office = new Office
-                {
-                    Id = officeId,
-                    Name = "test"
-                }
+                OfficeId = officeId
             },
             new SlotAppointment
             {
@@ -46,15 +42,10 @@ namespace VRIS.API.Controllers
                 Subject = "Test2",
                 StartUtc = date.ToUniversalTime(),
                 EndUtc = date.ToUniversalTime().AddHours(2),
-                Office = new Office
-                {
-                    Id = officeId,
-                    Name = "test"
-                }
+                OfficeId = officeId
             }
         };
 
         // todo get single appointment? or just get data from another api
-        // todo make datetime optional and pick today if empty
     }
 }

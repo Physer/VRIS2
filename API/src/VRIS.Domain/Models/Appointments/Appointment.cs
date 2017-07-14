@@ -18,9 +18,9 @@ namespace VRIS.Domain.Models.Appointments
         [Required] public string Subject { get; set; }
 
         /// <summary>
-        /// The Office
+        /// The OfficeId
         /// </summary>
-        [Required] public Office Office { get; set; }
+        [Required] public int OfficeId { get; set; }
 
         /// <summary>
         /// Flag indicating whether or not this is an all day appointment (For Frontend)
