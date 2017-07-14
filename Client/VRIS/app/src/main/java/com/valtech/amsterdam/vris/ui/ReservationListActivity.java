@@ -47,9 +47,6 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
     @Inject
     Recyclist<Reservation> recyclist;
 
-    @Inject
-    ModelLoader<Reservation> modelLoader;
-
     private InjectionComponent component;
 
     @Override
