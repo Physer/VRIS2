@@ -22,6 +22,7 @@ namespace VRIS.API.Startup
             // Add custom services
             services
                 .AddMvcCore()
+                .AddJsonFormatters()
                 .AddApiExplorer();
 
             // Add repositories
