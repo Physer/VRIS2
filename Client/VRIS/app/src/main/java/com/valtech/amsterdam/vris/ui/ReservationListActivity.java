@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import javax.inject.Inject;
  * item details side-by-side using two vertical panes.
  */
 public class ReservationListActivity extends AppCompatActivity implements Recyclistener, OnClickListener {
+    private final static String fLogTag = "ReservationListActivity";
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -93,32 +95,38 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
 
     @Override
     public void showProgress() {
-
+        Log.d(fLogTag, "showProgress");
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        Log.d(fLogTag, "hideProgress");
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 
     @Override
     public void showResults() {
-
+        Log.d(fLogTag, "showResults");
+        findViewById(R.id.reservation_list).setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideResults() {
-
+        Log.d(fLogTag, "hideResults");
+        findViewById(R.id.reservation_list).setVisibility(View.GONE);
     }
 
     @Override
     public void showError(String message) {
-
+        Log.d(fLogTag, "showError");
+        findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideError() {
-
+        Log.d(fLogTag, "hideError");
+        findViewById(R.id.imageViewError).setVisibility(View.GONE);
     }
 
     @Override

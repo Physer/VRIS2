@@ -1,17 +1,20 @@
 package com.valtech.amsterdam.vris.model;
 
+import com.google.gson.annotations.SerializedName;
+import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
+
 import java.util.Date;
 
 /**
  * Created by jasper.van.zijp on 14-7-2017.
  */
-
+@ApiInfo(methodName = "reservation")
 public class Reservation {
-    private int mId;
-    private Date mStart;
-    private Date mEnd;
-    private Person mBooker;
-    private Room mRoom;
+    @SerializedName("Id") private int mId;
+    @SerializedName("Start") private Date mStart;
+    @SerializedName("End") private Date mEnd;
+    @SerializedName("Booker") private Person mBooker;
+    @SerializedName("Room") private Room mRoom;
 
     public Reservation(int id, Date start, Date end, Person booker, Room room) {
         mId = id;

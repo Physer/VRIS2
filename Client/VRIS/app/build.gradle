@@ -39,4 +39,5 @@ dependencies {
     compile 'com.google.dagger:dagger-android:2.10'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.10'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
