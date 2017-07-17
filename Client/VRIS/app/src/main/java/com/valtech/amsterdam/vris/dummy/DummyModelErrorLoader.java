@@ -10,7 +10,7 @@ import java.util.List;
  * Created by jasper.van.zijp on 14-7-2017.
  */
 
-public class DummyModelLoader implements ModelLoader<Reservation> {
+public class DummyModelErrorLoader implements ModelLoader<Reservation> {
     @Override
     public List<Reservation> getList() throws IOException {
         try {
@@ -19,6 +19,6 @@ public class DummyModelLoader implements ModelLoader<Reservation> {
             e.printStackTrace();
         }
 
-        return DummyContent.ITEMS;
+        throw new IOException("test error");
     }
 }
