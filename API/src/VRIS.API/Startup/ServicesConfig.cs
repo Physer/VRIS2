@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using VRIS.Business.HttpFilters;
+using VRIS.Domain.ConfigurationModels;
 using VRIS.Domain.Startup;
 
 namespace VRIS.API.Startup

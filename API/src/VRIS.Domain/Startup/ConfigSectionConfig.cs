@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using VRIS.Domain.ConfigurationModels;
 
 namespace VRIS.Domain.Startup
 {
@@ -15,7 +17,8 @@ namespace VRIS.Domain.Startup
         /// <param name="configuration"></param>
         public static void Configure(IServiceCollection services, IConfigurationRoot configuration)
         {
-            // services.Configure<MicrosoftGraph>(_ => configuration.GetSection("MicrosoftGraph"));
+            services.Configure<MicrosoftGraphOptions>(configuration.GetSection("MicrosoftGraph"));
+            services.AddSingleton(provider => provider.GetService<IOptionsSnapshot<MicrosoftGraphOptions>>()?.Value);
         }
     }
 }
