@@ -30,7 +30,7 @@ public class RecyclistModule {
 
     @Provides
     @Singleton
-    LoadListCommand<Reservation> getReservationLoadListCommand(@Named("DummyModelErrorLoader") ModelLoader<Reservation> modelLoader) {
+    LoadListCommand<Reservation> getReservationLoadListCommand(@Named("DummyModelLoader") ModelLoader<Reservation> modelLoader) {
         return new LoadListCommand<>(modelLoader);
     }
 
