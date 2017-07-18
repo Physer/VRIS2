@@ -24,6 +24,7 @@ import com.valtech.amsterdam.vris.InjectionComponent;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.dummy.DummyContent;
 import com.valtech.amsterdam.vris.model.Reservation;
+import com.valtech.amsterdam.vris.model.TimeSlot;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
     private boolean mTwoPane;
 
     @Inject
-    Recyclist<Reservation> recyclist;
+    Recyclist<TimeSlot> recyclist;
 
     private InjectionComponent component;
 
@@ -59,15 +60,6 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         View recyclerView = findViewById(R.id.reservation_list);
         assert recyclerView != null;
@@ -90,7 +82,7 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclist.setClickListener(this);
-        recyclist.startBind(this, new ReservationViewBinder(), R.layout.reservation_list_content, recyclerView);
+        recyclist.startBind(this, new ReservationViewBinder(), recyclerView);
     }
 
     @Override
@@ -130,7 +122,7 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
     }
 
     @Override
-    public void onClick(Reservation item) {
+    public void onClick(TimeSlot item) {
         if (mTwoPane) {
             Bundle arguments = new Bundle();
             arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, item.getId());
@@ -146,73 +138,4 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
             startActivity(intent);
         }
     }
-
-//    public class SimpleItemRecyclerViewAdapter
-//            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-//
-//        private final List<Reservation> mValues;
-//
-//        public SimpleItemRecyclerViewAdapter(List<Reservation> items) {
-//            mValues = items;
-//        }
-//
-//        @Override
-//        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            View view = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.reservation_list_content, parent, false);
-//            return new ViewHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(final ViewHolder holder, int position) {
-//            holder.mItem = mValues.get(position);
-//            holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
-//            holder.mContentView.setText(Integer.toString(mValues.get(position).getRoom().getId()));
-//
-//            holder.mView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mTwoPane) {
-//                        Bundle arguments = new Bundle();
-//                        arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
-//                        ReservationDetailFragment fragment = new ReservationDetailFragment();
-//                        fragment.setArguments(arguments);
-//                        getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.reservation_detail_container, fragment)
-//                                .commit();
-//                    } else {
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, ReservationDetailActivity.class);
-//                        intent.putExtra(ReservationDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
-//
-//                        context.startActivity(intent);
-//                    }
-//                }
-//            });
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return mValues.size();
-//        }
-//
-//        public class ViewHolder extends RecyclerView.ViewHolder {
-//            public final View mView;
-//            public final TextView mIdView;
-//            public final TextView mContentView;
-//            public Reservation mItem;
-//
-//            public ViewHolder(View view) {
-//                super(view);
-//                mView = view;
-//                mIdView = (TextView) view.findViewById(R.id.id);
-//                mContentView = (TextView) view.findViewById(R.id.content);
-//            }
-//
-//            @Override
-//            public String toString() {
-//                return super.toString() + " '" + mContentView.getText() + "'";
-//            }
-//        }
-//    }
 }
