@@ -10,7 +10,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = { RecyclistModule.class })
+@Component(modules = { VrisModule.class })
 public interface InjectionComponent {
 
     // provide the dependency for dependent components

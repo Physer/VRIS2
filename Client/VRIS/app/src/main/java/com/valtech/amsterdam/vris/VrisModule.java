@@ -11,9 +11,10 @@ import com.valtech.amsterdam.vris.business.TimeSlotLoader;
 import com.valtech.amsterdam.vris.dummy.DummyModelErrorLoader;
 import com.valtech.amsterdam.vris.dummy.DummyModelLoader;
 import com.valtech.amsterdam.vris.dummy.DummyTimeSlotLoader;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
-import com.valtech.amsterdam.vris.model.TimeSlot;
-import com.valtech.amsterdam.vris.ui.TimeSlotViewSelector;
+import com.valtech.amsterdam.vris.viewSelectors.TimeSlotDetailFragmentFactory;
+import com.valtech.amsterdam.vris.viewSelectors.TimeSlotItemViewSelector;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -26,30 +27,36 @@ import dagger.Provides;
  */
 
 @Module
-public class RecyclistModule {
+public class VrisModule {
     @Provides
     @Singleton
-    Recyclist<TimeSlot> getReservationRecyclist(LoadListCommand<TimeSlot> loadListCommand, ViewSelector<TimeSlot> viewSelector){
+    Recyclist<ITimeSlot> getReservationRecyclist(LoadListCommand<ITimeSlot> loadListCommand, ViewSelector<ITimeSlot> viewSelector){
         return new Recyclist<>(loadListCommand, viewSelector);
     }
 
     @Provides
     @Singleton
-    LoadListCommand<TimeSlot> getReservationLoadListCommand(@Named("DummyTimeSlotLoader")ModelLoader<TimeSlot> modelLoader) {
+    LoadListCommand<ITimeSlot> getReservationLoadListCommand(@Named("DummyTimeSlotLoader")ModelLoader<ITimeSlot> modelLoader) {
         return new LoadListCommand<>(modelLoader);
     }
 
     @Provides
     @Named("DummyTimeSlotLoader")
     @Singleton
-    ModelLoader<TimeSlot> getDummyTimeSlotLoadListCommand(@Named("DummyModelLoader") ModelLoader<Reservation> modelLoader) {
+    ModelLoader<ITimeSlot> getDummyTimeSlotLoadListCommand(@Named("DummyModelLoader") ModelLoader<Reservation> modelLoader) {
         return new DummyTimeSlotLoader(modelLoader);
     }
 
     @Provides
     @Singleton
-    ModelLoader<TimeSlot> getTimeSlotLoadListCommand(@Named("DummyModelLoader") ModelLoader<Reservation> modelLoader) {
+    ModelLoader<ITimeSlot> getTimeSlotLoadListCommand(@Named("DummyModelLoader") ModelLoader<Reservation> modelLoader) {
         return new TimeSlotLoader(modelLoader);
+    }
+
+    @Provides
+    @Singleton
+    TimeSlotDetailFragmentFactory getTimeSlotDetailFragmentFactoryCommand(@Named("DummyTimeSlotLoader")ModelLoader<ITimeSlot> modelLoader) {
+        return new TimeSlotDetailFragmentFactory(modelLoader);
     }
 
     @Provides
@@ -84,7 +91,7 @@ public class RecyclistModule {
 
     @Provides
     @Singleton
-    ViewSelector<TimeSlot> getViewSelector() {
-        return new TimeSlotViewSelector();
+    ViewSelector<ITimeSlot> getViewSelector() {
+        return new TimeSlotItemViewSelector();
     }
 }

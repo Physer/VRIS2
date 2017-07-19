@@ -15,6 +15,7 @@ import com.valtech.amsterdam.recyclist.Recyclistener;
 import com.valtech.amsterdam.vris.DaggerInjectionComponent;
 import com.valtech.amsterdam.vris.InjectionComponent;
 import com.valtech.amsterdam.vris.R;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.TimeSlot;
 
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
     private boolean mTwoPane;
 
     @Inject
-    Recyclist<TimeSlot> recyclist;
+    Recyclist<ITimeSlot> recyclist;
 
     private InjectionComponent component;
 
@@ -111,7 +112,7 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
     }
 
     @Override
-    public void onClick(TimeSlot item) {
+    public void onClick(ITimeSlot item) {
         if (mTwoPane) {
             Bundle arguments = new Bundle();
             arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, item.getId());

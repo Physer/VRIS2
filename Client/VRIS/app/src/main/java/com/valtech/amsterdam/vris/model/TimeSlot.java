@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by jasper.van.zijp on 18-7-2017.
  */
 
-public class TimeSlot {
+public class TimeSlot implements ITimeSlot {
     @SerializedName("Id") private int mId;
     @SerializedName("Start") private Date mStart;
     @SerializedName("End") private Date mEnd;

@@ -1,5 +1,6 @@
 package com.valtech.amsterdam.vris.dummy;
 
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Person;
 import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.model.Room;
@@ -23,7 +24,7 @@ public class DummyContent {
      * An array of sample (dummy) items.
      */
     public static final List<Reservation> RESERVATIONS = new ArrayList<>();
-    public static final List<TimeSlot> TIMESLOTS = new ArrayList<>();
+    public static final List<ITimeSlot> TIMESLOTS = new ArrayList<>();
 
     /**
      * A map of sample (dummy) items, by ID.
