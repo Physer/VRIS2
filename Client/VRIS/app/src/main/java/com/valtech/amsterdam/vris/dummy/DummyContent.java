@@ -33,17 +33,19 @@ public class DummyContent {
 
     private static final int COUNT = 25;
 
+
     static {
         // Add some sample items.
         addItem(new Reservation(1, new Date(2017, 7, 14, 9, 30), new Date(2017, 7, 14, 10, 30), new Person(1, "Meneer Een")));
-        addItem(new TimeSlot(1, new Date(2017, 7, 14, 10, 30), new Date(2017, 7, 14, 10, 45)));
-        addItem(new Reservation(2, new Date(2017, 7, 14, 10, 45), new Date(2017, 7, 14, 11, 00), new Person(2, "Meneer Twee")));
-        addItem(new Reservation(2, new Date(2017, 7, 14, 11, 00), new Date(2017, 7, 14, 11, 30), new Person(3, "Meneer Drie")));
-        addItem(new TimeSlot(1, new Date(2017, 7, 14, 11, 30), new Date(2017, 7, 14, 13, 00)));
-        addItem(new Reservation(3, new Date(2017, 7, 14, 13, 00), new Date(2017, 7, 14, 13, 45), new Person(3, "Meneer Drie")));
-        addItem(new TimeSlot(1, new Date(2017, 7, 14, 13, 45), new Date(2017, 7, 14, 15, 15)));
-        addItem(new Reservation(4, new Date(2017, 7, 14, 15, 15), new Date(2017, 7, 14, 17, 0), new Person(1, "Meneer Een")));
-        addItem(new TimeSlot(1, new Date(2017, 7, 14, 17, 0), new Date(2017, 7, 14, 18, 0)));
+        addItem(new TimeSlot(2, new Date(2017, 7, 14, 10, 30), new Date(2017, 7, 14, 10, 45)));
+        addItem(new Reservation(3, new Date(2017, 7, 14, 10, 45), new Date(2017, 7, 14, 11, 00), new Person(2, "Meneer Twee")));
+        addItem(new Reservation(4, new Date(2017, 7, 14, 11, 00), new Date(2017, 7, 14, 11, 30), new Person(3, "Meneer Drie")));
+        addItem(new TimeSlot(5, new Date(2017, 7, 14, 11, 30), new Date(2017, 7, 14, 13, 00)));
+        addItem(new Reservation(6, new Date(2017, 7, 14, 13, 00), new Date(2017, 7, 14, 13, 45), new Person(3, "Meneer Drie")));
+        addItem(new TimeSlot(7, new Date(2017, 7, 14, 13, 45), new Date(2017, 7, 14, 15, 15)));
+        addItem(new Reservation(8, new Date(2017, 7, 14, 15, 15), new Date(2017, 7, 14, 17, 0), new Person(1, "Meneer Een")));
+        addItem(new TimeSlot(9, new Date(2017, 7, 14, 17, 0), new Date(2017, 7, 14, 18, 0)));
+        addItem(new TimeSlot(10, new Date(2017, 7, 14, 18, 0), new Date(2018, 7, 14, 18, 0)));
     }
 
     private static void addItem(Reservation item) {

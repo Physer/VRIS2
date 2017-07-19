@@ -1,8 +1,8 @@
 package com.valtech.amsterdam.vris.ui;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.dummy.DummyContent;
 import com.valtech.amsterdam.vris.model.Reservation;
+import com.valtech.amsterdam.vris.model.TimeSlot;
 
 import java.text.SimpleDateFormat;
 
@@ -21,18 +22,23 @@ import java.text.SimpleDateFormat;
  * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
-public class ReservationDetailFragment extends TimeSlotDetailFragment {
+public class TimeSlotDetailFragment extends Fragment {
+    /**
+     * The fragment argument representing the item ID that this fragment
+     * represents.
+     */
+    public static final String ARG_ITEM_ID = "item_id";
 
     /**
      * The dummy content this fragment is presenting.
      */
-    private Reservation mItem;
+    private TimeSlot mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ReservationDetailFragment() {
+    public TimeSlotDetailFragment() {
     }
 
     @Override
@@ -48,7 +54,7 @@ public class ReservationDetailFragment extends TimeSlotDetailFragment {
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getBooker().getName());
+                appBarLayout.setTitle("Time slot");
             }
         }
     }
@@ -60,10 +66,7 @@ public class ReservationDetailFragment extends TimeSlotDetailFragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.booker)).setText(mItem.getBooker().getName());
-            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-            ((TextView) rootView.findViewById(R.id.from)).setText(formatter.format(mItem.getStart()));
-            ((TextView) rootView.findViewById(R.id.to)).setText(formatter.format(mItem.getEnd()));
+            //
         }
 
         return rootView;

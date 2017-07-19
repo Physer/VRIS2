@@ -12,6 +12,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.valtech.amsterdam.vris.R;
+import com.valtech.amsterdam.vris.viewSelectors.TimeSlotDetailFragmentFactory;
 
 /**
  * An activity representing a single Reservation detail screen. This
@@ -20,6 +21,12 @@ import com.valtech.amsterdam.vris.R;
  * in a {@link TimeSlotListActivity}.
  */
 public class ReservationDetailActivity extends AppCompatActivity {
+
+    private TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
+
+    public ReservationDetailActivity(TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory) {
+        this.timeSlotDetailFragmentFactory = timeSlotDetailFragmentFactory;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +62,12 @@ public class ReservationDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID,
-                    getIntent().getIntExtra(ReservationDetailFragment.ARG_ITEM_ID, -1));
-            ReservationDetailFragment fragment = new ReservationDetailFragment();
-            fragment.setArguments(arguments);
+            int itemId = getIntent().getIntExtra(ReservationDetailFragment.ARG_ITEM_ID, -1);
+            TimeSlotDetailFragment fragment = timeSlotDetailFragmentFactory.getById(itemId);
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.reservation_detail_container, fragment)
-                    .commit();
+                .add(R.id.reservation_detail_container, fragment)
+                .commit();
         }
     }
 

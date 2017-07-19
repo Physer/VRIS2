@@ -10,6 +10,7 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.model.TimeSlot;
 import com.valtech.amsterdam.vris.ui.ReservationDetailFragment;
+import com.valtech.amsterdam.vris.ui.TimeSlotDetailFragment;
 
 import java.io.IOException;
 import java.util.Date;
@@ -27,14 +28,14 @@ public class TimeSlotDetailFragmentFactory {
         this.timeSlotLoader = timeSlotLoader;
     }
 
-    public ReservationDetailFragment getByTimeSlot(ITimeSlot timeSlot) throws IOException {
+    public TimeSlotDetailFragment getByTimeSlot(ITimeSlot timeSlot) {
 
         // Possible loop (shouldn't tho)
         if(timeSlot == null) return getNow();
 
-        ReservationDetailFragment fragment = timeSlot instanceof Reservation ?
+        TimeSlotDetailFragment fragment = timeSlot instanceof Reservation ?
             new ReservationDetailFragment() :
-            new ReservationDetailFragment();
+            new TimeSlotDetailFragment();
 
         Bundle arguments = new Bundle();
         arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, timeSlot.getId());
@@ -43,10 +44,15 @@ public class TimeSlotDetailFragmentFactory {
         return fragment;
     }
 
-    public ReservationDetailFragment getByTime(Date date)
-        throws IOException, IndexOutOfBoundsException {
+    public TimeSlotDetailFragment getByTime(Date date) throws IndexOutOfBoundsException {
 
-        List<ITimeSlot> timeSlots = timeSlotLoader.getList();
+        List<ITimeSlot> timeSlots = null;
+        try {
+            timeSlots = timeSlotLoader.getList();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return getNow();
+        }
         for (ITimeSlot timeSlot: timeSlots) {
             if(date.before(timeSlot.getStart())) continue;
             if(date.after(timeSlot.getEnd())) continue;
@@ -57,8 +63,26 @@ public class TimeSlotDetailFragmentFactory {
         throw new IndexOutOfBoundsException();
     }
 
-    public ReservationDetailFragment getNow()
-            throws IOException {
+    public TimeSlotDetailFragment getById(int id) throws IndexOutOfBoundsException {
+
+        if(id == -1) return getNow();
+
+        List<ITimeSlot> timeSlots = null;
+        try {
+            timeSlots = timeSlotLoader.getList();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return getNow();
+        }
+        for (ITimeSlot timeSlot: timeSlots) {
+            if(id != timeSlot.getId()) continue;
+            return getByTimeSlot(timeSlot);
+        }
+
+        throw new IndexOutOfBoundsException();
+    }
+
+    public TimeSlotDetailFragment getNow() {
         return getByTime(new Date());
     }
 }

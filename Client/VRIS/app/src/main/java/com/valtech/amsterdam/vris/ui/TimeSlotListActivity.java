@@ -17,6 +17,7 @@ import com.valtech.amsterdam.vris.InjectionComponent;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.TimeSlot;
+import com.valtech.amsterdam.vris.viewSelectors.TimeSlotDetailFragmentFactory;
 
 import javax.inject.Inject;
 
@@ -39,6 +40,8 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
 
     @Inject
     Recyclist<ITimeSlot> recyclist;
+    @Inject
+    TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
 
     private InjectionComponent component;
 
@@ -67,6 +70,10 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
+            TimeSlotDetailFragment fragment = timeSlotDetailFragmentFactory.getNow();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.reservation_detail_container, fragment)
+                    .commit();
         }
     }
 
@@ -114,10 +121,7 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
     @Override
     public void onClick(ITimeSlot item) {
         if (mTwoPane) {
-            Bundle arguments = new Bundle();
-            arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, item.getId());
-            ReservationDetailFragment fragment = new ReservationDetailFragment();
-            fragment.setArguments(arguments);
+            TimeSlotDetailFragment fragment = timeSlotDetailFragmentFactory.getByTimeSlot(item);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.reservation_detail_container, fragment)
                     .commit();
