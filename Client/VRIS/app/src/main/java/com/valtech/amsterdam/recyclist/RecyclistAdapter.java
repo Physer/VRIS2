@@ -16,20 +16,20 @@ import java.util.List;
 public class RecyclistAdapter<TModel> extends RecyclerView.Adapter<RecyclistAdapter.ViewHolder> {
     private List<TModel> mObjects;
     private RecyclistViewBinder<TModel> mViewBinder;
-    private int mRowViewResourceId;
     private OnClickListener mClickListener;
+    private ViewSelector<TModel> mModelViewSelector;
 
-    public RecyclistAdapter(List<TModel> objects, RecyclistViewBinder<TModel> viewBinder, int rowViewResourceId, OnClickListener clickListener) {
+    public RecyclistAdapter(List<TModel> objects, RecyclistViewBinder<TModel> viewBinder, OnClickListener clickListener, ViewSelector<TModel> modelViewSelector) {
         mObjects = objects;
         mViewBinder = viewBinder;
-        mRowViewResourceId = rowViewResourceId;
         mClickListener = clickListener;
+        mModelViewSelector = modelViewSelector;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View productView = LayoutInflater.from(parent.getContext())
-                .inflate(mRowViewResourceId, parent, false);
+                .inflate(viewType, parent, false);
         return new RecyclistAdapter.ViewHolder(productView, mViewBinder);
     }
 
@@ -63,5 +63,10 @@ public class RecyclistAdapter<TModel> extends RecyclerView.Adapter<RecyclistAdap
         public View getView() {
             return mView;
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mModelViewSelector.getViewResourceId(mObjects.get(position));
     }
 }

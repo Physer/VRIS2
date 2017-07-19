@@ -14,11 +14,11 @@ public class DummyModelLoader implements ModelLoader<Reservation> {
     @Override
     public List<Reservation> getList() throws IOException {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        return DummyContent.ITEMS;
+        return DummyContent.RESERVATIONS;
     }
 }

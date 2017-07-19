@@ -2,9 +2,6 @@ package com.valtech.amsterdam.recyclist;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.valtech.amsterdam.recyclist.loader.implementation.network.BufferedStreamContentReader;
-import com.valtech.amsterdam.recyclist.loader.implementation.network.GsonDesynchronizer;
-import com.valtech.amsterdam.recyclist.loader.implementation.network.NetworkModelLoader;
 import com.valtech.amsterdam.vris.ui.OnClickListener;
 
 import java.util.List;
@@ -17,22 +14,21 @@ public class Recyclist<TModel> {
 
     private Recyclistener mListener;
     private RecyclistViewBinder<TModel> mViewBinder;
-    private int mRowViewResourceId;
     private RecyclerView mRecyclerView;
     private OnClickListener mClickListener;
-
     private LoadListCommand<TModel> mLoadListCommand;
+    private ViewSelector<TModel> mModelViewSelector;
 
-    public Recyclist(LoadListCommand<TModel> loadListCommand) {
+    public Recyclist(LoadListCommand<TModel> loadListCommand, ViewSelector<TModel> modelViewSelector) {
         mLoadListCommand = loadListCommand;
+        mModelViewSelector = modelViewSelector;
     }
 
-    public void startBind(Recyclistener listener, RecyclistViewBinder<TModel> viewBinder, int rowViewResourceId, RecyclerView recyclerView) {
+    public void startBind(Recyclistener listener, RecyclistViewBinder<TModel> viewBinder, RecyclerView recyclerView) {
         if (mLoadListCommand == null) onLoadError("Previous task is still running");
 
         mListener = listener;
         mViewBinder = viewBinder;
-        mRowViewResourceId = rowViewResourceId;
         mRecyclerView = recyclerView;
 
         mListener.showProgress();
@@ -65,7 +61,7 @@ public class Recyclist<TModel> {
     private void onLoadComplete(List<TModel> results) {
         mLoadListCommand = null;
 
-        RecyclistAdapter<TModel> adapter = new RecyclistAdapter<>(results, mViewBinder, mRowViewResourceId, mClickListener);
+        RecyclistAdapter<TModel> adapter = new RecyclistAdapter<>(results, mViewBinder, mClickListener, mModelViewSelector);
         mRecyclerView.setAdapter(adapter);
 
         mListener.hideProgress();

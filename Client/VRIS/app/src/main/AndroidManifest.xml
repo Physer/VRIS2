@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ui.ReservationListActivity"
+            android:name=".ui.TimeSlotListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -24,11 +24,11 @@
         <activity
             android:name=".ui.ReservationDetailActivity"
             android:label="@string/title_reservation_detail"
-            android:parentActivityName=".ui.ReservationListActivity"
+            android:parentActivityName=".ui.TimeSlotListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.valtech.amsterdam.vris.ui.ReservationListActivity" />
+                android:value="com.valtech.amsterdam.vris.ui.TimeSlotListActivity" />
         </activity>
     </application>
 
