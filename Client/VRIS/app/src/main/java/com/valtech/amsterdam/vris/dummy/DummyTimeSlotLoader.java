@@ -30,7 +30,7 @@ public class DummyTimeSlotLoader implements ModelLoader<ITimeSlot> {
         Collections.sort(timeslots, new Comparator<ITimeSlot>() {
             @Override
             public int compare(ITimeSlot o1, ITimeSlot o2) {
-                return o1.getStart().compareTo(o2.getStart());
+                return o1.getStartDate().compareTo(o2.getStartDate());
             }
         });
 

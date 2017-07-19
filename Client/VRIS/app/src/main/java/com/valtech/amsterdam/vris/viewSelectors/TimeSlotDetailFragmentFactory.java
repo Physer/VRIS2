@@ -1,19 +1,17 @@
 package com.valtech.amsterdam.vris.viewSelectors;
 
-import android.app.Fragment;
 import android.os.Bundle;
 
-import com.valtech.amsterdam.recyclist.ViewSelector;
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
-import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
-import com.valtech.amsterdam.vris.model.TimeSlot;
 import com.valtech.amsterdam.vris.ui.ReservationDetailFragment;
 import com.valtech.amsterdam.vris.ui.TimeSlotDetailFragment;
 
+import org.joda.time.DateTime;
+
 import java.io.IOException;
-import java.util.Date;
+
 import java.util.List;
 
 /**
@@ -44,7 +42,7 @@ public class TimeSlotDetailFragmentFactory {
         return fragment;
     }
 
-    public TimeSlotDetailFragment getByTime(Date date) throws IndexOutOfBoundsException {
+    public TimeSlotDetailFragment getByTime(DateTime date) throws IndexOutOfBoundsException {
 
         List<ITimeSlot> timeSlots = null;
         try {
@@ -54,8 +52,11 @@ public class TimeSlotDetailFragmentFactory {
             return getNow();
         }
         for (ITimeSlot timeSlot: timeSlots) {
-            if(date.before(timeSlot.getStart())) continue;
-            if(date.after(timeSlot.getEnd())) continue;
+            DateTime startDate = timeSlot.getStartDate();
+            DateTime endDate = timeSlot.getEndDate();
+
+            if(date.isBefore(startDate)) continue;
+            if(date.isAfter(endDate)) continue;
 
             return getByTimeSlot(timeSlot);
         }
@@ -83,6 +84,6 @@ public class TimeSlotDetailFragmentFactory {
     }
 
     public TimeSlotDetailFragment getNow() {
-        return getByTime(new Date());
+        return getByTime(DateTime.now());
     }
 }

@@ -3,7 +3,9 @@ package com.valtech.amsterdam.vris.model;
 import com.google.gson.annotations.SerializedName;
 import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
+
 
 /**
  * Created by jasper.van.zijp on 14-7-2017.
@@ -12,7 +14,7 @@ import java.util.Date;
 public class Reservation extends TimeSlot {
     @SerializedName("Booker") private Person mBooker;
 
-    public Reservation(int id, Date start, Date end, Person booker) {
+    public Reservation(int id, DateTime start, DateTime end, Person booker) {
         super(id, start, end);
         mBooker = booker;
     }

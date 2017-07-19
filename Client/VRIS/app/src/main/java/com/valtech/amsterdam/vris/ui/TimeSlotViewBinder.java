@@ -21,10 +21,8 @@ public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
             ((TextView) view.findViewById(R.id.booker)).setText(((Reservation)timeSlot).getBooker().getName());
         }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-
-        ((TextView) view.findViewById(R.id.from)).setText(formatter.format(timeSlot.getStart()));
-        ((TextView) view.findViewById(R.id.to)).setText(formatter.format(timeSlot.getEnd()));
+        ((TextView) view.findViewById(R.id.from)).setText(timeSlot.getStartDate().toString("HH:mm"));
+        ((TextView) view.findViewById(R.id.to)).setText(timeSlot.getEndDate().toString("HH:mm"));
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

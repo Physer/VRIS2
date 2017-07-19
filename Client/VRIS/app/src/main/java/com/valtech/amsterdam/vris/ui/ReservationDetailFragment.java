@@ -3,7 +3,6 @@ package com.valtech.amsterdam.vris.ui;
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +61,8 @@ public class ReservationDetailFragment extends TimeSlotDetailFragment {
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.booker)).setText(mItem.getBooker().getName());
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-            ((TextView) rootView.findViewById(R.id.from)).setText(formatter.format(mItem.getStart()));
-            ((TextView) rootView.findViewById(R.id.to)).setText(formatter.format(mItem.getEnd()));
+            ((TextView) rootView.findViewById(R.id.from)).setText(formatter.format(mItem.getStartDate()));
+            ((TextView) rootView.findViewById(R.id.to)).setText(formatter.format(mItem.getEndDate()));
         }
 
         return rootView;

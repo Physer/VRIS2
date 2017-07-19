@@ -2,7 +2,8 @@ package com.valtech.amsterdam.vris.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 
 /**
  * Created by jasper.van.zijp on 18-7-2017.
@@ -10,10 +11,10 @@ import java.util.Date;
 
 public class TimeSlot implements ITimeSlot {
     @SerializedName("Id") private int mId;
-    @SerializedName("Start") private Date mStart;
-    @SerializedName("End") private Date mEnd;
+    @SerializedName("Start") private DateTime mStart;
+    @SerializedName("End") private DateTime mEnd;
 
-    public TimeSlot(int id, Date start, Date end) {
+    public TimeSlot(int id, DateTime start, DateTime end) {
         mId = id;
         mStart = start;
         mEnd = end;
@@ -27,19 +28,19 @@ public class TimeSlot implements ITimeSlot {
         mId = id;
     }
 
-    public Date getStart() {
+    public DateTime getStartDate() {
         return mStart;
     }
 
-    public void setStart(Date start) {
+    public void setStartDate(DateTime start) {
         mStart = start;
     }
 
-    public Date getEnd() {
+    public DateTime getEndDate() {
         return mEnd;
     }
 
-    public void setEnd(Date end) {
+    public void setEndDate(DateTime end) {
         mEnd = end;
     }
 }
