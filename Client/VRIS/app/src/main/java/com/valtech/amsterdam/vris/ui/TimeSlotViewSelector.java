@@ -13,9 +13,9 @@ public class TimeSlotViewSelector implements ViewSelector<TimeSlot> {
     @Override
     public int getViewResourceId(TimeSlot object) {
         if (object instanceof Reservation)
-            return R.layout.reservation_list_content;
+            return R.layout.timeslot_list_reservation_item;
         else
-            return R.layout.reservation_list_empty;
+            return R.layout.timeslot_list_timeslot_item;
 
     }
 }

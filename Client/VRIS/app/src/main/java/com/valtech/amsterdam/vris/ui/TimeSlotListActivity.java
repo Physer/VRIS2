@@ -1,32 +1,21 @@
 package com.valtech.amsterdam.vris.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 
 import com.valtech.amsterdam.recyclist.Recyclist;
 import com.valtech.amsterdam.recyclist.Recyclistener;
-import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.DaggerInjectionComponent;
 import com.valtech.amsterdam.vris.InjectionComponent;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.dummy.DummyContent;
-import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.model.TimeSlot;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -38,8 +27,8 @@ import javax.inject.Inject;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class ReservationListActivity extends AppCompatActivity implements Recyclistener, OnClickListener {
-    private final static String fLogTag = "ReservationListActivity";
+public class TimeSlotListActivity extends AppCompatActivity implements Recyclistener, OnClickListener {
+    private final static String fLogTag = "TimeSlotListActivity";
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -55,7 +44,7 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_list);
+        setContentView(R.layout.activity_timeslot_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,7 +71,7 @@ public class ReservationListActivity extends AppCompatActivity implements Recycl
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclist.setClickListener(this);
-        recyclist.startBind(this, new ReservationViewBinder(), recyclerView);
+        recyclist.startBind(this, new TimeSlotViewBinder(), recyclerView);
     }
 
     @Override

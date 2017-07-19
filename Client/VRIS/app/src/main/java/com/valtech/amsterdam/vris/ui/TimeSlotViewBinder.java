@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
  * Created by jasper.van.zijp on 14-7-2017.
  */
 
-public class ReservationViewBinder implements RecyclistViewBinder<TimeSlot> {
+public class TimeSlotViewBinder implements RecyclistViewBinder<TimeSlot> {
     @Override
     public void bindView(View view, final TimeSlot timeSlot, final OnClickListener clickListener) {
         if(timeSlot instanceof Reservation) {
