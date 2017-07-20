@@ -3,7 +3,6 @@ package com.valtech.amsterdam.vris.dummy;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Person;
 import com.valtech.amsterdam.vris.model.Reservation;
-import com.valtech.amsterdam.vris.model.Room;
 import com.valtech.amsterdam.vris.model.TimeSlot;
 
 import org.joda.time.DateTime;

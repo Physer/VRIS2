@@ -1,15 +1,12 @@
 package com.valtech.amsterdam.vris.ui;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.valtech.amsterdam.recyclist.RecyclistViewBinder;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
-
-import java.text.SimpleDateFormat;
 
 /**
  * Created by jasper.van.zijp on 14-7-2017.
