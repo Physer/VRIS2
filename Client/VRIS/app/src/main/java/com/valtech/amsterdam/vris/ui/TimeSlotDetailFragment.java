@@ -70,7 +70,7 @@ public class TimeSlotDetailFragment extends BaseFragment {
             @Override
                 public void onClick(View v) {
             Fragment fragment = new NewTimeSlotFragment();
-                navigateToFragment(fragment, true);
+            navigateToFragment(fragment, true);
                 }
         });
 

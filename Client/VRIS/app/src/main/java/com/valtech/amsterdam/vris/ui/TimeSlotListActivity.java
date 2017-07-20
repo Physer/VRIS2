@@ -61,13 +61,14 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
                 .build();
         component.inject(this); //This makes the members injected
         setupRecyclerView((RecyclerView) recyclerView);
+    }
 
-        if (mTwoPane) {
-            ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
-            if(timeSlot == null) return;
-            Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
-            navigateToFragment(fragment, false);
-        }
+    @Override
+    protected void onStart(){
+        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
+        if(timeSlot == null) return;
+        Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
+        navigateToFragment(fragment, false);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -113,15 +114,8 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
 
     @Override
     public void onClick(ITimeSlot item) {
-        if (mTwoPane) {
-            Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
-            navigateToFragment(fragment, true);
-        } else {
-            Intent intent = new Intent(this, ReservationDetailActivity.class);
-            intent.putExtra(ReservationDetailFragment.ARG_ITEM_ID, item.getId());
-
-            startActivity(intent);
-        }
+        Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
+        navigateToFragment(fragment, true);
 
         // todo reset after time
     }

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.valtech.amsterdam.vris.BuildConfig;
 import com.valtech.amsterdam.vris.ui.TimeSlotListActivity;
 
 /**
@@ -12,9 +13,12 @@ import com.valtech.amsterdam.vris.ui.TimeSlotListActivity;
  */
 
 public final class BootReceiver  extends BroadcastReceiver {
+    private boolean monitorKioskMode = BuildConfig.KIOSK_MODE;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if(!monitorKioskMode) return;
+
         Intent myIntent = new Intent(context, TimeSlotListActivity.class);
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(myIntent);
