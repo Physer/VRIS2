@@ -10,4 +10,5 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.valtech.amsterdam.vris.ui.TimeSlotListActivity"
-    tools:listitem="@layout/timeslot_list_reservation_item" />
+    tools:listitem="@layout/timeslot_list_reservation_item"
+    android:keepScreenOn="true"/>

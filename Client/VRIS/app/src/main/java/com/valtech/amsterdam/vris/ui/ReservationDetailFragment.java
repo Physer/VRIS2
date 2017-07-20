@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
  * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
-public class ReservationDetailFragment extends Fragment {
+public class ReservationDetailFragment extends BaseFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.

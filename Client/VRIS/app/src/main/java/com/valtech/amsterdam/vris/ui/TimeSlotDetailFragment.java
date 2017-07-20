@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,7 @@ import java.text.SimpleDateFormat;
  * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
-public class TimeSlotDetailFragment extends Fragment {
+public class TimeSlotDetailFragment extends BaseFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -62,12 +64,15 @@ public class TimeSlotDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.timeslot_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.timeslot_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            //
-        }
+        rootView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+                public void onClick(View v) {
+            Fragment fragment = new NewTimeSlotFragment();
+                navigateToFragment(fragment, true);
+                }
+        });
 
         return rootView;
     }

@@ -18,7 +18,7 @@ import com.valtech.amsterdam.vris.model.TimeSlot;
  * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
-public class NewTimeSlotFragment extends Fragment {
+public class NewTimeSlotFragment extends BaseFragment {
 
     /**
      * The dummy content this fragment is presenting.

@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
  * item details are presented side-by-side with a list of items
  * in a {@link TimeSlotListActivity}.
  */
-public class ReservationDetailActivity extends AppCompatActivity {
+public class ReservationDetailActivity extends BaseActivity {
 
     private TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
     private ITimeSlotLoader timeSlotLoader;
@@ -81,9 +81,7 @@ public class ReservationDetailActivity extends AppCompatActivity {
             }
 
             Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(timeSlot);
-            getSupportFragmentManager().beginTransaction()
-                .add(R.id.reservation_detail_container, fragment)
-                .commit();
+            navigateToFragment(fragment, false);
         }
     }
 
