@@ -10,7 +10,6 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.valtech.amsterdam.vris.BuildConfig;
 import com.valtech.amsterdam.vris.ui.TimeSlotListActivity;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public final class KioskService extends Service {
     private static final long INTERVAL = TimeUnit.SECONDS.toMillis(2); // periodic interval to check in seconds -> 2 seconds
     private static final String TAG = KioskService.class.getSimpleName();
     private static final String PREF_KIOSK_MODE = "pref_kiosk_mode";
-    private boolean monitorKioskMode = BuildConfig.KIOSK_MODE;
 
     private Thread t = null;
     private Context ctx = null;
@@ -64,7 +62,6 @@ public final class KioskService extends Service {
     }
 
     private void handleKioskMode() {
-        if(!monitorKioskMode) return;
         // is Kiosk Mode active?
         if(isKioskModeActive(this)) {
             // is App in background?

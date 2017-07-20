@@ -7,19 +7,15 @@ import android.content.SharedPreferences;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 
-import com.valtech.amsterdam.vris.BuildConfig;
-
 /**
  * Created by marvin.brouwer on 20-7-2017.
  */
 
 public final class OnScreenOffReceiver extends BroadcastReceiver {
     private static final String PREF_KIOSK_MODE = "pref_kiosk_mode";
-    private boolean monitorKioskMode = BuildConfig.KIOSK_MODE;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(!monitorKioskMode) return;
 
         if(Intent.ACTION_SCREEN_OFF.equals(intent.getAction())){
             AppContext ctx = (AppContext) context.getApplicationContext();

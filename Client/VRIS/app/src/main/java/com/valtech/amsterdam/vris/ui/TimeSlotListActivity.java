@@ -1,17 +1,11 @@
 package com.valtech.amsterdam.vris.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 
 import com.valtech.amsterdam.recyclist.Recyclist;
@@ -24,8 +18,6 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
 
 import org.joda.time.DateTime;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -61,10 +53,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
                 .build();
         component.inject(this); //This makes the members injected
         setupRecyclerView((RecyclerView) recyclerView);
-    }
 
-    @Override
-    protected void onStart(){
         ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
         if(timeSlot == null) return;
         Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);

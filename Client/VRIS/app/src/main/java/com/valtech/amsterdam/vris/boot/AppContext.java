@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.PowerManager;
 
-import com.valtech.amsterdam.vris.BuildConfig;
-
 /**
  * Created by marvin.brouwer on 20-7-2017.
  */
@@ -16,13 +14,11 @@ public final class AppContext extends Application {
     private AppContext instance;
     private PowerManager.WakeLock wakeLock;
     private OnScreenOffReceiver onScreenOffReceiver;
-    private boolean monitorKioskMode = BuildConfig.KIOSK_MODE;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if(!monitorKioskMode) return;
         instance = this;
         registerKioskModeScreenOffReceiver();
         startKioskService();
