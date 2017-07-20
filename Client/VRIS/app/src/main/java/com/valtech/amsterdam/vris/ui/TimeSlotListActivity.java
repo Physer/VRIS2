@@ -1,5 +1,9 @@
 package com.valtech.amsterdam.vris.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -50,6 +54,17 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
 
     private InjectionComponent component;
 
+    public static final String AUTHORITY = "com.example.android.datasync.provider";
+    public static final String ACCOUNT_TYPE = "example.com";
+    public static final String ACCOUNT = "dummyaccount";
+    Account mAccount;
+
+    public static final long SECONDS_PER_MINUTE = 60L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 10L;
+    public static final long SYNC_INTERVAL =
+            SYNC_INTERVAL_IN_MINUTES *
+                    SECONDS_PER_MINUTE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +97,58 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.reservation_detail_container, fragment)
                     .commit();
+        }
+
+        mAccount = CreateSyncAccount(this);
+
+        ContentResolver.setSyncAutomatically(mAccount, AUTHORITY, true);
+        ContentResolver.addPeriodicSync(
+                mAccount,
+                AUTHORITY,
+                Bundle.EMPTY,
+                15);
+
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+    }
+
+    /**
+     * Create a new dummy account for the sync adapter
+     *
+     * @param context The application context
+     */
+    public static Account CreateSyncAccount(Context context) {
+        // Create the account type and default account
+        Account newAccount = new Account(
+                ACCOUNT, ACCOUNT_TYPE);
+        // Get an instance of the Android account manager
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(
+                        ACCOUNT_SERVICE);
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report an error.
+         */
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+            /*
+             * If you don't set android:syncable="true" in
+             * in your <provider> element in the manifest,
+             * then call context.setIsSyncable(account, AUTHORITY, 1)
+             * here.
+             */
+            Log.d(fLogTag, "success");
+            return newAccount;
+        } else {
+            /*
+             * The account exists or some other error occurred. Log this, report it,
+             * or handle it internally.
+             */
+            Log.d(fLogTag, "failed");
+            return accountManager.getAccountsByType(ACCOUNT_TYPE)[0];
         }
     }
 

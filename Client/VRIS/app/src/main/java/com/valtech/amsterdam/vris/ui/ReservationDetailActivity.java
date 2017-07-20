@@ -30,10 +30,10 @@ public class ReservationDetailActivity extends AppCompatActivity {
     private TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
     private ITimeSlotLoader timeSlotLoader;
 
-    public ReservationDetailActivity(TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory, ITimeSlotLoader timeSlotLoader) {
-        this.timeSlotDetailFragmentFactory = timeSlotDetailFragmentFactory;
-        this.timeSlotLoader = timeSlotLoader;
-    }
+//    public ReservationDetailActivity(TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory, ITimeSlotLoader timeSlotLoader) {
+//        this.timeSlotDetailFragmentFactory = timeSlotDetailFragmentFactory;
+//        this.timeSlotLoader = timeSlotLoader;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
