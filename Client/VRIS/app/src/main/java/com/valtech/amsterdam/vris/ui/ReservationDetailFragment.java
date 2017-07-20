@@ -3,6 +3,7 @@ package com.valtech.amsterdam.vris.ui;
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,12 @@ import java.text.SimpleDateFormat;
  * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
-public class ReservationDetailFragment extends TimeSlotDetailFragment {
+public class ReservationDetailFragment extends Fragment {
+    /**
+     * The fragment argument representing the item ID that this fragment
+     * represents.
+     */
+    public static final String ARG_ITEM_ID = "item_id";
 
     /**
      * The dummy content this fragment is presenting.
@@ -60,9 +66,8 @@ public class ReservationDetailFragment extends TimeSlotDetailFragment {
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.booker)).setText(mItem.getBooker().getName());
-            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-            ((TextView) rootView.findViewById(R.id.from)).setText(formatter.format(mItem.getStartDate()));
-            ((TextView) rootView.findViewById(R.id.to)).setText(formatter.format(mItem.getEndDate()));
+            ((TextView) rootView.findViewById(R.id.from)).setText(mItem.getStartDate().toString("HH:mm"));
+            ((TextView) rootView.findViewById(R.id.to)).setText(mItem.getEndDate().toString("HH:mm"));
         }
 
         return rootView;
