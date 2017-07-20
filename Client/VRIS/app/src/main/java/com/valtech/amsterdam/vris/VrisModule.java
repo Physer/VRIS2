@@ -7,13 +7,15 @@ import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.BufferedStreamContentReader;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.GsonDesynchronizer;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.NetworkModelLoader;
-import com.valtech.amsterdam.vris.business.TimeSlotLoader;
+import com.valtech.amsterdam.vris.business.listers.TimeSlotLister;
+import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
+import com.valtech.amsterdam.vris.business.loaders.TimeSlotLoader;
 import com.valtech.amsterdam.vris.dummy.DummyModelErrorLoader;
 import com.valtech.amsterdam.vris.dummy.DummyModelLoader;
 import com.valtech.amsterdam.vris.dummy.DummyTimeSlotLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
-import com.valtech.amsterdam.vris.viewSelectors.TimeSlotDetailFragmentFactory;
+import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
 import com.valtech.amsterdam.vris.viewSelectors.TimeSlotItemViewSelector;
 
 import javax.inject.Named;
@@ -50,13 +52,19 @@ public class VrisModule {
     @Provides
     @Singleton
     ModelLoader<ITimeSlot> getTimeSlotLoadListCommand(@Named("DummyModelLoader") ModelLoader<Reservation> modelLoader) {
+        return new TimeSlotLister(modelLoader);
+    }
+
+    @Provides
+    @Singleton
+    ITimeSlotLoader getTimeSlotLoaderCommand(@Named("DummyTimeSlotLoader") ModelLoader<ITimeSlot> modelLoader) {
         return new TimeSlotLoader(modelLoader);
     }
 
     @Provides
     @Singleton
-    TimeSlotDetailFragmentFactory getTimeSlotDetailFragmentFactoryCommand(@Named("DummyTimeSlotLoader")ModelLoader<ITimeSlot> modelLoader) {
-        return new TimeSlotDetailFragmentFactory(modelLoader);
+    TimeSlotDetailFragmentFactory getTimeSlotDetailFragmentFactoryCommand() {
+        return new TimeSlotDetailFragmentFactory();
     }
 
     @Provides

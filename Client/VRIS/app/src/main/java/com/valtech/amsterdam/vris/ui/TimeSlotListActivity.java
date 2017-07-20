@@ -3,6 +3,7 @@ package com.valtech.amsterdam.vris.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,9 +16,11 @@ import com.valtech.amsterdam.recyclist.Recyclistener;
 import com.valtech.amsterdam.vris.DaggerInjectionComponent;
 import com.valtech.amsterdam.vris.InjectionComponent;
 import com.valtech.amsterdam.vris.R;
+import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
-import com.valtech.amsterdam.vris.model.TimeSlot;
-import com.valtech.amsterdam.vris.viewSelectors.TimeSlotDetailFragmentFactory;
+import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
+
+import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
@@ -42,6 +45,8 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
     Recyclist<ITimeSlot> recyclist;
     @Inject
     TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
+    @Inject
+    ITimeSlotLoader timeSlotLoader;
 
     private InjectionComponent component;
 
@@ -70,9 +75,12 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
-            TimeSlotDetailFragment fragment = timeSlotDetailFragmentFactory.getNow();
+
+            ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
+            if(timeSlot == null) return;
+            Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.reservation_detail_container, fragment)
+                    .add(R.id.reservation_detail_container, fragment)
                     .commit();
         }
     }
@@ -121,7 +129,7 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
     @Override
     public void onClick(ITimeSlot item) {
         if (mTwoPane) {
-            TimeSlotDetailFragment fragment = timeSlotDetailFragmentFactory.getByTimeSlot(item);
+            Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.reservation_detail_container, fragment)
                     .commit();
@@ -131,5 +139,7 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
 
             startActivity(intent);
         }
+
+        // todo reset after time
     }
 }

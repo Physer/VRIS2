@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,11 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.viewSelectors.TimeSlotDetailFragmentFactory;
+import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
+import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
+
+import org.joda.time.DateTime;
 
 /**
  * An activity representing a single Reservation detail screen. This
@@ -23,9 +28,11 @@ import com.valtech.amsterdam.vris.viewSelectors.TimeSlotDetailFragmentFactory;
 public class ReservationDetailActivity extends AppCompatActivity {
 
     private TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
+    private ITimeSlotLoader timeSlotLoader;
 
-    public ReservationDetailActivity(TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory) {
+    public ReservationDetailActivity(TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory, ITimeSlotLoader timeSlotLoader) {
         this.timeSlotDetailFragmentFactory = timeSlotDetailFragmentFactory;
+        this.timeSlotLoader = timeSlotLoader;
     }
 
     @Override
@@ -62,9 +69,18 @@ public class ReservationDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
+            ITimeSlot timeSlot;
             int itemId = getIntent().getIntExtra(ReservationDetailFragment.ARG_ITEM_ID, -1);
-            TimeSlotDetailFragment fragment = timeSlotDetailFragmentFactory.getById(itemId);
+            if(itemId == -1){
+                timeSlot = timeSlotLoader.getById(itemId);
+                if(timeSlot == null) return;
+            }
+            else{
+                timeSlot = timeSlotLoader.getByTime(DateTime.now());
+                if(timeSlot == null) return;
+            }
 
+            Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(timeSlot);
             getSupportFragmentManager().beginTransaction()
                 .add(R.id.reservation_detail_container, fragment)
                 .commit();
