@@ -3,6 +3,7 @@ package com.valtech.amsterdam.vris.business.loaders;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -12,6 +13,9 @@ import java.util.List;
 
 public interface ITimeSlotLoader {
     List<ITimeSlot> getList();
-    ITimeSlot getByTime(DateTime date) throws IndexOutOfBoundsException;
+    ITimeSlot getByTime(LocalDateTime date) throws IndexOutOfBoundsException;
     ITimeSlot getById(int id) throws IndexOutOfBoundsException;
+
+    void select(ITimeSlot timeSlot);
+    void reset();
 }

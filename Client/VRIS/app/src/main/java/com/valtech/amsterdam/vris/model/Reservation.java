@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
 
 import org.joda.time.DateTime;
-
+import org.joda.time.LocalDateTime;
 
 
 /**
@@ -13,10 +13,12 @@ import org.joda.time.DateTime;
 @ApiInfo(methodName = "reservation")
 public class Reservation extends TimeSlot {
     @SerializedName("Booker") private Person mBooker;
+    @SerializedName("Title") private String title;
 
-    public Reservation(int id, DateTime start, DateTime end, Person booker) {
+    public Reservation(int id, String title, LocalDateTime start, LocalDateTime end, Person booker) {
         super(id, start, end);
         mBooker = booker;
+        this.title = title;
     }
 
     public Person getBooker() {
@@ -25,5 +27,9 @@ public class Reservation extends TimeSlot {
 
     public void setBooker(Person booker) {
         mBooker = booker;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

@@ -6,27 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.valtech.amsterdam.vris.R;
+import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
 import com.valtech.amsterdam.vris.model.TimeSlot;
+
+import javax.inject.Inject;
 
 /**
  * A fragment representing a single Reservation detail screen.
  * This fragment is either contained in a {@link TimeSlotListActivity}
- * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
 public class NewTimeSlotFragment extends BaseFragment {
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private TimeSlot mItem;
+    @Inject
+    ITimeSlotLoader timeSlotLoader;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public NewTimeSlotFragment() {
-    }
+    public NewTimeSlotFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,11 +36,6 @@ public class NewTimeSlotFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.timeslot_new, container, false);
-
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            //
-        }
 
         return rootView;
     }

@@ -2,7 +2,8 @@ package com.valtech.amsterdam.vris.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
 
 
 /**
@@ -11,10 +12,11 @@ import org.joda.time.DateTime;
 
 public class TimeSlot implements ITimeSlot {
     @SerializedName("Id") private int mId;
-    @SerializedName("Start") private DateTime mStart;
-    @SerializedName("End") private DateTime mEnd;
+    @SerializedName("Start") private LocalDateTime mStart;
+    @SerializedName("End") private LocalDateTime mEnd;
+    private boolean isSelected;
 
-    public TimeSlot(int id, DateTime start, DateTime end) {
+    public TimeSlot(int id, LocalDateTime start, LocalDateTime end) {
         mId = id;
         mStart = start;
         mEnd = end;
@@ -28,19 +30,34 @@ public class TimeSlot implements ITimeSlot {
         mId = id;
     }
 
-    public DateTime getStartDate() {
+    public LocalDateTime getStartDate() {
         return mStart;
     }
 
-    public void setStartDate(DateTime start) {
+    public void setStartDate(LocalDateTime start) {
         mStart = start;
     }
 
-    public DateTime getEndDate() {
+    public LocalDateTime getEndDate() {
         return mEnd;
     }
 
-    public void setEndDate(DateTime end) {
+    public void setEndDate(LocalDateTime end) {
         mEnd = end;
+    }
+
+    public int getDurationInMinutes(){
+        long diffInMillis =
+            mEnd.toDateTime(DateTimeZone.UTC).getMillis() -
+            mStart.toDateTime(DateTimeZone.UTC).getMillis();
+        int diffInSeconds = (int) (diffInMillis / 1000);
+        return diffInSeconds / 60;
+    }
+
+    public boolean getSelected(){
+        return isSelected;
+    }
+    public void setSelected(boolean isSelected){
+        this.isSelected = isSelected;
     }
 }

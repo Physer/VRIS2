@@ -38,7 +38,7 @@ public class RecyclistAdapter<TModel> extends RecyclerView.Adapter<RecyclistAdap
         TModel model = mObjects.get(position);
         if (model == null) return;
 
-        holder.getViewBinder().bindView(holder.getView(), model, mClickListener);
+        holder.getViewBinder().bindView(holder.getView(), model, mClickListener, position);
     }
 
     @Override

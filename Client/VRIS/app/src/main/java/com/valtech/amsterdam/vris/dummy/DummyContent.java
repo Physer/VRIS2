@@ -37,16 +37,38 @@ public class DummyContent {
 
     static {
         // Add some sample items.
-        addItem(new Reservation(1, new DateTime(2017, 7, 14, 9, 30), new DateTime(2017, 7, 14, 10, 30), new Person(1, "Meneer Een")));
-        addItem(new TimeSlot(2, new DateTime(2017, 7, 14, 10, 30), new DateTime(2017, 7, 14, 10, 45)));
-        addItem(new Reservation(3, new DateTime(2017, 7, 14, 10, 45), new DateTime(2017, 7, 14, 11, 00), new Person(2, "Meneer Twee")));
-        addItem(new Reservation(4, new DateTime(2017, 7, 14, 11, 00), new DateTime(2017, 7, 14, 11, 30), new Person(3, "Meneer Drie")));
-        addItem(new TimeSlot(5, new DateTime(2017, 7, 14, 11, 30), new DateTime(2017, 7, 14, 13, 00)));
-        addItem(new Reservation(6, new DateTime(2017, 7, 14, 13, 00), new DateTime(2017, 7, 14, 13, 45), new Person(3, "Meneer Drie")));
-        addItem(new TimeSlot(7, new DateTime(2017, 7, 14, 13, 45), new DateTime(2017, 7, 14, 15, 15)));
-        addItem(new Reservation(8, new DateTime(2017, 7, 14, 15, 15), new DateTime(2017, 7, 14, 17, 0), new Person(1, "Meneer Een")));
-        addItem(new TimeSlot(9, new DateTime(2017, 7, 14, 17, 0), new DateTime(2017, 7, 14, 18, 0)));
-        addItem(new TimeSlot(10, new DateTime(2017, 7, 14, 18, 0), new DateTime(2018, 7, 14, 18, 0)));
+        addItem(new Reservation(1, "Lunchmeeting met onmogelijk lange titel",
+                new DateTime(2017, 7, 14, 9, 30).toLocalDateTime(),
+                new DateTime(2017, 7, 14, 10, 30).toLocalDateTime(),
+                new Person(1, "Meneer een")));
+        addItem(new TimeSlot(2,
+                new DateTime(2017, 7, 14, 10, 30).toLocalDateTime(),
+                new DateTime(2017, 7, 14, 10, 45).toLocalDateTime()));
+        addItem(new Reservation(3, "Nog zo'n meeting met ellendig lange titel",
+                new DateTime(2017, 7, 14, 10, 45).toLocalDateTime(),
+                new DateTime(2017, 7, 14, 11, 00).toLocalDateTime(),
+                new Person(2, "Meneer Twee")));
+        addItem(new Reservation(4, "Dummy 3",
+                new DateTime(2017, 7, 14, 11, 00).toLocalDateTime(),
+                new DateTime(2017, 7, 14, 11, 30).toLocalDateTime(),
+                new Person(3, "Meneer Drie")));
+        addItem(new TimeSlot(5,
+                new DateTime(2017, 7, 14, 11, 30).toLocalDateTime(),
+                new DateTime(2017, 7, 14, 13, 00).toLocalDateTime()));
+        addItem(new Reservation(6, "Dummy 4",
+                new DateTime(2017, 7, 14, 13, 00).toLocalDateTime(),
+                new DateTime(2017, 7, 14, 13, 45).toLocalDateTime(),
+                new Person(3, "Meneer Drie")));
+        addItem(new TimeSlot(7,
+                new DateTime(2017, 7, 14, 13, 45).toLocalDateTime(),
+                new DateTime(2017, 7, 14, 15, 15).toLocalDateTime()));
+        addItem(new Reservation(8, "Dummy 5",
+                new DateTime(2017, 7, 14, 15, 15).toLocalDateTime(),
+                new DateTime(2017, 7, 14, 17, 0).toLocalDateTime(),
+                new Person(1, "Meneer Een")));
+        addItem(new TimeSlot(9,
+                new DateTime(2017, 7, 14, 17, 0).toLocalDateTime(),
+                new DateTime(2018, 7, 14, 18, 0).toLocalDateTime()));
     }
 
     private static void addItem(Reservation item) {

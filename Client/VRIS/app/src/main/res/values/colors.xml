@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#EFEFEF</color>
+
+    <color name="colorSlotSelected">#EFEFEF</color>
+    <color name="colorSlotEven">#eaeaea</color>
+    <color name="colorSlotOdd">#DFDFDF</color>
+
+    <color name="colorSlotOpenSelected">#69f0ae</color>
+    <color name="colorSlotOpen">#00c853</color>
+    <color name="colorAccentText">#ffffff</color>
 </resources>

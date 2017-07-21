@@ -3,7 +3,7 @@ package com.valtech.amsterdam.vris.business.loaders;
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,13 +31,13 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
         return timeSlots;
     }
 
-    public ITimeSlot getByTime(DateTime date) throws IndexOutOfBoundsException {
+    public ITimeSlot getByTime(LocalDateTime date) throws IndexOutOfBoundsException {
         List<ITimeSlot> timeSlots = getList();
         if(timeSlots ==  null) return null;
 
         for (ITimeSlot timeSlot: timeSlots) {
-            DateTime startDate = timeSlot.getStartDate();
-            DateTime endDate = timeSlot.getEndDate();
+            LocalDateTime startDate = timeSlot.getStartDate();
+            LocalDateTime endDate = timeSlot.getEndDate();
 
             if(date.isBefore(startDate)) continue;
             if(date.isAfter(endDate)) continue;
@@ -60,5 +60,22 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
         }
 
         throw new IndexOutOfBoundsException();
+    }
+
+    public void select(ITimeSlot timeSlot){
+        List<ITimeSlot> timeSlots = getList();
+
+        for (ITimeSlot timeSlotItem: timeSlots) {
+            if(timeSlotItem.getId() == timeSlot.getId()) timeSlotItem.setSelected(true);
+            else timeSlotItem.setSelected(false);
+        }
+    }
+
+    public void reset(){
+        List<ITimeSlot> timeSlots = getList();
+
+        for (ITimeSlot timeSlotItem: timeSlots) {
+            timeSlotItem.setSelected(false);
+        }
     }
 }

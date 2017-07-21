@@ -24,8 +24,7 @@ import javax.inject.Inject;
 /**
  * An activity representing a list of Reservations. This activity
  * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ReservationDetailActivity} representing
+ * handsets, the activity presents a list of items, which when touched
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
@@ -54,8 +53,9 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
         component.inject(this); //This makes the members injected
         setupRecyclerView((RecyclerView) recyclerView);
 
-        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
+        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now().toLocalDateTime());
         if(timeSlot == null) return;
+        timeSlotLoader.select(timeSlot);
         Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
         navigateToFragment(fragment, false);
     }
@@ -105,7 +105,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
     public void onClick(ITimeSlot item) {
         Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
         navigateToFragment(fragment, true);
-
+        timeSlotLoader.select(item);
         // todo reset after time
     }
 

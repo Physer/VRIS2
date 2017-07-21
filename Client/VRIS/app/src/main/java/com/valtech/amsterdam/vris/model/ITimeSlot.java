@@ -2,6 +2,7 @@ package com.valtech.amsterdam.vris.model;
 
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 /**
  * Created by marvin.brouwer on 19-7-2017.
@@ -11,8 +12,12 @@ public interface ITimeSlot {
 
     int getId();
 
-    DateTime getStartDate();
+    LocalDateTime getStartDate();
 
-    DateTime getEndDate();
+    LocalDateTime getEndDate();
 
+    int getDurationInMinutes();
+
+    boolean getSelected();
+    void setSelected(boolean isSelected);
 }
