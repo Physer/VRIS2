@@ -2,12 +2,10 @@ package com.valtech.amsterdam.vris.business.loaders;
 
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
-import com.valtech.amsterdam.vris.model.Reservation;
 
 import org.joda.time.DateTime;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

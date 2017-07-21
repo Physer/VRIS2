@@ -1,12 +1,9 @@
 package com.valtech.amsterdam.vris.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
@@ -32,14 +29,10 @@ import javax.inject.Inject;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class TimeSlotListActivity extends AppCompatActivity implements Recyclistener, OnClickListener {
+public class TimeSlotListActivity extends BaseActivity implements Recyclistener, OnClickListener {
     private final static String fLogTag = "TimeSlotListActivity";
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
+    private InjectionComponent component;
 
     @Inject
     Recyclist<ITimeSlot> recyclist;
@@ -48,41 +41,23 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
     @Inject
     ITimeSlotLoader timeSlotLoader;
 
-    private InjectionComponent component;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeslot_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
-
         View recyclerView = findViewById(R.id.reservation_list);
         assert recyclerView != null;
-
         component = DaggerInjectionComponent
                 .builder()
                 .build();
         component.inject(this); //This makes the members injected
-
         setupRecyclerView((RecyclerView) recyclerView);
 
-        if (findViewById(R.id.reservation_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-
-            ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
-            if(timeSlot == null) return;
-            Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.reservation_detail_container, fragment)
-                    .commit();
-        }
+        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
+        if(timeSlot == null) return;
+        Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
+        navigateToFragment(fragment, false);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -128,18 +103,10 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
 
     @Override
     public void onClick(ITimeSlot item) {
-        if (mTwoPane) {
-            Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.reservation_detail_container, fragment)
-                    .commit();
-        } else {
-            Intent intent = new Intent(this, ReservationDetailActivity.class);
-            intent.putExtra(ReservationDetailFragment.ARG_ITEM_ID, item.getId());
-
-            startActivity(intent);
-        }
+        Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
+        navigateToFragment(fragment, true);
 
         // todo reset after time
     }
+
 }

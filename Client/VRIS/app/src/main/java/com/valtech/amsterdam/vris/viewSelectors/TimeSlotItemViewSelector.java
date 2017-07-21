@@ -4,7 +4,6 @@ import com.valtech.amsterdam.recyclist.ViewSelector;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
-import com.valtech.amsterdam.vris.model.TimeSlot;
 
 /**
  * Created by jasper.van.zijp on 18-7-2017.
