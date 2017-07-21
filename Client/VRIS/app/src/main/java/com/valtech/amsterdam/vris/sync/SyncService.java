@@ -11,7 +11,7 @@ import android.util.Log;
  */
 
 public class SyncService extends Service {
-    private final static String fLogTag = "SYNCADAPTER";
+    private final static String fLogTag = "SYNCSERVICE";
 
     // Storage for an instance of the sync adapter
     private static SyncAdapter sSyncAdapter = null;

@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.PeriodicSync;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -56,11 +57,11 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
 
     public static final String AUTHORITY = "com.example.android.datasync.provider";
     public static final String ACCOUNT_TYPE = "example.com";
-    public static final String ACCOUNT = "dummyaccount";
+    public static final String ACCOUNT = "dummyaccount2";
     Account mAccount;
 
     public static final long SECONDS_PER_MINUTE = 60L;
-    public static final long SYNC_INTERVAL_IN_MINUTES = 10L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 1L;
     public static final long SYNC_INTERVAL =
             SYNC_INTERVAL_IN_MINUTES *
                     SECONDS_PER_MINUTE;
@@ -101,19 +102,19 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
 
         mAccount = CreateSyncAccount(this);
 
-        ContentResolver.setSyncAutomatically(mAccount, AUTHORITY, true);
+//        if (ContentResolver.getPeriodicSyncs(mAccount, AUTHORITY).size() > 0) {
+//            PeriodicSync ps = ContentResolver.getPeriodicSyncs(mAccount, AUTHORITY).get(0);
+//            ContentResolver.removePeriodicSync(mAccount, AUTHORITY, Bundle.EMPTY);
+//        }
+
         ContentResolver.addPeriodicSync(
                 mAccount,
                 AUTHORITY,
                 Bundle.EMPTY,
-                15);
+                900); //Framework forces anything lower than 900 to 900
 
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+        PeriodicSync ps = ContentResolver.getPeriodicSyncs(mAccount, AUTHORITY).get(0);
+        Log.d(fLogTag, Long.toString(ps.period));
     }
 
     /**
