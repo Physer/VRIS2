@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.valtech.amsterdam.vris.R;
@@ -46,6 +47,15 @@ abstract class BaseActivity extends AppCompatActivity {
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
         }
+        View activityLayout = findViewById(R.id.activity_layout);
+        if(activityLayout == null) return;
+        activityLayout.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     @Override
@@ -75,11 +85,11 @@ abstract class BaseActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        //Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar == null)  return;
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
     }
 
     @Override
@@ -99,4 +109,5 @@ abstract class BaseActivity extends AppCompatActivity {
         fragmentTransaction.commit();
         if(addHistory) fragmentTransaction.addToBackStack(null);
     }
+
 }
