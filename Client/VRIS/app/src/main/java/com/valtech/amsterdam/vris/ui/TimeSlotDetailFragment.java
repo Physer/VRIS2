@@ -15,7 +15,6 @@ import com.valtech.amsterdam.vris.model.TimeSlot;
 /**
  * A fragment representing a single Reservation detail screen.
  * This fragment is either contained in a {@link TimeSlotListActivity}
- * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
 public class TimeSlotDetailFragment extends BaseFragment {
@@ -46,12 +45,6 @@ public class TimeSlotDetailFragment extends BaseFragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mItem = DummyContent.RESERVATIONS_MAP.get(getArguments().getInt(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle("Time slot");
-            }
         }
     }
 
