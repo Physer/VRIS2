@@ -1,16 +1,16 @@
 package com.valtech.amsterdam.vris.dummy;
 
+import android.databinding.ObservableArrayList;
+
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Person;
 import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.model.TimeSlot;
+import com.valtech.amsterdam.vris.model.TimeSlotList;
 
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,8 +24,8 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<Reservation> RESERVATIONS = new ArrayList<>();
-    public static final List<ITimeSlot> TIMESLOTS = new ArrayList<>();
+    public static final ObservableArrayList<Reservation> RESERVATIONS = new ObservableArrayList<>();
+    public static final TimeSlotList TIMESLOTS = new TimeSlotList();
 
     /**
      * A map of sample (dummy) items, by ID.

@@ -1,10 +1,11 @@
 package com.valtech.amsterdam.recyclist;
 
+import android.databinding.Observable;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
 import android.support.v7.widget.RecyclerView;
 
 import com.valtech.amsterdam.vris.ui.OnClickListener;
-
-import java.util.List;
 
 /**
  * Created by jasper.van.zijp on 26-5-2017.
@@ -35,9 +36,9 @@ public class Recyclist<TModel> {
         mListener.hideResults();
         mListener.hideError();
 
-        AsyncCommandExecutor<List<TModel>> taskExecutor = new AsyncCommandExecutor<>(new TaskListener<List<TModel>>() {
+        AsyncCommandExecutor<ObservableList<TModel>> taskExecutor = new AsyncCommandExecutor<>(new TaskListener<ObservableList<TModel>>() {
             @Override
-            public void onComplete(List<TModel> results) {
+            public void onComplete(ObservableList<TModel> results) {
                 onLoadComplete(results);
             }
 
@@ -58,15 +59,17 @@ public class Recyclist<TModel> {
         mListener.showError(message);
     }
 
-    private void onLoadComplete(List<TModel> results) {
+    private void onLoadComplete(ObservableList<TModel> results) {
         mLoadListCommand = null;
 
         RecyclistAdapter<TModel> adapter = new RecyclistAdapter<>(results, mViewBinder, mClickListener, mModelViewSelector);
+        results.addOnListChangedCallback(new RecyclistDataChangedCallback(mListener, adapter));
         mRecyclerView.setAdapter(adapter);
 
         mListener.hideProgress();
         mListener.showResults();
         mListener.hideError();
+
     }
 
     public void setClickListener(OnClickListener clickListener) {

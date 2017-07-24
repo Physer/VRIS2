@@ -3,7 +3,6 @@ package com.valtech.amsterdam.vris.model;
 import com.google.gson.annotations.SerializedName;
 import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 
 

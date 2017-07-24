@@ -2,7 +2,6 @@ package com.valtech.amsterdam.vris.business.loaders;
 
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 
 import java.util.List;

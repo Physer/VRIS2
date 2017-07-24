@@ -1,12 +1,13 @@
 package com.valtech.amsterdam.recyclist.loader;
 
+import android.databinding.ObservableList;
+
 import java.io.IOException;
-import java.util.List;
 
 /**
  * A loader of models of type TModel
  */
 
 public interface ModelLoader<TModel> {
-    List<TModel> getList() throws IOException;
+    ObservableList<TModel> getList() throws IOException;
 }

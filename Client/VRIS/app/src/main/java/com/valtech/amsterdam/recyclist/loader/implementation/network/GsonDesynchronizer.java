@@ -1,9 +1,9 @@
 package com.valtech.amsterdam.recyclist.loader.implementation.network;
 
-import com.google.gson.Gson;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
 
 /**
  * Created by jaspe on 11-4-2017.
@@ -16,11 +16,11 @@ public class GsonDesynchronizer<TModel> implements Desynchronizer {
         mModelClass = modelClass;
     }
 
-    public List<TModel> getList(String json)
+    public ObservableList<TModel> getList(String json)
     {
         Object [] array = (Object[])java.lang.reflect.Array.newInstance(mModelClass, 1);
         array = new Gson().fromJson(json, array.getClass());
-        List<TModel> list = new ArrayList<>();
+        ObservableList<TModel> list = new ObservableArrayList<>();
         for (Object anArray : array) list.add((TModel) anArray);
         return list;
     }

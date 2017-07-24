@@ -2,11 +2,11 @@ package com.valtech.amsterdam.vris.business.loaders;
 
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
+import com.valtech.amsterdam.vris.model.TimeSlotList;
 
 import org.joda.time.LocalDateTime;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by marvin.brouwer on 20-7-2017.
@@ -19,10 +19,10 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
         this.reservationModelLoader = reservationModelLoader;
     }
 
-    public List<ITimeSlot> getList() {
-        List<ITimeSlot> timeSlots;
+    public TimeSlotList getList() {
+        TimeSlotList timeSlots;
         try {
-            timeSlots = reservationModelLoader.getList();
+            timeSlots = (TimeSlotList) reservationModelLoader.getList();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -32,7 +32,7 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
     }
 
     public ITimeSlot getByTime(LocalDateTime date) throws IndexOutOfBoundsException {
-        List<ITimeSlot> timeSlots = getList();
+        TimeSlotList timeSlots = getList();
         if(timeSlots ==  null) return null;
 
         for (ITimeSlot timeSlot: timeSlots) {
@@ -51,7 +51,7 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
     public ITimeSlot getById(int id) throws IndexOutOfBoundsException {
 
         if(id == -1) return null;
-        List<ITimeSlot> timeSlots = getList();
+        TimeSlotList timeSlots = getList();
         if(timeSlots ==  null) return null;
 
         for (ITimeSlot timeSlot: timeSlots) {
@@ -63,19 +63,23 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
     }
 
     public void select(ITimeSlot timeSlot){
-        List<ITimeSlot> timeSlots = getList();
+        TimeSlotList timeSlots = getList();
 
         for (ITimeSlot timeSlotItem: timeSlots) {
             if(timeSlotItem.getId() == timeSlot.getId()) timeSlotItem.setSelected(true);
             else timeSlotItem.setSelected(false);
+
+            //timeSlots.notifyChange();
         }
     }
 
     public void reset(){
-        List<ITimeSlot> timeSlots = getList();
+        TimeSlotList timeSlots = getList();
 
         for (ITimeSlot timeSlotItem: timeSlots) {
             timeSlotItem.setSelected(false);
+
+            //timeSlots.notifyChange();
         }
     }
 }

@@ -1,15 +1,17 @@
 package com.valtech.amsterdam.recyclist;
 
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
+
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * A Commands that loads a List of objects of type TModel
  */
 
-public class LoadListCommand<TModel> implements Command<List<TModel>> {
+public class LoadListCommand<TModel> implements Command<ObservableList<TModel>> {
     private ModelLoader<TModel> mModelLoader;
 
     public LoadListCommand(ModelLoader<TModel> modelLoader) {
@@ -17,7 +19,7 @@ public class LoadListCommand<TModel> implements Command<List<TModel>> {
     }
 
     @Override
-    public List<TModel> execute() throws IOException {
+    public ObservableList<TModel> execute() throws IOException {
         return mModelLoader.getList();
     }
 }

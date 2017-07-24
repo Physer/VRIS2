@@ -1,11 +1,9 @@
 package com.valtech.amsterdam.vris.ui;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +15,6 @@ import com.valtech.amsterdam.vris.dummy.DummyContent;
 import com.valtech.amsterdam.vris.model.Reservation;
 
 import org.joda.time.DateTime;
-
-import java.util.Date;
 
 /**
  * A fragment representing a single Reservation detail screen.

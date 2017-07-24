@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
-import com.valtech.amsterdam.vris.model.TimeSlot;
 
 import javax.inject.Inject;
 
