@@ -18,17 +18,19 @@ public class Recyclist<TModel> {
     private OnClickListener mClickListener;
     private LoadListCommand<TModel> mLoadListCommand;
     private ViewSelector<TModel> mModelViewSelector;
+    private List<TModel> mModelList;
+    private RecyclistAdapter<TModel> mAdapter;
 
-    public Recyclist(LoadListCommand<TModel> loadListCommand, ViewSelector<TModel> modelViewSelector) {
+    public Recyclist(LoadListCommand<TModel> loadListCommand, ViewSelector<TModel> modelViewSelector, RecyclistViewBinder<TModel> viewBinder) {
         mLoadListCommand = loadListCommand;
         mModelViewSelector = modelViewSelector;
+        mViewBinder = viewBinder;
     }
 
-    public void startBind(Recyclistener listener, RecyclistViewBinder<TModel> viewBinder, RecyclerView recyclerView) {
+    public void startBind(Recyclistener listener, RecyclerView recyclerView) {
         if (mLoadListCommand == null) onLoadError("Previous task is still running");
 
         mListener = listener;
-        mViewBinder = viewBinder;
         mRecyclerView = recyclerView;
 
         mListener.showProgress();
@@ -61,15 +63,25 @@ public class Recyclist<TModel> {
     private void onLoadComplete(List<TModel> results) {
         mLoadListCommand = null;
 
-        RecyclistAdapter<TModel> adapter = new RecyclistAdapter<>(results, mViewBinder, mClickListener, mModelViewSelector);
-        mRecyclerView.setAdapter(adapter);
+        mAdapter = new RecyclistAdapter<>(results, mViewBinder, mClickListener, mModelViewSelector);
+
+        mModelList = results;
+        mRecyclerView.setAdapter(mAdapter);
 
         mListener.hideProgress();
-        mListener.showResults();
+        mListener.showResults(new Updater<TModel>(results, mAdapter));
         mListener.hideError();
     }
 
     public void setClickListener(OnClickListener clickListener) {
         mClickListener = clickListener;
+    }
+
+    public void insert(int index, TModel model) {
+        mModelList.add(index, model);
+    }
+
+    public RecyclistAdapter<TModel> getAdapter() {
+        return mAdapter;
     }
 }

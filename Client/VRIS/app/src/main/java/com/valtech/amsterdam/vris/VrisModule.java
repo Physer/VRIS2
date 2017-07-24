@@ -2,6 +2,7 @@ package com.valtech.amsterdam.vris;
 
 import com.valtech.amsterdam.recyclist.LoadListCommand;
 import com.valtech.amsterdam.recyclist.Recyclist;
+import com.valtech.amsterdam.recyclist.RecyclistViewBinder;
 import com.valtech.amsterdam.recyclist.ViewSelector;
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.BufferedStreamContentReader;
@@ -16,6 +17,7 @@ import com.valtech.amsterdam.vris.dummy.DummyTimeSlotLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
+import com.valtech.amsterdam.vris.ui.TimeSlotViewBinder;
 import com.valtech.amsterdam.vris.viewSelectors.TimeSlotItemViewSelector;
 
 import javax.inject.Named;
@@ -32,8 +34,14 @@ import dagger.Provides;
 public class VrisModule {
     @Provides
     @Singleton
-    Recyclist<ITimeSlot> getReservationRecyclist(LoadListCommand<ITimeSlot> loadListCommand, ViewSelector<ITimeSlot> viewSelector){
-        return new Recyclist<>(loadListCommand, viewSelector);
+    Recyclist<ITimeSlot> getReservationRecyclist(LoadListCommand<ITimeSlot> loadListCommand, ViewSelector<ITimeSlot> viewSelector, RecyclistViewBinder<ITimeSlot> viewBinder){
+        return new Recyclist<>(loadListCommand, viewSelector, viewBinder);
+    }
+
+    @Provides
+    @Singleton
+    RecyclistViewBinder<ITimeSlot> getRecyclistViewBinder() {
+        return new TimeSlotViewBinder();
     }
 
     @Provides

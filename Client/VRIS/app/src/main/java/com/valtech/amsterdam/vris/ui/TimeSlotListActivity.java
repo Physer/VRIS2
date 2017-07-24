@@ -6,7 +6,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.PeriodicSync;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +22,8 @@ import android.view.View;
 
 import com.valtech.amsterdam.recyclist.Recyclist;
 import com.valtech.amsterdam.recyclist.Recyclistener;
+import com.valtech.amsterdam.recyclist.Updater;
+import com.valtech.amsterdam.vris.CustomApplication;
 import com.valtech.amsterdam.vris.DaggerInjectionComponent;
 import com.valtech.amsterdam.vris.InjectionComponent;
 import com.valtech.amsterdam.vris.R;
@@ -26,6 +32,8 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
 
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -37,7 +45,7 @@ import javax.inject.Inject;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class TimeSlotListActivity extends AppCompatActivity implements Recyclistener, OnClickListener {
+public class TimeSlotListActivity extends AppCompatActivity implements Recyclistener<ITimeSlot>, OnClickListener {
     private final static String fLogTag = "TimeSlotListActivity";
 
     /**
@@ -55,16 +63,18 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
 
     private InjectionComponent component;
 
-    public static final String AUTHORITY = "com.example.android.datasync.provider";
+    public static final String AUTHORITY = "com.valtech.amsterdam.vris.sync.contentprovider";
     public static final String ACCOUNT_TYPE = "example.com";
     public static final String ACCOUNT = "dummyaccount2";
     Account mAccount;
 
     public static final long SECONDS_PER_MINUTE = 60L;
-    public static final long SYNC_INTERVAL_IN_MINUTES = 1L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 15L;
     public static final long SYNC_INTERVAL =
             SYNC_INTERVAL_IN_MINUTES *
                     SECONDS_PER_MINUTE;
+
+    private ContentObserver mObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,21 +110,21 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
                     .commit();
         }
 
-        mAccount = CreateSyncAccount(this);
+        mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
+            public void onChange(boolean selfChange) {
+                Log.d(fLogTag, "ContentObserver.onChange");
+                ((CustomApplication)getApplication()).getUpdater().notifyItemInserted();
+            }
+        };
+        getContentResolver().registerContentObserver(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), false, mObserver);
 
-//        if (ContentResolver.getPeriodicSyncs(mAccount, AUTHORITY).size() > 0) {
-//            PeriodicSync ps = ContentResolver.getPeriodicSyncs(mAccount, AUTHORITY).get(0);
-//            ContentResolver.removePeriodicSync(mAccount, AUTHORITY, Bundle.EMPTY);
-//        }
+        mAccount = CreateSyncAccount(this);
 
         ContentResolver.addPeriodicSync(
                 mAccount,
                 AUTHORITY,
                 Bundle.EMPTY,
-                900); //Framework forces anything lower than 900 to 900
-
-        PeriodicSync ps = ContentResolver.getPeriodicSyncs(mAccount, AUTHORITY).get(0);
-        Log.d(fLogTag, Long.toString(ps.period));
+                SYNC_INTERVAL); //Framework forces anything lower than 900 to 900
     }
 
     /**
@@ -153,9 +163,22 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
         }
     }
 
+    public void buttonclick(View sender) {
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        /*
+         * Request the sync for the default account, authority, and
+         * manual sync settings
+         */
+        ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+    }
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclist.setClickListener(this);
-        recyclist.startBind(this, new TimeSlotViewBinder(), recyclerView);
+        recyclist.startBind(this, recyclerView);
     }
 
     @Override
@@ -171,9 +194,10 @@ public class TimeSlotListActivity extends AppCompatActivity implements Recyclist
     }
 
     @Override
-    public void showResults() {
+    public void showResults(Updater<ITimeSlot> updater) {
         Log.d(fLogTag, "showResults");
         findViewById(R.id.reservation_list).setVisibility(View.VISIBLE);
+        ((CustomApplication)getApplication()).setUpdater(updater);
     }
 
     @Override
