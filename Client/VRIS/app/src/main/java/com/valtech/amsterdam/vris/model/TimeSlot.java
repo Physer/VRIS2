@@ -1,5 +1,8 @@
 package com.valtech.amsterdam.vris.model;
 
+import android.content.ContentValues;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
@@ -42,5 +45,21 @@ public class TimeSlot implements ITimeSlot {
 
     public void setEndDate(DateTime end) {
         mEnd = end;
+    }
+
+    public ContentValues toContentValues() {
+        ContentValues cv = new ContentValues();
+        cv.put("Id", getId());
+        cv.put("Start", getStartDate().toString());
+        cv.put("End", getEndDate().toString());
+        return cv;
+    }
+
+    public static TimeSlot fromContentValues(ContentValues cv) {
+        int id = cv.getAsInteger("Id");
+        DateTime start = DateTime.parse(cv.getAsString("Start"));
+        DateTime end = DateTime.parse(cv.getAsString("End"));
+
+        return new TimeSlot(id, start, end);
     }
 }
