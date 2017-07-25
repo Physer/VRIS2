@@ -48,11 +48,13 @@ public class Updater<TModel> {
         while(mLastInsertedList.size() > 0) {
             Log.d(fLogTag, "notifyItemInserted item:" + mLastInsertedList.size());
             try {
-                mAdapter.notifyItemInserted(1);
+                mAdapter.notifyItemInserted(mLastInsertedList.get(0));
             } catch (IndexOutOfBoundsException e) {
                 Log.e("Error", "IndexOutOfBoundsException in RecyclerView happens");
             }
             mLastInsertedList.remove(0);
         }
+
+        Log.d(fLogTag, "notifyItemInserted adapter item count after: " + mAdapter.getItemCount());
     }
 }

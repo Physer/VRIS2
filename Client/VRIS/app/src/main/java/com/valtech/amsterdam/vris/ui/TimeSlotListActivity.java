@@ -1,20 +1,17 @@
 package com.valtech.amsterdam.vris.ui;
 
-<<<<<<< HEAD
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
-=======
->>>>>>> master
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -43,11 +40,7 @@ import javax.inject.Inject;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-<<<<<<< HEAD
-public class TimeSlotListActivity extends AppCompatActivity implements Recyclistener<ITimeSlot>, OnClickListener {
-=======
-public class TimeSlotListActivity extends BaseActivity implements Recyclistener, OnClickListener {
->>>>>>> master
+public class TimeSlotListActivity extends BaseActivity implements Recyclistener<ITimeSlot>, OnClickListener {
     private final static String fLogTag = "TimeSlotListActivity";
 
     private InjectionComponent component;
@@ -58,9 +51,6 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
     TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
     @Inject
     ITimeSlotLoader timeSlotLoader;
-
-<<<<<<< HEAD
-    private InjectionComponent component;
 
     public static final String AUTHORITY = "com.valtech.amsterdam.vris.sync.contentprovider";
     public static final String ACCOUNT_TYPE = "example.com";
@@ -75,8 +65,6 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
 
     private ContentObserver mObserver;
 
-=======
->>>>>>> master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,21 +78,10 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
         component.inject(this); //This makes the members injected
         setupRecyclerView((RecyclerView) recyclerView);
 
-<<<<<<< HEAD
-        if (findViewById(R.id.reservation_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-
-            ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
-            if(timeSlot == null) return;
-            Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.reservation_detail_container, fragment)
-                    .commit();
-        }
+        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
+        if(timeSlot == null) return;
+        Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
+        navigateToFragment(fragment, false);
 
         mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
             public void onChange(boolean selfChange) {
@@ -170,12 +147,6 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener,
          * manual sync settings
          */
         ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
-=======
-        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
-        if(timeSlot == null) return;
-        Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
-        navigateToFragment(fragment, false);
->>>>>>> master
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
