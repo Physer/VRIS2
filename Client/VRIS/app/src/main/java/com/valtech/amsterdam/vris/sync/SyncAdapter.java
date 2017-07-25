@@ -46,13 +46,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Random rand = new Random();
         int minute = rand.nextInt(60);
 
-        TimeSlot ts = new TimeSlot(15, new DateTime(2017, 7, 24, 14, minute, 0), new DateTime(2017, 7, 24, 15, 0, 0));
-        ContentValues b = ts.toContentValues();
-        Uri insertedUri = mContentResolver.insert(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), b);
-        if (insertedUri != null) {
-            Log.d(fLogTag, insertedUri.toString());
-        }
+        for(int i=0; i<8; i++) {
+            TimeSlot ts = new TimeSlot(15, new DateTime(2017, 7, 24, 14, i, 0), new DateTime(2017, 7, 24, 15, i, 0));
+            ContentValues b = ts.toContentValues();
+            Uri insertedUri = mContentResolver.insert(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), b);
+            if (insertedUri != null) {
+                Log.d(fLogTag, insertedUri.toString());
+            }
 
-        getContext().getContentResolver().notifyChange(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), null, false);
+            getContext().getContentResolver().notifyChange(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), null, false);
+
+        }
     }
 }

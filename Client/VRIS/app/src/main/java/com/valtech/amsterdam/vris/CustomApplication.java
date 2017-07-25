@@ -2,8 +2,7 @@ package com.valtech.amsterdam.vris;
 
 import android.app.Application;
 
-import com.valtech.amsterdam.recyclist.Recyclist;
-import com.valtech.amsterdam.recyclist.Updater;
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 /**

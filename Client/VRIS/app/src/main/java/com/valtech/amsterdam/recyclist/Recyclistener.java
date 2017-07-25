@@ -1,6 +1,6 @@
 package com.valtech.amsterdam.recyclist;
 
-import java.util.List;
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
 
 /**
  * Created by jasper.van.zijp on 26-5-2017.

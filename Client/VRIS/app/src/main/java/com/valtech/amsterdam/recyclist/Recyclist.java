@@ -2,6 +2,9 @@ package com.valtech.amsterdam.recyclist;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.valtech.amsterdam.recyclist.modifiers.Inserter;
+import com.valtech.amsterdam.recyclist.modifiers.PositionDeterminator;
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.ui.OnClickListener;
 
 import java.util.List;
@@ -20,11 +23,15 @@ public class Recyclist<TModel> {
     private ViewSelector<TModel> mModelViewSelector;
     private List<TModel> mModelList;
     private RecyclistAdapter<TModel> mAdapter;
+    private PositionDeterminator<TModel> mPositionDeterminator;
+    private Inserter<TModel> mInserter;
 
-    public Recyclist(LoadListCommand<TModel> loadListCommand, ViewSelector<TModel> modelViewSelector, RecyclistViewBinder<TModel> viewBinder) {
+    public Recyclist(LoadListCommand<TModel> loadListCommand, ViewSelector<TModel> modelViewSelector, RecyclistViewBinder<TModel> viewBinder, PositionDeterminator<TModel> positionDeterminator, Inserter<TModel> inserter) {
         mLoadListCommand = loadListCommand;
         mModelViewSelector = modelViewSelector;
         mViewBinder = viewBinder;
+        mPositionDeterminator = positionDeterminator;
+        mInserter = inserter;
     }
 
     public void startBind(Recyclistener listener, RecyclerView recyclerView) {
@@ -69,7 +76,7 @@ public class Recyclist<TModel> {
         mRecyclerView.setAdapter(mAdapter);
 
         mListener.hideProgress();
-        mListener.showResults(new Updater<TModel>(results, mAdapter));
+        mListener.showResults(new Updater<TModel>(results, mAdapter, mPositionDeterminator, mInserter));
         mListener.hideError();
     }
 

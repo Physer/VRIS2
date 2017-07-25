@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.PeriodicSync;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +21,7 @@ import android.view.View;
 
 import com.valtech.amsterdam.recyclist.Recyclist;
 import com.valtech.amsterdam.recyclist.Recyclistener;
-import com.valtech.amsterdam.recyclist.Updater;
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.CustomApplication;
 import com.valtech.amsterdam.vris.DaggerInjectionComponent;
 import com.valtech.amsterdam.vris.InjectionComponent;
@@ -32,8 +31,6 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
 
 import org.joda.time.DateTime;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
