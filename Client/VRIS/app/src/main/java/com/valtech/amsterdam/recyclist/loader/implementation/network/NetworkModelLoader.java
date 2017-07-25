@@ -1,14 +1,12 @@
 package com.valtech.amsterdam.recyclist.loader.implementation.network;
 
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
-
 import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * A Model loader which loads models from a Network connection
@@ -28,7 +26,7 @@ public class NetworkModelLoader<TModel> implements ModelLoader<TModel> {
     }
 
     @Override
-    public ObservableList<TModel> getList() throws IOException {
+    public ArrayList<TModel> getList() throws IOException {
         ApiInfo annotation = mClassType.getAnnotation(ApiInfo.class);
         URL url = new URL(mBaseUrl + annotation.methodName());
 

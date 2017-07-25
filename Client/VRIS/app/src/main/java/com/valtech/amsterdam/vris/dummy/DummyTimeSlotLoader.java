@@ -1,14 +1,12 @@
 package com.valtech.amsterdam.vris.dummy;
 
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
-
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.model.TimeSlotList;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -24,7 +22,7 @@ public class DummyTimeSlotLoader implements ModelLoader<ITimeSlot> {
     }
 
     @Override
-    public ObservableList<ITimeSlot> getList() throws IOException {
+    public ArrayList<ITimeSlot> getList() throws IOException {
         TimeSlotList timeslots = new TimeSlotList();
         timeslots.addAll(DummyContent.TIMESLOTS);
         timeslots.addAll(reservationModelLoader.getList());
