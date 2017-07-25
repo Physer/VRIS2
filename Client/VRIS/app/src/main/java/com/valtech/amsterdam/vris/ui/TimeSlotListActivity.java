@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -51,7 +52,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     ITimeSlotLoader timeSlotLoader;
 
     public static final String AUTHORITY = "com.valtech.amsterdam.vris.sync.contentprovider";
-    public static final String ACCOUNT_TYPE = "example.com";
+    public static final String ACCOUNT_TYPE = "com.valtech.amsterdam.vris.sync";
     public static final String ACCOUNT = "dummyaccount2";
     Account mAccount;
 

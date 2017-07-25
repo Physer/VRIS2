@@ -32,25 +32,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.ReservationDetailActivity"
-            android:label="@string/title_reservation_detail"
-            android:parentActivityName=".ui.TimeSlotListActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.valtech.amsterdam.vris.ui.TimeSlotListActivity" />
-        </activity>
 
-        <service
-            android:name=".sync.AuthenticatorService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
         <service
             android:name=".sync.SyncService"
             android:exported="true"
@@ -61,7 +43,13 @@
             <meta-data android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
-        <service android:name=".boot.KioskService" android:exported="false"/>
+        <service
+            android:name=".boot.KioskService"
+            android:exported="false"/>
+
+        <receiver
+            android:name=".boot.OnScreenOffReceiver"
+            android:directBootAware="true" />
 
         <provider
             android:name=".sync.StubProvider"

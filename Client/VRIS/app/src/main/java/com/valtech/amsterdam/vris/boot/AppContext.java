@@ -10,7 +10,7 @@ import android.os.PowerManager;
  * Created by marvin.brouwer on 20-7-2017.
  */
 
-public final class AppContext extends Application {
+public abstract class AppContext extends Application {
     private AppContext instance;
     private PowerManager.WakeLock wakeLock;
     private OnScreenOffReceiver onScreenOffReceiver;
