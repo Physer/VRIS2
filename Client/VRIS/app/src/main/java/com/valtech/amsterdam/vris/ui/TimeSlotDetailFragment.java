@@ -1,49 +1,49 @@
 package com.valtech.amsterdam.vris.ui;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.valtech.amsterdam.vris.CustomApplication;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.dummy.DummyContent;
-import com.valtech.amsterdam.vris.model.TimeSlot;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 /**
  * A fragment representing a single Reservation detail screen.
  * This fragment is either contained in a {@link TimeSlotListActivity}
  * on handsets.
  */
-public class TimeSlotDetailFragment extends BaseFragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
+public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
 
     /**
      * The dummy content this fragment is presenting.
      */
-    private TimeSlot mItem;
+    @Nullable
+    private ITimeSlot timeSlot;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public TimeSlotDetailFragment() {
-    }
+    public TimeSlotDetailFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
+    }
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.RESERVATIONS_MAP.get(getArguments().getInt(ARG_ITEM_ID));
-        }
+    @Override
+    protected void timeSlotLoaded(ITimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
+        timeSlotLoader.select(timeSlot);
+    }
+    @Override
+    protected void reloadTimeSlot() {
+        timeSlotLoader.select(timeSlot);
     }
 
     @Override
@@ -55,6 +55,9 @@ public class TimeSlotDetailFragment extends BaseFragment {
             @Override
                 public void onClick(View v) {
             Fragment fragment = new NewTimeSlotFragment();
+            Bundle arguments = new Bundle();
+            arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, timeSlot.getId());
+            fragment.setArguments(arguments);
             navigateToFragment(fragment, true);
                 }
         });

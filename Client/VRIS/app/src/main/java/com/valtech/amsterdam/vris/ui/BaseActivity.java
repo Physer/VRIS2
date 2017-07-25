@@ -15,7 +15,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
+import com.valtech.amsterdam.vris.CustomApplication;
 import com.valtech.amsterdam.vris.R;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +28,7 @@ import java.util.List;
  * Created by marvin.brouwer on 20-7-2017.
  */
 
-abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
@@ -86,7 +89,6 @@ abstract class BaseActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //Remove notification bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
     }
 
     @Override
@@ -105,6 +107,14 @@ abstract class BaseActivity extends AppCompatActivity {
 
         fragmentTransaction.commit();
         if(addHistory) fragmentTransaction.addToBackStack(null);
+    }
+
+    protected void setUpdater(Updater<ITimeSlot> updater) {
+        ((CustomApplication)getApplication()).setUpdater(updater);
+    }
+
+    protected Updater<ITimeSlot> getUpdater() {
+        return ((CustomApplication)getApplication()).getUpdater();
     }
 
 }

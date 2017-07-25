@@ -10,8 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.valtech.amsterdam.vris.CustomApplication;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.dummy.DummyContent;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
 
 import org.joda.time.DateTime;
@@ -21,12 +22,7 @@ import org.joda.time.DateTime;
  * This fragment is either contained in a {@link TimeSlotListActivity}
  * on handsets.
  */
-public class ReservationDetailFragment extends BaseFragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
+public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
     /**
      * The dummy content this fragment is presenting.
@@ -38,19 +34,24 @@ public class ReservationDetailFragment extends BaseFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ReservationDetailFragment() {
-    }
+    public ReservationDetailFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
+    }
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            reservationItem = DummyContent.RESERVATIONS_MAP.get(getArguments().getInt(ARG_ITEM_ID));
-        }
+    @Override
+    protected void timeSlotLoaded(ITimeSlot timeSlot) {
+        // This has to be
+        this.reservationItem = (Reservation) timeSlot;
+        timeSlotLoader.select(timeSlot);
+    }
+
+    @Override
+    protected void reloadTimeSlot() {
+        timeSlotLoader.select(reservationItem);
     }
 
     @Override
@@ -59,7 +60,9 @@ public class ReservationDetailFragment extends BaseFragment {
         rootView = inflater.inflate(R.layout.reservation_detail, container, false);
 
         SetDefaultTextViews();
-        if (reservationItem != null) SetReservationTextViews();
+        if (reservationItem != null) {
+            SetReservationTextViews();
+        }
 
         return rootView;
     }

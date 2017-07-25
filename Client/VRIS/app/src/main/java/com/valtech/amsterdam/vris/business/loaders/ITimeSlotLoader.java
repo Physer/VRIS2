@@ -1,5 +1,6 @@
 package com.valtech.amsterdam.vris.business.loaders;
 
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 import org.joda.time.LocalDateTime;
@@ -16,5 +17,5 @@ public interface ITimeSlotLoader {
     ITimeSlot getById(int id) throws IndexOutOfBoundsException;
 
     void select(ITimeSlot timeSlot);
-    void reset();
+    void setUpdater(Updater<ITimeSlot> updater);
 }

@@ -9,6 +9,20 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
  */
 
 public final class CustomApplication extends AppContext {
+
+    private InjectionComponent applicationComponent;
+    public InjectionComponent getApplicationComponent(){
+        return applicationComponent;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        applicationComponent = DaggerInjectionComponent
+            .builder()
+            .build();
+    }
+
     private Updater<ITimeSlot> mUpdater;
 
     public Updater<ITimeSlot> getUpdater() {

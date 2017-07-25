@@ -1,6 +1,9 @@
 package com.valtech.amsterdam.vris.business.loaders;
 
+import android.support.annotation.Nullable;
+
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.TimeSlotList;
 
@@ -13,10 +16,16 @@ import java.io.IOException;
  */
 
 public final class TimeSlotLoader implements ITimeSlotLoader {
+    @Nullable
+    private Updater<ITimeSlot> updater;
     private ModelLoader<ITimeSlot> reservationModelLoader;
 
     public TimeSlotLoader(ModelLoader<ITimeSlot> reservationModelLoader) {
         this.reservationModelLoader = reservationModelLoader;
+    }
+
+    public void setUpdater(Updater<ITimeSlot> updater){
+        this.updater = updater;
     }
 
     public TimeSlotList getList() {
@@ -67,19 +76,11 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
 
         for (ITimeSlot timeSlotItem: timeSlots) {
             if(timeSlotItem.getId() == timeSlot.getId()) timeSlotItem.setSelected(true);
-            else timeSlotItem.setSelected(false);
-
-            //timeSlots.notifyChange();
+            else if(timeSlotItem.getSelected() == true) {
+                timeSlotItem.setSelected(false);
+                if(this.updater != null) this.updater.update(timeSlotItem);
+            }
         }
-    }
-
-    public void reset(){
-        TimeSlotList timeSlots = getList();
-
-        for (ITimeSlot timeSlotItem: timeSlots) {
-            timeSlotItem.setSelected(false);
-
-            //timeSlots.notifyChange();
-        }
+        if(this.updater != null) this.updater.notifyItemUpdated();
     }
 }

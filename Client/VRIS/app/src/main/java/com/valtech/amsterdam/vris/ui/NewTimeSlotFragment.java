@@ -1,24 +1,27 @@
 package com.valtech.amsterdam.vris.ui;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.valtech.amsterdam.vris.CustomApplication;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
-
-import javax.inject.Inject;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 /**
  * A fragment representing a single Reservation detail screen.
  * This fragment is either contained in a {@link TimeSlotListActivity}
  * on handsets.
  */
-public class NewTimeSlotFragment extends BaseFragment {
+public class NewTimeSlotFragment extends BaseTimeSlotFragment {
 
-    @Inject
-    ITimeSlotLoader timeSlotLoader;
+    /**
+     * The dummy content this fragment is presenting.
+     */
+    @Nullable
+    private ITimeSlot timeSlot;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -28,7 +31,18 @@ public class NewTimeSlotFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void timeSlotLoaded(ITimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
+        timeSlotLoader.select(timeSlot);
+    }
+    @Override
+    protected void reloadTimeSlot() {
+        timeSlotLoader.select(timeSlot);
     }
 
     @Override
