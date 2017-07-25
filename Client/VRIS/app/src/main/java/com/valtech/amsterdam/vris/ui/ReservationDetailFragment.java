@@ -3,7 +3,6 @@ package com.valtech.amsterdam.vris.ui;
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +12,13 @@ import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.dummy.DummyContent;
 import com.valtech.amsterdam.vris.model.Reservation;
 
-import java.text.SimpleDateFormat;
-
 /**
  * A fragment representing a single Reservation detail screen.
  * This fragment is either contained in a {@link TimeSlotListActivity}
  * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
-public class ReservationDetailFragment extends Fragment {
+public class ReservationDetailFragment extends BaseFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
