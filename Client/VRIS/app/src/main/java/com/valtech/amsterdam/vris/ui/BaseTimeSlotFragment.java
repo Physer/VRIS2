@@ -32,18 +32,23 @@ public abstract class BaseTimeSlotFragment extends BaseFragment {
         stackId = fragmentManager.getBackStackEntryCount();
         if(initiated) return;
 
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            public void onBackStackChanged() {
+                if(!initiated) return;
+                int navigatingStackId = fragmentManager.getBackStackEntryCount();
+
+                if(stackId < navigatingStackId) return;
+                if(stackId == navigatingStackId) selectTimeSlot();
+                if(stackId > navigatingStackId) {
+                    fragmentManager.removeOnBackStackChangedListener(this);
+                    initiated = false;
+                }
+            }
+        });
+
         loadTimeSlotInView();
         selectTimeSlot();
         initiated = true;
-
-        fragmentManager.addOnBackStackChangedListener(
-            new FragmentManager.OnBackStackChangedListener() {
-                public void onBackStackChanged() {
-                    int navigatingStackId = fragmentManager.getBackStackEntryCount();
-
-                    if(stackId == navigatingStackId) selectTimeSlot();
-                }
-            });
     }
 
     private void loadTimeSlotInView() {
