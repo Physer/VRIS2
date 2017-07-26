@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.valtech.amsterdam.vris.CustomApplication;
+import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
@@ -33,7 +33,7 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.w("NewTimeSlotFragment","onCreate");
-        ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
+        ((VrisAppContext)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
     }
 

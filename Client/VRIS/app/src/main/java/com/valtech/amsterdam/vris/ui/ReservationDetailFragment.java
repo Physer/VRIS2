@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.valtech.amsterdam.vris.CustomApplication;
+import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
@@ -40,7 +40,7 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d("ReservationDetail...","onCreate");
-        ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
+        ((VrisAppContext)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
     }
 

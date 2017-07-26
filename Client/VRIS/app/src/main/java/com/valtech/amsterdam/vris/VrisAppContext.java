@@ -8,7 +8,7 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
  * Created by jasper.van.zijp on 24-7-2017.
  */
 
-public final class CustomApplication extends AppContext {
+public final class VrisAppContext extends AppContext {
 
     private InjectionComponent applicationComponent;
     public InjectionComponent getApplicationComponent(){

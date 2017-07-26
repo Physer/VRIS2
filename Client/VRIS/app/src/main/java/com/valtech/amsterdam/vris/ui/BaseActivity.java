@@ -17,7 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
-import com.valtech.amsterdam.vris.CustomApplication;
+import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
@@ -119,11 +119,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setUpdater(Updater<ITimeSlot> updater) {
-        ((CustomApplication)getApplication()).setUpdater(updater);
+        ((VrisAppContext)getApplication()).setUpdater(updater);
     }
 
     protected Updater<ITimeSlot> getUpdater() {
-        return ((CustomApplication)getApplication()).getUpdater();
+        return ((VrisAppContext)getApplication()).getUpdater();
     }
 
 }

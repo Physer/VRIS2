@@ -19,7 +19,7 @@ import android.view.View;
 import com.valtech.amsterdam.recyclist.Recyclist;
 import com.valtech.amsterdam.recyclist.Recyclistener;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
-import com.valtech.amsterdam.vris.CustomApplication;
+import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
@@ -63,7 +63,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeslot_list);
-        ((CustomApplication)getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
+        ((VrisAppContext)getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
 
         View recyclerView = findViewById(R.id.reservation_list);
         assert recyclerView != null;
@@ -77,7 +77,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
             public void onChange(boolean selfChange) {
                 Log.d(fLogTag, "ContentObserver.onChange");
-                ((CustomApplication)getApplication()).getUpdater().notifyItemInserted();
+                ((VrisAppContext)getApplication()).getUpdater().notifyItemInserted();
             }
         };
         getContentResolver().registerContentObserver(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), false, mObserver);
