@@ -185,6 +185,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
 
     @Override
     public void onClick(ITimeSlot item) {
+        if(item.getSelected() == true) return;
         Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
         navigateToFragment(fragment, true);
         // todo reset after time

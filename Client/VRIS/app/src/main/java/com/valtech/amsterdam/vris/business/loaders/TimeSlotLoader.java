@@ -19,6 +19,8 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
     @Nullable
     private Updater<ITimeSlot> updater;
     private ModelLoader<ITimeSlot> reservationModelLoader;
+    @Nullable
+    private TimeSlotList timeSlots;
 
     public TimeSlotLoader(ModelLoader<ITimeSlot> reservationModelLoader) {
         this.reservationModelLoader = reservationModelLoader;
@@ -29,7 +31,8 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
     }
 
     public TimeSlotList getList() {
-        TimeSlotList timeSlots;
+        // todo rename to repository and update this from the sync task?
+        if(timeSlots != null) return timeSlots;
         try {
             timeSlots = (TimeSlotList) reservationModelLoader.getList();
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.valtech.amsterdam.vris.ui;
 
+import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.View;
@@ -31,13 +32,13 @@ public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
         if(timeSlot instanceof Reservation) {
             titleElement.setText(((Reservation)timeSlot).getTitle());
 
-            if (timeSlot.getSelected()) view.setBackgroundColor(ContextCompat.getColor(view.getContext(),R.color.colorSlotSelected));
-            else if (position % 2 == 1) view.setBackgroundColor(ContextCompat.getColor(view.getContext(),R.color.colorSlotOdd));
-            else view.setBackgroundColor(ContextCompat.getColor(view.getContext(),R.color.colorSlotEven));
+            if (timeSlot.getSelected()) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotSelected)));
+            else if (position % 2 == 1) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOdd)));
+            else view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotEven)));
         }
         else{
-            if (timeSlot.getSelected()) view.setBackgroundColor(ContextCompat.getColor(view.getContext(),R.color.colorSlotOpenSelected));
-            else view.setBackgroundColor(ContextCompat.getColor(view.getContext(),R.color.colorSlotOpen));
+            if (timeSlot.getSelected()) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOpenSelected)));
+            else view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOpen)));
         }
 
         SetDynamicHeigthAccordingToSlotTime(view, timeSlot, layoutParams);
