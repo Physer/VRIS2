@@ -10,9 +10,8 @@
 
     <ImageView
         android:id="@+id/organizer_image"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="105dp"
+        android:layout_height="105dip"
         app:srcCompat="@drawable/error_red_192x192"
         android:layout_marginRight="@dimen/text_margin"/>
 

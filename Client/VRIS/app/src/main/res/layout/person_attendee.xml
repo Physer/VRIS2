@@ -10,11 +10,11 @@
 
     <ImageView
         android:id="@+id/attendee_image"
-        android:layout_width="wrap_content"
+        android:layout_width="76dip"
         android:layout_height="match_parent"
         android:layout_gravity="left|center_vertical"
-        android:layout_marginRight="@dimen/text_margin"
         android:layout_weight="1"
+        android:layout_marginRight="@dimen/text_margin"
         app:srcCompat="@drawable/error_red_192x192" />
 
 
