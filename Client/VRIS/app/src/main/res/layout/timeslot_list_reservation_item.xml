@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/timeslot_layout"
     android:layout_width="match_parent"
@@ -13,38 +13,62 @@
     android:clickable="true"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/text_margin"
-        android:layout_marginStart="@dimen/text_margin"
-        android:layout_marginTop="@dimen/text_margin"
-        android:layout_weight="1"
-        android:gravity="top|left"
-        android:text="9:30"
-        android:textAppearance="?attr/textAppearanceListItem" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/timeslot_shadow"
+        android:layout_width="@dimen/shadow_width"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/left_in_shadow"
+        android:contextClickable="false"
+        android:clickable="false"
+        android:orientation="vertical" />
 
-    <TextView
-        android:id="@+id/reservation_title"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/text_margin"
-        android:layout_marginStart="@dimen/text_margin"
-        android:layout_weight="5"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Iemand"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:animateLayoutChanges="true"
+        android:contextClickable="false"
+        android:clickable="false"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/text_margin"
-        android:layout_marginEnd="@dimen/text_margin"
-        android:layout_marginStart="@dimen/text_margin"
-        android:layout_weight="1"
-        android:gravity="bottom|left"
-        android:text="10:30"
-        android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_weight="1"
+            android:gravity="top|left"
+            android:text="9:30"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/reservation_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_weight="5"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Iemand"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_weight="1"
+            android:gravity="bottom|left"
+            android:text="10:30"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+    </LinearLayout>
+</RelativeLayout>
