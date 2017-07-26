@@ -42,11 +42,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(fLogTag, "onPerformSync account: " + account + " extras: " + extras + " authority: " + authority + " provider:" + provider + " syncresult: " +syncResult);
 
-        Random rand = new Random();
-        int minute = rand.nextInt(60);
-
         //for(int i=0; i<2; i++) {
-            TimeSlot ts = new TimeSlot(15, new DateTime(2017, 7, 24, 14, 0, 0).toLocalDateTime(), new DateTime(2017, 7, 24, 15, 0, 0).toLocalDateTime());
+            TimeSlot ts = new TimeSlot(15, new DateTime(2017, 7, 14, 10, 30).toLocalDateTime(), new DateTime(2017, 7, 14, 10, 32).toLocalDateTime());
             ContentValues b = ts.toContentValues();
             Uri insertedUri = mContentResolver.insert(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), b);
             if (insertedUri != null) {

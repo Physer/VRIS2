@@ -33,6 +33,7 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
     public TimeSlotList getList() {
         // todo rename to repository and update this from the sync task?
         if(timeSlots != null) return timeSlots;
+
         try {
             timeSlots = (TimeSlotList) reservationModelLoader.getList();
         } catch (IOException e) {

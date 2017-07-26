@@ -31,9 +31,7 @@ public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
         TextView endTimeElement = (TextView) view.findViewById(R.id.to);
         ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();
 
-        if (timeSlot.getSelected()){
-            shadow.setVisibility(LinearLayout.INVISIBLE);
-        }
+        shadow.setVisibility(timeSlot.getSelected() ? LinearLayout.INVISIBLE : LinearLayout.VISIBLE);
         if(timeSlot instanceof Reservation) {
             titleElement.setText(((Reservation)timeSlot).getTitle());
 
