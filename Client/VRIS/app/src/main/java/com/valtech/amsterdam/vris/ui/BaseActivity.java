@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -59,6 +60,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // This should prevent on create form beiing invoked on configuration changed
+        setContentView(R.layout.activity_timeslot_list);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         if(getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
@@ -82,6 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Activity", "onCreate");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -105,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.reservation_detail_container, fragment);
 
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
         if(addHistory) fragmentTransaction.addToBackStack(null);
     }
 

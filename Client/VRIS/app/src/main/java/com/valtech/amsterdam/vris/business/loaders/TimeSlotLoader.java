@@ -78,8 +78,9 @@ public final class TimeSlotLoader implements ITimeSlotLoader {
             if(timeSlotItem.getId() == timeSlot.getId()) timeSlotItem.setSelected(true);
             else if(timeSlotItem.getSelected() == true) {
                 timeSlotItem.setSelected(false);
-                if(this.updater != null) this.updater.update(timeSlotItem);
-            }
+            } else continue;
+
+            if(this.updater != null) this.updater.update(timeSlotItem);
         }
         if(this.updater != null) this.updater.notifyItemUpdated();
     }

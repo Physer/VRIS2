@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,19 +39,21 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("ReservationDetail...","onCreate");
         ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void timeSlotLoaded(ITimeSlot timeSlot) {
+        Log.w("ReservationDetail...","timeSlotLoaded ("+timeSlot.getId()+")");
         // This has to be
         this.reservationItem = (Reservation) timeSlot;
-        timeSlotLoader.select(timeSlot);
     }
 
     @Override
-    protected void reloadTimeSlot() {
+    protected void selectTimeSlot() {
+        Log.w("ReservationDetail...","selectTimeSlot ("+reservationItem.getId()+")");
         timeSlotLoader.select(reservationItem);
     }
 

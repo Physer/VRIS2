@@ -21,17 +21,27 @@ public abstract class BaseTimeSlotFragment extends BaseFragment {
 
     @Inject
     ITimeSlotLoader timeSlotLoader;
+    private int stackId;
+    private boolean initiated = false;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadTimeSlotInView();
+        final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        stackId = fragmentManager.getBackStackEntryCount();
+        if(initiated) return;
 
-        getActivity().getSupportFragmentManager().addOnBackStackChangedListener(
+        loadTimeSlotInView();
+        selectTimeSlot();
+        initiated = true;
+
+        fragmentManager.addOnBackStackChangedListener(
             new FragmentManager.OnBackStackChangedListener() {
                 public void onBackStackChanged() {
-                    reloadTimeSlot();
+                    int navigatingStackId = fragmentManager.getBackStackEntryCount();
+
+                    if(stackId == navigatingStackId) selectTimeSlot();
                 }
             });
     }
@@ -49,6 +59,6 @@ public abstract class BaseTimeSlotFragment extends BaseFragment {
     }
 
     protected abstract void timeSlotLoaded(ITimeSlot timeSlot);
-    protected abstract void reloadTimeSlot();
+    protected abstract void selectTimeSlot();
 
 }

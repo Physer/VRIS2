@@ -3,6 +3,7 @@ package com.valtech.amsterdam.vris.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,17 +33,20 @@ public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("TimeSlotDetailFragment","onCreate");
         ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void timeSlotLoaded(ITimeSlot timeSlot) {
+        Log.w("TimeSlotDetailFragment","timeSlotLoaded ("+timeSlot.getId()+")");
         this.timeSlot = timeSlot;
         timeSlotLoader.select(timeSlot);
     }
     @Override
-    protected void reloadTimeSlot() {
+    protected void selectTimeSlot() {
+        Log.w("TimeSlotDetailFragment","selectTimeSlot ("+timeSlot.getId()+")");
         timeSlotLoader.select(timeSlot);
     }
 

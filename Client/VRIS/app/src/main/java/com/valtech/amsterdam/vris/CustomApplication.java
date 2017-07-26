@@ -21,6 +21,7 @@ public final class CustomApplication extends AppContext {
         applicationComponent = DaggerInjectionComponent
             .builder()
             .build();
+
     }
 
     private Updater<ITimeSlot> mUpdater;

@@ -2,6 +2,7 @@ package com.valtech.amsterdam.vris.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,17 +32,19 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.w("NewTimeSlotFragment","onCreate");
         ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void timeSlotLoaded(ITimeSlot timeSlot) {
+        Log.w("NewTimeSlotFragment","timeSlotLoaded ("+timeSlot.getId()+")");
         this.timeSlot = timeSlot;
-        timeSlotLoader.select(timeSlot);
     }
     @Override
-    protected void reloadTimeSlot() {
+    protected void selectTimeSlot() {
+        Log.w("NewTimeSlotFragment","selectTimeSlot ("+timeSlot.getId()+")");
         timeSlotLoader.select(timeSlot);
     }
 
