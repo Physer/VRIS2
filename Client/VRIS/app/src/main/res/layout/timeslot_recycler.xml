@@ -30,6 +30,6 @@
         android:layout_weight="1"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.valtech.amsterdam.vris.ui.TimeSlotListActivity"
-        tools:listitem="@layout/list_reservation_item" />
+        tools:listitem="@layout/timeslot_item_reservation" />
 
 </LinearLayout>

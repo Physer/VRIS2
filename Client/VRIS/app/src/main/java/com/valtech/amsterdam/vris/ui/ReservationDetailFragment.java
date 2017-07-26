@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.valtech.amsterdam.vris.VrisAppContext;
@@ -60,7 +61,7 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.timeslot_reservation_detail, container, false);
+        rootView = inflater.inflate(R.layout.timeslot_detail_reservation, container, false);
 
         SetDefaultTextViews();
         if (reservationItem != null) {
@@ -73,7 +74,9 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
     private void SetReservationTextViews() {
         TextView reservationTitleElement = (TextView) rootView.findViewById(R.id.reservation_title);
         TextView reservationTimeElement = (TextView) rootView.findViewById(R.id.reservation_time);
-        TextView bookerElement = (TextView) rootView.findViewById(R.id.booker);
+        TextView organizerNameElement = (TextView) rootView.findViewById(R.id.organizer_name);
+        TextView organizerEmailElement = (TextView) rootView.findViewById(R.id.organizer_email);
+        ImageView organizerIconElement = (ImageView) rootView.findViewById(R.id.organizer_image);
 
         StringBuilder reservationTime = new StringBuilder();
         reservationTime.append(reservationItem.getStartDate().toString("HH:mm"));
@@ -82,7 +85,8 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
         reservationTitleElement.setText(reservationItem.getmTitle());
         reservationTimeElement.setText(reservationTime.toString());
-        bookerElement.setText(reservationItem.getOrganizer().getName());
+        organizerNameElement.setText(reservationItem.getOrganizer().getName());
+        organizerEmailElement.setText(reservationItem.getOrganizer().getEmail());
     }
 
     private void SetDefaultTextViews() {

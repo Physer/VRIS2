@@ -51,7 +51,7 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.timeslot_new, container, false);
+        View rootView = inflater.inflate(R.layout.timeslot_detail_new, container, false);
 
         return rootView;
     }

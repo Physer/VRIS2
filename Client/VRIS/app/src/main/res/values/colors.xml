@@ -5,6 +5,7 @@
     <color name="colorSlotSelected">#EFEFEF</color>
     <color name="colorSlotEven">#e0e0e0</color>
     <color name="colorSlotOdd">#eeeeee</color>
+    <color name="colorSeparator">#e0e0e0</color>
 
     <color name="colorSlotOpenSelected">#00c853</color>
     <color name="colorSlotOpen">#00b248</color>

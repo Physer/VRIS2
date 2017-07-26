@@ -53,7 +53,7 @@ public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.timeslot_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.timeslot_detail_open, container, false);
 
         rootView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
