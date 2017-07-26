@@ -2,7 +2,6 @@ package com.valtech.amsterdam.vris.ui;
 
 import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
-import android.text.Layout;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
 
         shadow.setVisibility(timeSlot.getSelected() ? LinearLayout.INVISIBLE : LinearLayout.VISIBLE);
         if(timeSlot instanceof Reservation) {
-            titleElement.setText(((Reservation)timeSlot).getTitle());
+            titleElement.setText(((Reservation)timeSlot).getmTitle());
 
             if (timeSlot.getSelected()) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotSelected)));
             else if (position % 2 == 1) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOdd)));

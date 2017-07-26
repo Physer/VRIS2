@@ -24,6 +24,9 @@ public class Person {
     public String getName() {
         return mName;
     }
+    public String getEmail() {
+        return mName + "@email.later.implemented";
+    }
 
     public void setName(String name) {
         mName = name;

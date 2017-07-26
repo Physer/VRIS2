@@ -60,7 +60,7 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.reservation_detail, container, false);
+        rootView = inflater.inflate(R.layout.timeslot_reservation_detail, container, false);
 
         SetDefaultTextViews();
         if (reservationItem != null) {
@@ -80,9 +80,9 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
         reservationTime.append(" - ");
         reservationTime.append(reservationItem.getEndDate().toString("HH:mm"));
 
-        reservationTitleElement.setText(reservationItem.getTitle());
+        reservationTitleElement.setText(reservationItem.getmTitle());
         reservationTimeElement.setText(reservationTime.toString());
-        bookerElement.setText(reservationItem.getBooker().getName());
+        bookerElement.setText(reservationItem.getOrganizer().getName());
     }
 
     private void SetDefaultTextViews() {

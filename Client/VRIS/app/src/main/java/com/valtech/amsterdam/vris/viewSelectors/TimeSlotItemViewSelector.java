@@ -14,8 +14,8 @@ public class TimeSlotItemViewSelector implements ViewSelector<ITimeSlot> {
     public int getViewResourceId(ITimeSlot object) {
 
         if (object instanceof Reservation)
-            return R.layout.timeslot_list_reservation_item;
+            return R.layout.list_reservation_item;
 
-        return R.layout.timeslot_list_timeslot_item;
+        return R.layout.list_timeslot_item;
     }
 }
