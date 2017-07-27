@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
+import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
+import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
+
+import javax.inject.Inject;
 
 /**
  * A fragment representing a single Reservation detail screen.
@@ -25,6 +29,9 @@ public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
     @Nullable
     private ITimeSlot timeSlot;
 
+    @Inject
+    INavigationService navigationService;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -36,6 +43,7 @@ public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
         Log.d("TimeSlotDetailFragment","onCreate");
         ((VrisAppContext)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
+        navigationService.setCurrentActivity((BaseActivity) this.getActivity());
     }
 
     @Override
@@ -58,11 +66,7 @@ public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
         rootView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View v) {
-            Fragment fragment = new NewTimeSlotFragment();
-            Bundle arguments = new Bundle();
-            arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, timeSlot.getId());
-            fragment.setArguments(arguments);
-            navigateToFragment(fragment, true);
+                navigationService.navigateToTimeSlot(timeSlot);
                 }
         });
 

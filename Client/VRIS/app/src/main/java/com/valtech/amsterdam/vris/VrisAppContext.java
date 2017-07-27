@@ -1,5 +1,9 @@
 package com.valtech.amsterdam.vris;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.boot.AppContext;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
@@ -15,15 +19,6 @@ public final class VrisAppContext extends AppContext {
         return applicationComponent;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        applicationComponent = DaggerInjectionComponent
-            .builder()
-            .build();
-
-    }
-
     private Updater<ITimeSlot> mUpdater;
 
     public Updater<ITimeSlot> getUpdater() {
@@ -32,5 +27,13 @@ public final class VrisAppContext extends AppContext {
 
     public void setUpdater(Updater<ITimeSlot> updater) {
         mUpdater = updater;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        applicationComponent = DaggerInjectionComponent
+                .builder()
+                .build();
     }
 }

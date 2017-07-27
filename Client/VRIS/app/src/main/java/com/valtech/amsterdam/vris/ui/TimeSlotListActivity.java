@@ -22,6 +22,7 @@ import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
+import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
 
@@ -45,6 +46,8 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
     @Inject
     ITimeSlotLoader timeSlotLoader;
+    @Inject
+    INavigationService navigationService;
 
     public static final String AUTHORITY = "com.valtech.amsterdam.vris.sync.contentprovider";
     public static final String ACCOUNT_TYPE = "com.valtech.amsterdam.vris.sync";
@@ -64,15 +67,13 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeslot_list);
         ((VrisAppContext)getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
+        navigationService.setCurrentActivity(this);
 
         View recyclerView = findViewById(R.id.reservation_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
-        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now().toLocalDateTime());
-        if(timeSlot == null) return;
-        Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
-        navigateToFragment(fragment, false);
+        navigationService.navigateToHomeSlot();
 
         mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
             public void onChange(boolean selfChange) {
@@ -186,9 +187,13 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     @Override
     public void onClick(ITimeSlot item) {
         if(item.getSelected() == true) return;
-        Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
-        navigateToFragment(fragment, true);
+        navigationService.navigateToTimeSlot(item);
         // todo reset after time
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigationService.navigateToPreviousOrHome();
     }
 
 }

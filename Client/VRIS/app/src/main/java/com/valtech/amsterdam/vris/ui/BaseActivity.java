@@ -100,27 +100,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    @Override
-    public void onBackPressed() {
-        // Disable back on home screen
-        View page2layout = findViewById(R.id.timeslot_detail);
-        if(page2layout != null && page2layout.getVisibility() == View.VISIBLE) return;
-
-        super.onBackPressed();
-    }
-
-    protected void navigateToFragment(Fragment fragment, boolean addHistory){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
-        fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-        fragmentTransaction.replace(R.id.reservation_detail_container, fragment);
-        fragmentTransaction.replace(R.id.reservation_detail_container, fragment);
-
-        fragmentTransaction.commitAllowingStateLoss();
-        if(addHistory) fragmentTransaction.addToBackStack(null);
-    }
-
     protected void setUpdater(Updater<ITimeSlot> updater) {
         ((VrisAppContext)getApplication()).setUpdater(updater);
     }

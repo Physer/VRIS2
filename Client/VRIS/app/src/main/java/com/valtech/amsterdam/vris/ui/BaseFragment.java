@@ -10,11 +10,6 @@ import android.util.Log;
 
 public abstract class BaseFragment extends Fragment {
 
-    protected void navigateToFragment(Fragment fragment, boolean addHistory){
-        BaseActivity activity = (BaseActivity)getActivity();
-        activity.navigateToFragment(fragment, addHistory);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d("Fragment","onCreate");

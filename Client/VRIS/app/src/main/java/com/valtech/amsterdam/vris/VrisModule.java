@@ -1,5 +1,6 @@
 package com.valtech.amsterdam.vris;
 
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
 import com.valtech.amsterdam.recyclist.LoadListCommand;
@@ -15,6 +16,8 @@ import com.valtech.amsterdam.recyclist.loader.implementation.network.NetworkMode
 import com.valtech.amsterdam.vris.business.listers.TimeSlotLister;
 import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
 import com.valtech.amsterdam.vris.business.loaders.TimeSlotLoader;
+import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
+import com.valtech.amsterdam.vris.business.services.navigation.NavigationService;
 import com.valtech.amsterdam.vris.dummy.DummyModelErrorLoader;
 import com.valtech.amsterdam.vris.dummy.DummyModelLoader;
 import com.valtech.amsterdam.vris.dummy.DummyTimeSlotLoader;
@@ -24,6 +27,7 @@ import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFacto
 import com.valtech.amsterdam.vris.ui.TimeSlotViewBinder;
 import com.valtech.amsterdam.vris.viewSelectors.TimeSlotItemViewSelector;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Random;
 
@@ -161,5 +165,11 @@ public class VrisModule {
     @Singleton
     ViewSelector<ITimeSlot> getViewSelector() {
         return new TimeSlotItemViewSelector();
+    }
+
+    @Provides
+    @Singleton
+    INavigationService getNavigationService(ITimeSlotLoader timeSlotLoader, TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory){
+        return new NavigationService(timeSlotLoader, timeSlotDetailFragmentFactory);
     }
 }
