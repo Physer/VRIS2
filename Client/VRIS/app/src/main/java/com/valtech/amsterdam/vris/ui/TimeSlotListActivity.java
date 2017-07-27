@@ -184,13 +184,12 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     public void onClick(ITimeSlot item) {
         if(item.getSelected() == true) return;
         navigationService.navigateToTimeSlot(item);
-        navigationService.clearHistory();
         // todo reset after time
     }
 
     @Override
     public void onBackPressed() {
-        navigationService.navigateToPreviousOrHome();
+        navigationService.navigateToHomeSlot();
     }
 
 }

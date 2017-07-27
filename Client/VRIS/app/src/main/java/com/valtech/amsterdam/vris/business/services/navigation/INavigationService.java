@@ -17,8 +17,5 @@ public interface INavigationService {
     void setCurrentActivity(BaseActivity activity);
     void setTimeSlotUpdater(Updater<ITimeSlot> timeSlotUpdater);
     void navigateToHomeSlot();
-    void clearHistory();
-    void navigateToPreviousOrHome();
     void navigateToTimeSlot(ITimeSlot timeSlot);
-    void navigateToFragment(Fragment fragment);
 }
