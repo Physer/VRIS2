@@ -1,9 +1,5 @@
 package com.valtech.amsterdam.vris;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.boot.AppContext;
 import com.valtech.amsterdam.vris.model.ITimeSlot;

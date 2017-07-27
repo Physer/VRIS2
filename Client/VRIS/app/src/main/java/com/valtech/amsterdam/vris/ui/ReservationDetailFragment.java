@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
 
 import org.joda.time.DateTime;

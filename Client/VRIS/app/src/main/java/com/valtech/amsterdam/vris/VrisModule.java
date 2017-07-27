@@ -1,6 +1,5 @@
 package com.valtech.amsterdam.vris;
 
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
 import com.valtech.amsterdam.recyclist.LoadListCommand;
@@ -25,7 +24,6 @@ import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFacto
 import com.valtech.amsterdam.vris.ui.TimeSlotViewBinder;
 import com.valtech.amsterdam.vris.viewSelectors.TimeSlotItemViewSelector;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Random;
 

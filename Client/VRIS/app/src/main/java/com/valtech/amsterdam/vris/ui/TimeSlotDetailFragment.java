@@ -1,8 +1,6 @@
 package com.valtech.amsterdam.vris.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
-import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 import javax.inject.Inject;
 

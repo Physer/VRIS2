@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,8 +13,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.external.homewatcher.HomeWatcher;
-import com.external.homewatcher.OnHomePressedListener;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;

@@ -3,7 +3,6 @@ package com.valtech.amsterdam.vris.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.business.services.navigation.NavigationService;
 import com.valtech.amsterdam.vris.model.ITimeSlot;

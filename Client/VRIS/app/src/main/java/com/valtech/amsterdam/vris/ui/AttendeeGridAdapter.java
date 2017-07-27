@@ -17,7 +17,6 @@ import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.Person;
 import com.valtech.amsterdam.vris.model.Reservation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -5,7 +5,6 @@ import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
 
 import org.joda.time.LocalDateTime;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;

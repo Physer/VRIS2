@@ -2,8 +2,6 @@ package com.valtech.amsterdam.vris.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -29,8 +26,6 @@ import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
-
-import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
