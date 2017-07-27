@@ -2,6 +2,7 @@ package com.valtech.amsterdam.recyclist;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.valtech.amsterdam.recyclist.modifiers.IHasId;
 import com.valtech.amsterdam.recyclist.modifiers.Inserter;
 import com.valtech.amsterdam.recyclist.modifiers.PositionDeterminator;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by jasper.van.zijp on 26-5-2017.
  */
 
-public class Recyclist<TModel> {
+public class Recyclist<TModel extends IHasId> {
 
     private Recyclistener mListener;
     private RecyclistViewBinder<TModel> mViewBinder;

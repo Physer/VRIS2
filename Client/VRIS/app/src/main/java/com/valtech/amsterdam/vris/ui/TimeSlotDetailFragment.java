@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
 import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
@@ -22,12 +21,6 @@ import javax.inject.Inject;
  * on handsets.
  */
 public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
-
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    @Nullable
-    private ITimeSlot timeSlot;
 
     @Inject
     INavigationService navigationService;
@@ -47,18 +40,6 @@ public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
     }
 
     @Override
-    protected void timeSlotLoaded(ITimeSlot timeSlot) {
-        Log.w("TimeSlotDetailFragment","timeSlotLoaded ("+timeSlot.getId()+")");
-        this.timeSlot = timeSlot;
-        timeSlotLoader.select(timeSlot);
-    }
-    @Override
-    protected void selectTimeSlot() {
-        Log.w("TimeSlotDetailFragment","selectTimeSlot ("+timeSlot.getId()+")");
-        timeSlotLoader.select(timeSlot);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.timeslot_detail_open, container, false);
@@ -66,7 +47,7 @@ public class TimeSlotDetailFragment extends BaseTimeSlotFragment {
         rootView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View v) {
-                navigationService.navigateToTimeSlot(timeSlot);
+                navigationService.navigateToTimeSlot(mTimeSlot);
                 }
         });
 

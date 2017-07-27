@@ -21,7 +21,6 @@ import com.valtech.amsterdam.recyclist.Recyclistener;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
 import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
@@ -44,8 +43,6 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     Recyclist<ITimeSlot> recyclist;
     @Inject
     TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
-    @Inject
-    ITimeSlotLoader timeSlotLoader;
     @Inject
     INavigationService navigationService;
 
@@ -72,8 +69,6 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         View recyclerView = findViewById(R.id.reservation_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
-
-        navigationService.navigateToHomeSlot();
 
         mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
             public void onChange(boolean selfChange) {
@@ -163,7 +158,8 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         Log.d(fLogTag, "showResults");
         findViewById(R.id.reservation_list).setVisibility(View.VISIBLE);
         setUpdater(updater);
-        timeSlotLoader.setUpdater(updater);
+        navigationService.setTimeSlotUpdater(updater);
+        navigationService.navigateToHomeSlot();
     }
 
     @Override
@@ -188,6 +184,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     public void onClick(ITimeSlot item) {
         if(item.getSelected() == true) return;
         navigationService.navigateToTimeSlot(item);
+        navigationService.clearHistory();
         // todo reset after time
     }
 

@@ -27,10 +27,6 @@ import org.joda.time.DateTime;
  */
 public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private Reservation reservationItem;
     private View rootView;
 
     /**
@@ -47,25 +43,12 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
     }
 
     @Override
-    protected void timeSlotLoaded(ITimeSlot timeSlot) {
-        Log.w("ReservationDetail...","timeSlotLoaded ("+timeSlot.getId()+")");
-        // This has to be
-        this.reservationItem = (Reservation) timeSlot;
-    }
-
-    @Override
-    protected void selectTimeSlot() {
-        Log.w("ReservationDetail...","selectTimeSlot ("+reservationItem.getId()+")");
-        timeSlotLoader.select(reservationItem);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.timeslot_detail_reservation, container, false);
 
         SetDefaultTextViews();
-        if (reservationItem != null) {
+        if (mTimeSlot != null) {
             SetReservationTextViews();
         }
 
@@ -73,6 +56,7 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
     }
 
     private void SetReservationTextViews() {
+        Reservation reservationItem = (Reservation)mTimeSlot;
         TextView reservationTitleElement = (TextView) rootView.findViewById(R.id.reservation_title);
         TextView reservationTimeElement = (TextView) rootView.findViewById(R.id.reservation_time);
         TextView organizerNameElement = (TextView) rootView.findViewById(R.id.organizer_name);

@@ -19,12 +19,6 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
 public class NewTimeSlotFragment extends BaseTimeSlotFragment {
 
     /**
-     * The dummy content this fragment is presenting.
-     */
-    @Nullable
-    private ITimeSlot timeSlot;
-
-    /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
@@ -35,17 +29,6 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
         Log.w("NewTimeSlotFragment","onCreate");
         ((VrisAppContext)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void timeSlotLoaded(ITimeSlot timeSlot) {
-        Log.w("NewTimeSlotFragment","timeSlotLoaded ("+timeSlot.getId()+")");
-        this.timeSlot = timeSlot;
-    }
-    @Override
-    protected void selectTimeSlot() {
-        Log.w("NewTimeSlotFragment","selectTimeSlot ("+timeSlot.getId()+")");
-        timeSlotLoader.select(timeSlot);
     }
 
     @Override

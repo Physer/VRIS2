@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.ui.BaseActivity;
@@ -14,9 +15,10 @@ import com.valtech.amsterdam.vris.ui.BaseActivity;
 
 public interface INavigationService {
     void setCurrentActivity(BaseActivity activity);
+    void setTimeSlotUpdater(Updater<ITimeSlot> timeSlotUpdater);
     void navigateToHomeSlot();
     void clearHistory();
     void navigateToPreviousOrHome();
     void navigateToTimeSlot(ITimeSlot timeSlot);
-    void navigateToFragment(Fragment fragment, boolean addToHistory);
+    void navigateToFragment(Fragment fragment);
 }

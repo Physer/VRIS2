@@ -14,8 +14,6 @@ import com.valtech.amsterdam.recyclist.loader.implementation.network.BufferedStr
 import com.valtech.amsterdam.recyclist.loader.implementation.network.GsonDesynchronizer;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.NetworkModelLoader;
 import com.valtech.amsterdam.vris.business.listers.TimeSlotLister;
-import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
-import com.valtech.amsterdam.vris.business.loaders.TimeSlotLoader;
 import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.business.services.navigation.NavigationService;
 import com.valtech.amsterdam.vris.dummy.DummyModelErrorLoader;
@@ -121,12 +119,6 @@ public class VrisModule {
 
     @Provides
     @Singleton
-    ITimeSlotLoader getTimeSlotLoaderCommand(@Named("DummyTimeSlotLoader") ModelLoader<ITimeSlot> modelLoader) {
-        return new TimeSlotLoader(modelLoader);
-    }
-
-    @Provides
-    @Singleton
     TimeSlotDetailFragmentFactory getTimeSlotDetailFragmentFactoryCommand() {
         return new TimeSlotDetailFragmentFactory();
     }
@@ -169,7 +161,7 @@ public class VrisModule {
 
     @Provides
     @Singleton
-    INavigationService getNavigationService(ITimeSlotLoader timeSlotLoader, TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory){
-        return new NavigationService(timeSlotLoader, timeSlotDetailFragmentFactory);
+    INavigationService getNavigationService(TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory){
+        return new NavigationService(timeSlotDetailFragmentFactory);
     }
 }
