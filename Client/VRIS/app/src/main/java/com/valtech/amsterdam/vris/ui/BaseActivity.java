@@ -71,7 +71,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         startActivity(new Intent(this, TimeSlotListActivity.class));
-        // todo this is the square, place for a easter egg after so many presses
         super.onStop();
     }
 
@@ -110,5 +109,4 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected Updater<ITimeSlot> getUpdater() {
         return ((VrisAppContext)getApplication()).getUpdater();
     }
-
 }

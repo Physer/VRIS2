@@ -89,7 +89,6 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
     BroadcastReceiver _broadcastReceiver;
 
-    // todo create something like this in the listActivity and re evaluate if homestate
     @Override
     public void onStart() {
         super.onStart();

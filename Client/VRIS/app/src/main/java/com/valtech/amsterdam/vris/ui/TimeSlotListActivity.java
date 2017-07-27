@@ -2,9 +2,11 @@ package com.valtech.amsterdam.vris.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +29,8 @@ import com.valtech.amsterdam.vris.business.services.navigation.INavigationServic
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
 
+import org.joda.time.DateTime;
+
 import javax.inject.Inject;
 
 /**
@@ -38,6 +42,8 @@ import javax.inject.Inject;
  */
 public class TimeSlotListActivity extends BaseActivity implements Recyclistener<ITimeSlot>, OnClickListener {
     private final static String fLogTag = "TimeSlotListActivity";
+    private BroadcastReceiver _broadcastReceiver;
+    private DateTime acitvityTimeStamp;
 
     @Inject
     Recyclist<ITimeSlot> recyclist;
@@ -51,6 +57,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     public static final String ACCOUNT = "dummyaccount2";
     Account mAccount;
 
+    public static final int MINUTE_IDLE_TIME = 5;
     public static final long SECONDS_PER_MINUTE = 60L;
     public static final long SYNC_INTERVAL_IN_MINUTES = 15L;
     public static final long SYNC_INTERVAL =
@@ -88,6 +95,20 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
                     Bundle.EMPTY,
                     SYNC_INTERVAL); //Framework forces anything lower than 900 to 900
         }
+    }
+
+    @Override
+    public void onStop() {
+        startActivity(new Intent(this, TimeSlotListActivity.class));
+        super.onStop();
+        if (_broadcastReceiver != null)
+            unregisterReceiver(_broadcastReceiver);
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        acitvityTimeStamp = DateTime.now();
     }
 
     /**
@@ -174,11 +195,30 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
             }
             @Override
             public void onRecentAppsPressed() {
-                // todo: We might want to do somehting easter aggy (it's impossible to navigate to home neatly)
+                // todo: We might want to do somehting easter eggy (it's impossible to navigate to home neatly)
                 startActivity(new Intent(timeSlotListActivity, TimeSlotListActivity.class));
             }
         });
         mHomeWatcher.startWatch();
+
+        acitvityTimeStamp = DateTime.now();
+        _broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context ctx, Intent intent) {
+                if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0){
+                    DateTime currentDateTime = DateTime.now();
+                    if(currentDateTime.isAfter(acitvityTimeStamp.plusMinutes(MINUTE_IDLE_TIME))){
+                        navigationService.navigateToHomeSlot();
+                        recyclerView.getLayoutManager().scrollToPosition(0);
+                        Log.i("User is idle", acitvityTimeStamp.toString() + " -> " + currentDateTime.toString());
+                        acitvityTimeStamp = DateTime.now();
+                    }else{
+                        Log.i("User is not idle", acitvityTimeStamp.toString() + " -> " + currentDateTime.toString());
+                    }
+                }
+            }
+        };
+        registerReceiver(_broadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
     }
 
     @Override
@@ -204,7 +244,6 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         if(item.getSelected() == true) return;
         navigationService.navigateToTimeSlot(item);
         recyclerView.getLayoutManager().scrollToPosition(position);
-        // todo reset after time
     }
 
     @Override
