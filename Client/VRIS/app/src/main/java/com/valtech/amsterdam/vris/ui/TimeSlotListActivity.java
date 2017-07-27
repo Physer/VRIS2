@@ -58,6 +58,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
                     SECONDS_PER_MINUTE;
 
     private ContentObserver mObserver;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +68,9 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         navigationService.setCurrentActivity(this);
 
         if(savedInstanceState == null) {
-            View recyclerView = findViewById(R.id.reservation_list);
+            recyclerView = (RecyclerView) findViewById(R.id.reservation_list);
             assert recyclerView != null;
-            setupRecyclerView((RecyclerView) recyclerView);
+            setupRecyclerView(recyclerView);
 
             mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
                 public void onChange(boolean selfChange) {
@@ -169,6 +170,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
             @Override
             public void onHomePressed() {
                 navigationService.navigateToHomeSlot();
+                recyclerView.getLayoutManager().scrollToPosition(0);
             }
             @Override
             public void onRecentAppsPressed() {
@@ -198,15 +200,17 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     }
 
     @Override
-    public void onClick(ITimeSlot item) {
+    public void onClick(ITimeSlot item, int position) {
         if(item.getSelected() == true) return;
         navigationService.navigateToTimeSlot(item);
+        recyclerView.getLayoutManager().scrollToPosition(position);
         // todo reset after time
     }
 
     @Override
     public void onBackPressed() {
         navigationService.navigateToHomeSlot();
+        recyclerView.getLayoutManager().scrollToPosition(0);
     }
 
 }

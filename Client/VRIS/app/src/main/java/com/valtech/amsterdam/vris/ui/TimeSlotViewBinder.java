@@ -21,7 +21,7 @@ import com.valtech.amsterdam.vris.model.Reservation;
 public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
 
     @Override
-    public void bindView(View view, final ITimeSlot timeSlot, final OnClickListener clickListener, int position) {
+    public void bindView(View view, final ITimeSlot timeSlot, final OnClickListener clickListener, final int position) {
 
         RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.timeslot_layout);
         RelativeLayout shadow = (RelativeLayout) layout.findViewById(R.id.timeslot_shadow);
@@ -51,7 +51,7 @@ public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onClick(timeSlot);
+                clickListener.onClick(timeSlot, position);
             }
         });
     }

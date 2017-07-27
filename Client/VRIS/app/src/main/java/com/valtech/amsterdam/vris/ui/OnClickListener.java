@@ -7,5 +7,5 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
  */
 
 public interface OnClickListener {
-    void onClick(ITimeSlot item);
+    void onClick(ITimeSlot item, int position);
 }
