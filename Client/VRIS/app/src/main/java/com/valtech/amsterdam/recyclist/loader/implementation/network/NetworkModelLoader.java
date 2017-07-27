@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Model loader which loads models from a Network connection
@@ -26,7 +27,7 @@ public class NetworkModelLoader<TModel> implements ModelLoader<TModel> {
     }
 
     @Override
-    public ArrayList<TModel> getList() throws IOException {
+    public List<TModel> getList() throws IOException {
         ApiInfo annotation = mClassType.getAnnotation(ApiInfo.class);
         URL url = new URL(mBaseUrl + annotation.methodName());
 

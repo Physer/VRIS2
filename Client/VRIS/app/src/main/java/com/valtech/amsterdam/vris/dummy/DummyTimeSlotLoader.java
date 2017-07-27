@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by jasper.van.zijp on 18-7-2017.
@@ -22,7 +23,7 @@ public class DummyTimeSlotLoader implements ModelLoader<ITimeSlot> {
     }
 
     @Override
-    public ArrayList<ITimeSlot> getList() throws IOException {
+    public List<ITimeSlot> getList() throws IOException {
         TimeSlotList timeslots = new TimeSlotList();
         timeslots.addAll(DummyContent.TIMESLOTS);
         timeslots.addAll(reservationModelLoader.getList());

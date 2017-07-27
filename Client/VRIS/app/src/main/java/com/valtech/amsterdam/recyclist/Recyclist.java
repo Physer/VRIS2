@@ -45,9 +45,9 @@ public class Recyclist<TModel> {
         mListener.hideResults();
         mListener.hideError();
 
-        AsyncCommandExecutor<ArrayList<TModel>> taskExecutor = new AsyncCommandExecutor<>(new TaskListener<ArrayList<TModel>>() {
+        AsyncCommandExecutor<List<TModel>> taskExecutor = new AsyncCommandExecutor<>(new TaskListener<List<TModel>>() {
             @Override
-            public void onComplete(ArrayList<TModel> results) {
+            public void onComplete(List<TModel> results) {
                 onLoadComplete(results);
             }
 

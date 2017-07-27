@@ -3,6 +3,7 @@ package com.valtech.amsterdam.recyclist.loader.implementation.network;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jaspe on 11-4-2017.
@@ -15,11 +16,11 @@ public class GsonDesynchronizer<TModel> implements Desynchronizer {
         mModelClass = modelClass;
     }
 
-    public ArrayList<TModel> getList(String json)
+    public List<TModel> getList(String json)
     {
         Object [] array = (Object[])java.lang.reflect.Array.newInstance(mModelClass, 1);
         array = new Gson().fromJson(json, array.getClass());
-        ArrayList<TModel> list = new ArrayList<>();
+        List<TModel> list = new ArrayList<>();
         for (Object anArray : array) list.add((TModel) anArray);
         return list;
     }

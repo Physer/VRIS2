@@ -7,6 +7,7 @@ import com.valtech.amsterdam.vris.model.TimeSlotList;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jasper.van.zijp on 18-7-2017.
@@ -21,7 +22,7 @@ public class TimeSlotLister implements ModelLoader<ITimeSlot> {
 
     @Override
     public TimeSlotList getList() throws IOException {
-        ArrayList<Reservation> reservations = reservationModelLoader.getList();
+        List<Reservation> reservations = reservationModelLoader.getList();
 
         TimeSlotList timeSlots = new TimeSlotList();
 

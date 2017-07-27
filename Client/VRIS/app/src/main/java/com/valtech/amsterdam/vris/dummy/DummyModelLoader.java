@@ -5,6 +5,7 @@ import com.valtech.amsterdam.vris.model.Reservation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jasper.van.zijp on 14-7-2017.
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 public class DummyModelLoader implements ModelLoader<Reservation> {
     @Override
-    public ArrayList<Reservation> getList() throws IOException {
+    public List<Reservation> getList() throws IOException {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
