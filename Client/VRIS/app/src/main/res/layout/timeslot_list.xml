@@ -4,13 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_weight="3"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    android:showDividers="middle"
-    tools:context="com.valtech.amsterdam.vris.ui.TimeSlotListActivity"
-    android:layout_weight="3">
+    tools:context="com.valtech.amsterdam.vris.ui.TimeSlotListActivity">
 
     <!--
     This layout is a two-pane layout for the Reservations
@@ -24,17 +22,14 @@
         android:layout_height="match_parent"
         android:layout_weight="2" />
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/reservation_list"
         android:name="com.valtech.amsterdam.vris.ReservationListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_weight="1"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.valtech.amsterdam.vris.ui.TimeSlotListActivity"
-        tools:listitem="@layout/timeslot_list_reservation_item"
-        android:layout_weight="1"/>
+        tools:listitem="@layout/timeslot_list_reservation_item" />
 
 </LinearLayout>

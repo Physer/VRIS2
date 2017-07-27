@@ -9,5 +9,5 @@ import com.valtech.amsterdam.vris.ui.OnClickListener;
  */
 
 public interface RecyclistViewBinder<TModel> {
-    void bindView(View view, TModel model, OnClickListener clickListener);
+    void bindView(View view, TModel model, OnClickListener clickListener, int position);
 }

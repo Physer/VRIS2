@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +20,6 @@ import com.valtech.amsterdam.recyclist.Recyclist;
 import com.valtech.amsterdam.recyclist.Recyclistener;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.CustomApplication;
-import com.valtech.amsterdam.vris.DaggerInjectionComponent;
-import com.valtech.amsterdam.vris.InjectionComponent;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
@@ -35,15 +32,12 @@ import javax.inject.Inject;
 /**
  * An activity representing a list of Reservations. This activity
  * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ReservationDetailActivity} representing
+ * handsets, the activity presents a list of items, which when touched
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
 public class TimeSlotListActivity extends BaseActivity implements Recyclistener<ITimeSlot>, OnClickListener {
     private final static String fLogTag = "TimeSlotListActivity";
-
-    private InjectionComponent component;
 
     @Inject
     Recyclist<ITimeSlot> recyclist;
@@ -53,7 +47,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     ITimeSlotLoader timeSlotLoader;
 
     public static final String AUTHORITY = "com.valtech.amsterdam.vris.sync.contentprovider";
-    public static final String ACCOUNT_TYPE = "example.com";
+    public static final String ACCOUNT_TYPE = "com.valtech.amsterdam.vris.sync";
     public static final String ACCOUNT = "dummyaccount2";
     Account mAccount;
 
@@ -69,16 +63,13 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeslot_list);
+        ((CustomApplication)getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
 
         View recyclerView = findViewById(R.id.reservation_list);
         assert recyclerView != null;
-        component = DaggerInjectionComponent
-                .builder()
-                .build();
-        component.inject(this); //This makes the members injected
         setupRecyclerView((RecyclerView) recyclerView);
 
-        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now());
+        ITimeSlot timeSlot = timeSlotLoader.getByTime(DateTime.now().toLocalDateTime());
         if(timeSlot == null) return;
         Fragment fragment = timeSlotDetailFragmentFactory.getDetail(timeSlot);
         navigateToFragment(fragment, false);
@@ -170,7 +161,8 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     public void showResults(Updater<ITimeSlot> updater) {
         Log.d(fLogTag, "showResults");
         findViewById(R.id.reservation_list).setVisibility(View.VISIBLE);
-        ((CustomApplication)getApplication()).setUpdater(updater);
+        setUpdater(updater);
+        timeSlotLoader.setUpdater(updater);
     }
 
     @Override
@@ -195,7 +187,6 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     public void onClick(ITimeSlot item) {
         Fragment fragment = timeSlotDetailFragmentFactory.getDetailOrCreate(item);
         navigateToFragment(fragment, true);
-
         // todo reset after time
     }
 

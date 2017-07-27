@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">VRIS</string>
     <string name="title_reservation_detail">Reservation Detail</string>
-    <string name="book">Book</string>
+    <string name="book">Book now</string>
     <string name="sync">Sync</string>
     <string name="error">Error</string>
 </resources>

@@ -10,12 +10,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
+import com.valtech.amsterdam.recyclist.modifiers.Updater;
+import com.valtech.amsterdam.vris.CustomApplication;
 import com.valtech.amsterdam.vris.R;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +28,7 @@ import java.util.List;
  * Created by marvin.brouwer on 20-7-2017.
  */
 
-abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
 
@@ -46,6 +49,13 @@ abstract class BaseActivity extends AppCompatActivity {
             Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             sendBroadcast(closeDialog);
         }
+        View activityLayout = findViewById(R.id.activity_layout);
+        if(activityLayout == null) return;
+        activityLayout.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     @Override
@@ -75,11 +85,10 @@ abstract class BaseActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar == null)  return;
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        //Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
@@ -99,4 +108,13 @@ abstract class BaseActivity extends AppCompatActivity {
         fragmentTransaction.commit();
         if(addHistory) fragmentTransaction.addToBackStack(null);
     }
+
+    protected void setUpdater(Updater<ITimeSlot> updater) {
+        ((CustomApplication)getApplication()).setUpdater(updater);
+    }
+
+    protected Updater<ITimeSlot> getUpdater() {
+        return ((CustomApplication)getApplication()).getUpdater();
+    }
+
 }

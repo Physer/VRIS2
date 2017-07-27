@@ -1,47 +1,54 @@
 package com.valtech.amsterdam.vris.ui;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.valtech.amsterdam.vris.CustomApplication;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.model.TimeSlot;
+import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 /**
  * A fragment representing a single Reservation detail screen.
  * This fragment is either contained in a {@link TimeSlotListActivity}
- * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
-public class NewTimeSlotFragment extends BaseFragment {
+public class NewTimeSlotFragment extends BaseTimeSlotFragment {
 
     /**
      * The dummy content this fragment is presenting.
      */
-    private TimeSlot mItem;
+    @Nullable
+    private ITimeSlot timeSlot;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public NewTimeSlotFragment() {
-    }
+    public NewTimeSlotFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        ((CustomApplication)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void timeSlotLoaded(ITimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
+        timeSlotLoader.select(timeSlot);
+    }
+    @Override
+    protected void reloadTimeSlot() {
+        timeSlotLoader.select(timeSlot);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.timeslot_new, container, false);
-
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            //
-        }
 
         return rootView;
     }

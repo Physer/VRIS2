@@ -3,10 +3,9 @@ package com.valtech.amsterdam.vris.business.listers;
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
+import com.valtech.amsterdam.vris.model.TimeSlotList;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import java.util.List;
 
 /**
@@ -23,11 +22,9 @@ public class TimeSlotLister implements ModelLoader<ITimeSlot> {
     @Override
     public List<ITimeSlot> getList() throws IOException {
         List<Reservation> reservations = reservationModelLoader.getList();
+        List<ITimeSlot> timeSlots = new TimeSlotList();
 
-        List<ITimeSlot> timeSlots = new ArrayList<>();
-
-        for (Reservation reservation :
-                reservations) {
+        for (Reservation reservation : reservations) {
             timeSlots.add(reservation);
         }
 

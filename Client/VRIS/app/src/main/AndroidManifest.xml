@@ -2,16 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.valtech.amsterdam.vris" >
 
-    <uses-permission
-        android:name="android.permission.INTERNET"/>
-    <uses-permission
-        android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission
-        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
-    <uses-permission
-        android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <application
         android:name=".CustomApplication"
@@ -20,7 +18,9 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_local_drink_black_24dp"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:launchMode="singleTop">
+
         <activity
             android:name=".ui.TimeSlotListActivity"
             android:label="@string/app_name"
@@ -28,33 +28,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.ReservationDetailActivity"
-            android:label="@string/title_reservation_detail"
-            android:parentActivityName=".ui.TimeSlotListActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.valtech.amsterdam.vris.ui.TimeSlotListActivity" />
-        </activity>
-
-        <service
-            android:name=".sync.AuthenticatorService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
-
-        <provider
-            android:name=".sync.StubProvider"
-            android:authorities="com.valtech.amsterdam.vris.sync.contentprovider"
-            android:exported="true"
-            android:syncable="true"/>
 
         <service
             android:name=".sync.SyncService"
@@ -66,6 +43,28 @@
             <meta-data android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
+        <service
+            android:name=".sync.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+        <service
+            android:name=".boot.KioskService"
+            android:exported="false"/>
+
+        <receiver
+            android:name=".boot.OnScreenOffReceiver"
+            android:directBootAware="true" />
+
+        <provider
+            android:name=".sync.StubProvider"
+            android:authorities="com.valtech.amsterdam.vris.sync.contentprovider"
+            android:exported="true"
+            android:syncable="true"/>
 
     </application>
 
