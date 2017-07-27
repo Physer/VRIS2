@@ -3,7 +3,6 @@ package com.valtech.amsterdam.recyclist;
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

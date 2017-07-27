@@ -1,7 +1,5 @@
 package com.valtech.amsterdam.vris.dummy;
 
-import android.databinding.ObservableArrayList;
-
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.model.Reservation;
 

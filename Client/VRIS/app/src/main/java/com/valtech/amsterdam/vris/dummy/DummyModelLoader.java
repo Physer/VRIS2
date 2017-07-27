@@ -4,7 +4,6 @@ import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.model.Reservation;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

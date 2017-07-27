@@ -1,6 +1,5 @@
 package com.valtech.amsterdam.recyclist.loader.implementation.network;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

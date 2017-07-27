@@ -7,7 +7,6 @@ import com.valtech.amsterdam.recyclist.modifiers.PositionDeterminator;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.ui.OnClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
