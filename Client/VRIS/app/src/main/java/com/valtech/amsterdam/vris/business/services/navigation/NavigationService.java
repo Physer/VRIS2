@@ -14,6 +14,7 @@ import com.valtech.amsterdam.vris.ui.BaseActivity;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +23,7 @@ import java.util.List;
 
 public final class NavigationService implements INavigationService {
 
-    @Nullable
-    private Fragment previousFragment;
+    private List<Fragment> previousFragments;
     private Updater<ITimeSlot> timeSlotUpdater;
     private final TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory;
     private BaseActivity currentActivity;
@@ -31,6 +31,7 @@ public final class NavigationService implements INavigationService {
 
     public NavigationService(TimeSlotDetailFragmentFactory timeSlotDetailFragmentFactory) {
         this.timeSlotDetailFragmentFactory = timeSlotDetailFragmentFactory;
+        previousFragments = new ArrayList<>();
     }
 
     public void setTimeSlotUpdater(Updater<ITimeSlot> timeSlotUpdater){
@@ -76,10 +77,19 @@ public final class NavigationService implements INavigationService {
 
     @Override
     public void clearHistory() {
-        previousFragment = null;
+        previousFragments.clear();
+    }
+
+    public Fragment getPrevious(boolean popFromList) {
+        if(previousFragments.size() == 0) return  null;
+
+        Fragment topHistoryFragment = previousFragments.get(previousFragments.size() -1);
+        if(popFromList) previousFragments.remove(topHistoryFragment);
+        return topHistoryFragment;
     }
 
     public void navigateToPreviousOrHome() {
+        Fragment previousFragment = getPrevious(true);
         if(previousFragment != null) navigateToFragment(previousFragment);
         else navigateToHomeSlot();
 
@@ -113,7 +123,7 @@ public final class NavigationService implements INavigationService {
 
         // Assuming there's always one fragment in view
         List<Fragment> fragments = fragmentManager.getFragments();
-        if(fragments != null) previousFragment = fragmentManager.getFragments().get(0);
+        if(fragments != null) previousFragments.add(fragmentManager.getFragments().get(0));
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
