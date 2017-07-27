@@ -112,6 +112,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void navigateToFragment(Fragment fragment, boolean addHistory){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+        fragmentTransaction.replace(R.id.reservation_detail_container, fragment);
         fragmentTransaction.replace(R.id.reservation_detail_container, fragment);
 
         fragmentTransaction.commitAllowingStateLoss();
