@@ -17,5 +17,6 @@ public interface INavigationService {
     void setCurrentActivity(BaseActivity activity);
     void setTimeSlotUpdater(Updater<ITimeSlot> timeSlotUpdater);
     void navigateToHomeSlot();
+    void forceNavigateToHomeSlot();
     void navigateToTimeSlot(ITimeSlot timeSlot);
 }

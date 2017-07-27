@@ -62,7 +62,9 @@ public final class NavigationService implements INavigationService {
 
     public void navigateToHomeSlot() {
         if(mIsHome) return;
-
+        forceNavigateToHomeSlot();
+    }
+    public void forceNavigateToHomeSlot() {
         ITimeSlot currentTimeSlot = getNowTimeSlot();
         Fragment fragment = fTimeSlotDetailFragmentFactory.getDetail(currentTimeSlot);
         navigateToFragment(fragment);

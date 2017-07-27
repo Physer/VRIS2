@@ -26,6 +26,7 @@ public class Recyclist<TModel extends IHasId> {
     private RecyclistAdapter<TModel> mAdapter;
     private PositionDeterminator<TModel> mPositionDeterminator;
     private Inserter<TModel> mInserter;
+    private AsyncCommandExecutor<List<TModel>> taskExecutor;
 
     public Recyclist(LoadListCommand<TModel> loadListCommand, ViewSelector<TModel> modelViewSelector, RecyclistViewBinder<TModel> viewBinder, PositionDeterminator<TModel> positionDeterminator, Inserter<TModel> inserter) {
         mLoadListCommand = loadListCommand;
@@ -45,7 +46,8 @@ public class Recyclist<TModel extends IHasId> {
         mListener.hideResults();
         mListener.hideError();
 
-        AsyncCommandExecutor<List<TModel>> taskExecutor = new AsyncCommandExecutor<>(new TaskListener<List<TModel>>() {
+        if(taskExecutor != null) taskExecutor.cancel(true);
+        taskExecutor = new AsyncCommandExecutor<>(new TaskListener<List<TModel>>() {
             @Override
             public void onComplete(List<TModel> results) {
                 onLoadComplete(results);

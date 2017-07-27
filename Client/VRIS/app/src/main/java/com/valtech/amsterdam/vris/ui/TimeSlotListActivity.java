@@ -2,8 +2,11 @@ package com.valtech.amsterdam.vris.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +19,8 @@ import android.util.Log;
 import android.view.View;
 
 
+import com.external.homewatcher.HomeWatcher;
+import com.external.homewatcher.OnHomePressedListener;
 import com.valtech.amsterdam.recyclist.Recyclist;
 import com.valtech.amsterdam.recyclist.Recyclistener;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
@@ -66,25 +71,27 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         ((VrisAppContext)getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         navigationService.setCurrentActivity(this);
 
-        View recyclerView = findViewById(R.id.reservation_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        if(savedInstanceState == null) {
+            View recyclerView = findViewById(R.id.reservation_list);
+            assert recyclerView != null;
+            setupRecyclerView((RecyclerView) recyclerView);
 
-        mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
-            public void onChange(boolean selfChange) {
-                Log.d(fLogTag, "ContentObserver.onChange");
-                ((VrisAppContext)getApplication()).getUpdater().notifyItemInserted();
-            }
-        };
-        getContentResolver().registerContentObserver(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), false, mObserver);
+            mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
+                public void onChange(boolean selfChange) {
+                    Log.d(fLogTag, "ContentObserver.onChange");
+                    ((VrisAppContext) getApplication()).getUpdater().notifyItemInserted();
+                }
+            };
+            getContentResolver().registerContentObserver(Uri.parse("content://com.valtech.amsterdam.vris.sync.contentprovider/timeslot"), false, mObserver);
 
-        mAccount = CreateSyncAccount(this);
+            mAccount = CreateSyncAccount(this);
 
-        ContentResolver.addPeriodicSync(
-                mAccount,
-                AUTHORITY,
-                Bundle.EMPTY,
-                SYNC_INTERVAL); //Framework forces anything lower than 900 to 900
+            ContentResolver.addPeriodicSync(
+                    mAccount,
+                    AUTHORITY,
+                    Bundle.EMPTY,
+                    SYNC_INTERVAL); //Framework forces anything lower than 900 to 900
+        }
     }
 
     /**
@@ -159,7 +166,22 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         findViewById(R.id.reservation_list).setVisibility(View.VISIBLE);
         setUpdater(updater);
         navigationService.setTimeSlotUpdater(updater);
-        navigationService.navigateToHomeSlot();
+        navigationService.forceNavigateToHomeSlot();
+
+        final TimeSlotListActivity timeSlotListActivity = this;
+        HomeWatcher mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                navigationService.navigateToHomeSlot();
+            }
+            @Override
+            public void onRecentAppsPressed() {
+                // todo: We might want to do somehting easter aggy (it's impossible to navigate to home neatly)
+                startActivity(new Intent(timeSlotListActivity, TimeSlotListActivity.class));
+            }
+        });
+        mHomeWatcher.startWatch();
     }
 
     @Override

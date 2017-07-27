@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.external.homewatcher.HomeWatcher;
+import com.external.homewatcher.OnHomePressedListener;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
@@ -31,7 +33,12 @@ import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private final List blockedKeys = new ArrayList(Arrays.asList(KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_UP));
+    private final List blockedKeys = new ArrayList(Arrays.asList(
+            KeyEvent.KEYCODE_VOLUME_DOWN,
+            KeyEvent.KEYCODE_VOLUME_UP,
+            KeyEvent.KEYCODE_HOME,
+            KeyEvent.KEYCODE_MOVE_HOME,
+            KeyEvent.KEYCODE_APP_SWITCH));
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -68,24 +75,25 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onStop() {
-        super.onStop();
-        if(getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
-            return;
-        }
         startActivity(new Intent(this, TimeSlotListActivity.class));
+        // todo this is the square, place for a easter egg after so many presses
+        super.onStop();
     }
 
     @Override
     protected void onPause() {
-        if(getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
-            super.onPause();
-            return;
-        }
-
+        super.onPause();
         ActivityManager activityManager = (ActivityManager) getApplicationContext()
                 .getSystemService(Context.ACTIVITY_SERVICE);
 
         activityManager.moveTaskToFront(getTaskId(), 0);
+    }
+
+    @Override
+    protected void onUserLeaveHint()
+    {
+        Log.d("onUserLeaveHint","Home button pressed");
+        super.onUserLeaveHint();
     }
 
     @Override
