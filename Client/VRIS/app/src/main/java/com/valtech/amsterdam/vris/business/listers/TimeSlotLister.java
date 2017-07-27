@@ -20,10 +20,9 @@ public class TimeSlotLister implements ModelLoader<ITimeSlot> {
     }
 
     @Override
-    public TimeSlotList getList() throws IOException {
+    public List<ITimeSlot> getList() throws IOException {
         List<Reservation> reservations = reservationModelLoader.getList();
-
-        TimeSlotList timeSlots = new TimeSlotList();
+        List<ITimeSlot> timeSlots = new TimeSlotList();
 
         for (Reservation reservation : reservations) {
             timeSlots.add(reservation);
