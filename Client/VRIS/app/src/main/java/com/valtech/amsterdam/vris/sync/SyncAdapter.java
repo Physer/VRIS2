@@ -15,8 +15,6 @@ import com.valtech.amsterdam.vris.model.TimeSlot;
 
 import org.joda.time.DateTime;
 
-import java.util.Random;
-
 /**
  * Created by jasper.van.zijp on 20-7-2017.
  */
