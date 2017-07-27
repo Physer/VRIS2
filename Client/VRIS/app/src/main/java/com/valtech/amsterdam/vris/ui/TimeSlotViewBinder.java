@@ -2,7 +2,6 @@ package com.valtech.amsterdam.vris.ui;
 
 import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
-import android.text.Layout;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
