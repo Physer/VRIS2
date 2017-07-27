@@ -40,14 +40,74 @@ public class DummyContent {
         addItem(new Reservation(1, "Lunchmeeting met onmogelijk lange titel",
                 new DateTime(2017, 7, 14, 9, 30).toLocalDateTime(),
                 new DateTime(2017, 7, 14, 10, 30).toLocalDateTime(),
-                new Person(1, "Meneer een"), null));
+                new Person(1, "Meneer een"),
+                new ArrayList<Person>(){{
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad")); }}));
         addItem(new TimeSlot(2,
                 new DateTime(2017, 7, 14, 10, 30).toLocalDateTime(),
                 new DateTime(2017, 7, 14, 10, 45).toLocalDateTime()));
         addItem(new Reservation(3, "Nog zo'n meeting met ellendig lange titel",
                 new DateTime(2017, 7, 14, 10, 45).toLocalDateTime(),
                 new DateTime(2017, 7, 14, 11, 00).toLocalDateTime(),
-                new Person(2, "Meneer Twee"), null));
+                new Person(2, "Meneer Twee"),
+                new ArrayList<Person>(){{
+                    add(new Person(87, "Meneer aad"));
+                    add(new Person(87, "Meneer aad")); }}));
         addItem(new Reservation(4, "Dummy 3",
                 new DateTime(2017, 7, 14, 11, 00).toLocalDateTime(),
                 new DateTime(2017, 7, 14, 11, 30).toLocalDateTime(),

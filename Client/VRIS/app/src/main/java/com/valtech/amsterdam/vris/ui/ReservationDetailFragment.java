@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -76,7 +77,9 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
         TextView reservationTimeElement = (TextView) rootView.findViewById(R.id.reservation_time);
         TextView organizerNameElement = (TextView) rootView.findViewById(R.id.organizer_name);
         TextView organizerEmailElement = (TextView) rootView.findViewById(R.id.organizer_email);
+        // todo lazy load
         ImageView organizerIconElement = (ImageView) rootView.findViewById(R.id.organizer_image);
+        GridView attendees = (GridView) rootView.findViewById(R.id.attendee_grid);
 
         StringBuilder reservationTime = new StringBuilder();
         reservationTime.append(reservationItem.getStartDate().toString("HH:mm"));
@@ -87,9 +90,12 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
         reservationTimeElement.setText(reservationTime.toString());
         organizerNameElement.setText(reservationItem.getOrganizer().getName());
         organizerEmailElement.setText(reservationItem.getOrganizer().getEmail());
+
+        attendees.setAdapter(new AttendeeGridAdapter(this.getContext(), reservationItem));
     }
 
     private void SetDefaultTextViews() {
+        // todo register on login from all rooms in api and print here
         TextView currentRoomElement = (TextView) rootView.findViewById(R.id.current_room);
         TextView currentDateElement = (TextView) rootView.findViewById(R.id.current_date);
         TextView currentTimeElement = (TextView) rootView.findViewById(R.id.current_time);
@@ -99,7 +105,6 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
     }
 
     BroadcastReceiver _broadcastReceiver;
-    private TextView _tvTime;
 
     // todo create something like this in the listActivity and re evaluate if homestate
     @Override

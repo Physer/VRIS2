@@ -6,6 +6,7 @@ import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
 import org.joda.time.LocalDateTime;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -16,10 +17,10 @@ import javax.annotation.Nullable;
 @ApiInfo(methodName = "reservation")
 public class Reservation extends TimeSlot {
     @SerializedName("Organizer") private Person mOrganizer;
-    @SerializedName("Attendees") @Nullable private ArrayList<Person> mAttendees;
+    @SerializedName("Attendees") @Nullable private List<Person> mAttendees;
     @SerializedName("Title") private String mTitle;
 
-    public Reservation(int id, String title, LocalDateTime start, LocalDateTime end, Person organizer, @Nullable ArrayList<Person> attendees) {
+    public Reservation(int id, String title, LocalDateTime start, LocalDateTime end, Person organizer, @Nullable List<Person> attendees) {
         super(id, start, end);
         mTitle = title;
         mOrganizer = organizer;
@@ -30,7 +31,7 @@ public class Reservation extends TimeSlot {
         return mOrganizer;
     }
 
-    public ArrayList<Person> getAttendees() {
+    public List<Person> getAttendees() {
         return mAttendees;
     }
 

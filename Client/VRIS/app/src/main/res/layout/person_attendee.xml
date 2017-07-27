@@ -2,9 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="50dip"
-    android:layout_marginBottom="@dimen/text_margin"
-    android:layout_marginTop="@dimen/text_margin"
+    android:layout_height="30dip"
     android:gravity="center_vertical|fill_horizontal"
     android:orientation="horizontal">
 
@@ -21,11 +19,12 @@
     <TextView
         android:id="@+id/attendee_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="36dip"
         android:layout_gravity="fill_horizontal|center_vertical"
         android:layout_weight="1"
         android:gravity="center_vertical|fill_horizontal"
         android:text="Atendee"
+        android:background="@drawable/border_bottom"
         android:textSize="16sp" />
 
 </LinearLayout>
