@@ -101,9 +101,12 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     @Override
     public void onStop() {
         startActivity(new Intent(this, TimeSlotListActivity.class));
+        try {
+            if (_broadcastReceiver != null)
+                unregisterReceiver(_broadcastReceiver);
+        }
+        catch (Exception e) { /*care*/ }
         super.onStop();
-        if (_broadcastReceiver != null)
-            unregisterReceiver(_broadcastReceiver);
     }
 
     @Override

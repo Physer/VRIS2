@@ -48,7 +48,8 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
         if (mTimeSlot != null) {
             Reservation reservationItem = (Reservation)mTimeSlot;
-            mTimeslotDetailReservationBinding.setRoom(new Room(2, "Some room"));
+            // todo resolve room
+            mTimeslotDetailReservationBinding.setRoom(new Room(2, "AMS 0X"));
             mTimeslotDetailReservationBinding.setDateTime(DateTime.now().toLocalDateTime());
             mTimeslotDetailReservationBinding.setReservation(reservationItem);
             mTimeslotDetailReservationBinding.reservationOrganizer.setOrganizer(reservationItem.getOrganizer());

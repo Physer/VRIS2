@@ -1,8 +1,11 @@
 package com.valtech.amsterdam.vris.business.services.navigation;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.valtech.amsterdam.vris.R;
@@ -49,7 +52,7 @@ public final class NavigationService implements INavigationService {
 
         for (ITimeSlot timeSlot: timeSlots) {
             LocalDateTime startDate = timeSlot.getStart();
-            LocalDateTime endDate = timeSlot.getStart();
+            LocalDateTime endDate = timeSlot.getEnd();
 
             if(date.isBefore(startDate)) continue;
             if(date.isAfter(endDate)) continue;
@@ -98,6 +101,10 @@ public final class NavigationService implements INavigationService {
 
     private void navigateToFragment(Fragment fragment) {
         CheckSetup();
+        // Close keyboard on navigate
+        InputMethodManager inputMethodManager = (InputMethodManager)mCurrentActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        View focusView = mCurrentActivity.getCurrentFocus();
+        if(focusView != null) inputMethodManager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
 
         FragmentManager fragmentManager = mCurrentActivity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
