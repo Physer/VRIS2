@@ -48,8 +48,8 @@ public final class NavigationService implements INavigationService {
         List<ITimeSlot> timeSlots = mTimeSlotUpdater.getList();
 
         for (ITimeSlot timeSlot: timeSlots) {
-            LocalDateTime startDate = timeSlot.getStartDate();
-            LocalDateTime endDate = timeSlot.getEndDate();
+            LocalDateTime startDate = timeSlot.getStart();
+            LocalDateTime endDate = timeSlot.getStart();
 
             if(date.isBefore(startDate)) continue;
             if(date.isAfter(endDate)) continue;

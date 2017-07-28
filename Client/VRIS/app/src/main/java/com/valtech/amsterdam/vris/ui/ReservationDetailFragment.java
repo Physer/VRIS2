@@ -28,8 +28,6 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
     private TimeslotDetailReservationBinding mTimeslotDetailReservationBinding;
     private BroadcastReceiver mBroadcastReceiver;
-    public final String fDateFormat = "dd-MM-yyyy";
-    public final String fTimeFormat = "HH:mm";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -50,7 +48,6 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
         if (mTimeSlot != null) {
             Reservation reservationItem = (Reservation)mTimeSlot;
-            mTimeslotDetailReservationBinding.setFragment(this);
             mTimeslotDetailReservationBinding.setRoom(new Room(2, "Some room"));
             mTimeslotDetailReservationBinding.setDateTime(DateTime.now().toLocalDateTime());
             mTimeslotDetailReservationBinding.setReservation(reservationItem);
@@ -68,14 +65,6 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
             this.getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
         }
         return mTimeslotDetailReservationBinding.getRoot();
-    }
-
-    public String formatReservationTimes(Reservation reservation){
-        StringBuilder reservationTime = new StringBuilder();
-        reservationTime.append(reservation.getStartDate().toString("HH:mm"));
-        reservationTime.append(" - ");
-        reservationTime.append(reservation.getEndDate().toString("HH:mm"));
-        return reservationTime.toString();
     }
 
     @Override

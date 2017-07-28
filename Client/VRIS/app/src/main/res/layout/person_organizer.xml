@@ -34,7 +34,7 @@
                 android:layout_marginTop="10dip"
                 android:layout_weight="1"
                 android:layout_gravity="fill_horizontal|center_vertical"
-                android:text="@{organizer.name}"
+                android:text="@{organizer.name, default=Name}"
                 android:textSize="24sp"/>
 
             <TextView
@@ -44,7 +44,7 @@
                 android:layout_marginBottom="10dip"
                 android:layout_weight="1"
                 android:layout_gravity="fill_horizontal|center_vertical"
-                android:text="@{organizer.email}"
+                android:text="@{organizer.email, default=Email}"
                 android:textSize="16sp"/>
         </LinearLayout>
 

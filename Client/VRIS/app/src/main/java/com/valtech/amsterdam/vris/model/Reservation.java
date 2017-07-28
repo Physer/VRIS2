@@ -19,9 +19,9 @@ import javax.annotation.Nullable;
  */
 @ApiInfo(methodName = "reservation")
 public final class Reservation extends TimeSlot {
-    @SerializedName("Title") private String mTitle;
-    @SerializedName("Organizer") private Person mOrganizer;
-    @SerializedName("Attendees") @Nullable private List<Person> mAttendees;
+    @SerializedName("Title") protected String mTitle;
+    @SerializedName("Organizer") protected Person mOrganizer;
+    @SerializedName("Attendees") @Nullable protected List<Person> mAttendees;
 
     /**
      * Initiate a new reservation
@@ -62,5 +62,14 @@ public final class Reservation extends TimeSlot {
      */
     public String getTitle() {
         return mTitle;
+    }
+
+    @Override
+    public LocalDateTime getStart() {
+        return super.getStart();
+    }
+    @Override
+    public LocalDateTime getEnd() {
+        return super.getEnd();
     }
 }

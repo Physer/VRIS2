@@ -13,9 +13,9 @@ public interface ITimeSlot extends IHasId {
 
     int getId();
 
-    LocalDateTime getStartDate();
+    LocalDateTime getStart();
 
-    LocalDateTime getEndDate();
+    LocalDateTime getEnd();
 
     int getDurationInMinutes();
 

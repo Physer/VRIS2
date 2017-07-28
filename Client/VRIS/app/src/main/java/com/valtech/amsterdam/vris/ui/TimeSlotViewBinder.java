@@ -46,8 +46,8 @@ public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
 
         SetDynamicHeigthAccordingToSlotTime(view, timeSlot, layoutParams);
         layout.setLayoutParams(layoutParams);
-        startTimeElement.setText(timeSlot.getStartDate().toString("HH:mm"));
-        endTimeElement.setText(timeSlot.getEndDate().toString("HH:mm"));
+        startTimeElement.setText(timeSlot.getStart().toString("HH:mm"));
+        endTimeElement.setText(timeSlot.getStart().toString("HH:mm"));
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

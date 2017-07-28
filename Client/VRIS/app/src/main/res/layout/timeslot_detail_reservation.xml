@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable type="com.valtech.amsterdam.vris.ui.ReservationDetailFragment" name="fragment" />
         <variable type="org.joda.time.LocalDateTime" name="dateTime" />
         <variable type="com.valtech.amsterdam.vris.model.Room" name="room" />
         <variable type="com.valtech.amsterdam.vris.model.Reservation" name="reservation" />
@@ -24,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
-            android:text="@{room.name}"
+            android:text="@{room.name, default=Room}"
             android:textAlignment="textStart"
             android:textAppearance="?attr/textAppearanceListItem"
             tools:ignore="RtlCompat" />
@@ -35,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
-            android:text="@{dateTime.toString(fragment.fDateFormat)}"
+            android:text="@{dateTime.toString(@string/dateFormat), default=@string/dateFormat}"
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceListItem" />
 
@@ -45,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
-            android:text="@{dateTime.toString(fragment.fTimeFormat)}"
+            android:text="@{dateTime.toString(@string/timeFormat), default=@string/timeFormat}"
             android:textAlignment="textEnd"
             android:textAppearance="?attr/textAppearanceListItem"
             tools:ignore="RtlCompat" />
@@ -66,25 +65,47 @@
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginTop="@dimen/text_margin"
             android:layout_weight="1"
-            android:text="@{reservation.title}"
+            android:text="@{reservation.title, default=TItle}"
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textSize="50sp" />
 
-        <TextView
-            android:id="@+id/reservation_time"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|center_vertical"
+            android:layout_gravity="center_vertical|center"
             android:layout_marginBottom="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginTop="0dp"
-            android:layout_weight="1"
-            android:text="@{fragment.formatReservationTimes(reservation)}"
-            android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="30sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{reservation.start.toString(@string/timeFormat), default=@string/timeFormat}"
+                android:textAlignment="textEnd"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_vertical"
+                android:text=" - "
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{reservation.end.toString(@string/timeFormat), default=@string/timeFormat}"
+                android:textAlignment="viewStart"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="30sp" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

@@ -46,7 +46,7 @@ public class TimeSlot implements ITimeSlot {
      * Get the date the TimeSlot starts in local time
      * @return
      */
-    public LocalDateTime getStartDate() {
+    public LocalDateTime getStart() {
         return mStart;
     }
 
@@ -54,7 +54,7 @@ public class TimeSlot implements ITimeSlot {
      * Get the date the TimeSlot end in local time
      * @return
      */
-    public LocalDateTime getEndDate() {
+    public LocalDateTime getEnd() {
         return mEnd;
     }
 
@@ -92,8 +92,8 @@ public class TimeSlot implements ITimeSlot {
     public ContentValues toContentValues() {
         ContentValues cv = new ContentValues();
         cv.put("Id", getId());
-        cv.put("Start", getStartDate().toString());
-        cv.put("End", getEndDate().toString());
+        cv.put("Start", getStart().toString());
+        cv.put("End", getStart().toString());
         return cv;
     }
 

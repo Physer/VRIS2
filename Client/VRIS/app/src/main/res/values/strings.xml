@@ -4,4 +4,6 @@
     <string name="book">Book now</string>
     <string name="sync">Sync</string>
     <string name="error">Error</string>
+    <string name="dateFormat">dd-MM-yyyy</string>
+    <string name="timeFormat">HH:mm</string>
 </resources>
