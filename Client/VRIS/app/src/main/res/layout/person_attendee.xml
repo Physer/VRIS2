@@ -28,7 +28,7 @@
             android:layout_gravity="fill_horizontal|center_vertical"
             android:layout_weight="1"
             android:gravity="center_vertical|fill_horizontal"
-            android:text="@{attendee.name}"
+            android:text="@{attendee.name, default=Name}"
             android:background="@drawable/border_bottom"
             android:textSize="16sp" />
 
