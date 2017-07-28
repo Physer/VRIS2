@@ -12,7 +12,7 @@ import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.BufferedStreamContentReader;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.GsonDesynchronizer;
 import com.valtech.amsterdam.recyclist.loader.implementation.network.NetworkModelLoader;
-import com.valtech.amsterdam.vris.business.listers.TimeSlotLister;
+import com.valtech.amsterdam.vris.business.loaders.TimeSlotLoader;
 import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.business.services.navigation.NavigationService;
 import com.valtech.amsterdam.vris.dummy.DummyModelErrorLoader;
@@ -112,7 +112,7 @@ public class VrisModule {
     @Provides
     @Singleton
     ModelLoader<ITimeSlot> getTimeSlotLoadListCommand(@Named("DummyModelLoader") ModelLoader<Reservation> modelLoader) {
-        return new TimeSlotLister(modelLoader);
+        return new TimeSlotLoader(modelLoader);
     }
 
     @Provides

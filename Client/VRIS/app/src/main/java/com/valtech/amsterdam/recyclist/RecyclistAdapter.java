@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.valtech.amsterdam.vris.ui.OnClickListener;
+import com.valtech.amsterdam.vris.model.OnClickListener;
 
 import java.util.List;
 

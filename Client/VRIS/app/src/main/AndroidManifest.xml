@@ -62,12 +62,12 @@
         </service>
         <service
             android:launchMode="singleTask"
-            android:name=".boot.KioskService"
+            android:name="com.external.boot.KioskService"
             android:exported="false"/>
 
         <receiver
             android:launchMode="singleTask"
-            android:name=".boot.OnScreenOffReceiver"
+            android:name="com.external.boot.OnScreenOffReceiver"
             android:directBootAware="true" />
 
         <provider

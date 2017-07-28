@@ -43,6 +43,7 @@ public final class NavigationService implements INavigationService {
     }
 
     private ITimeSlot getNowTimeSlot(){
+        CheckSetup();
         LocalDateTime date = DateTime.now().toLocalDateTime();
         List<ITimeSlot> timeSlots = mTimeSlotUpdater.getList();
 
@@ -61,10 +62,12 @@ public final class NavigationService implements INavigationService {
     }
 
     public void navigateToHomeSlot() {
+        CheckSetup();
         if(mIsHome) return;
         forceNavigateToHomeSlot();
     }
     public void forceNavigateToHomeSlot() {
+        CheckSetup();
         ITimeSlot currentTimeSlot = getNowTimeSlot();
         Fragment fragment = fTimeSlotDetailFragmentFactory.getDetail(currentTimeSlot);
         navigateToFragment(fragment);
@@ -73,12 +76,14 @@ public final class NavigationService implements INavigationService {
     }
 
     public void navigateToTimeSlot(ITimeSlot timeSlot) {
+        CheckSetup();
         Fragment fragment = fTimeSlotDetailFragmentFactory.getDetailOrCreate(timeSlot);
         navigateToFragment(fragment);
         selectTimeSlot(timeSlot.getId());
     }
 
     private void selectTimeSlot(int timeSlotId) {
+        CheckSetup();
         for (ITimeSlot timeSlotItem: mTimeSlotUpdater.getList()) {
             if(timeSlotItem.getId() == timeSlotId) timeSlotItem.setSelected(true);
             else if(timeSlotItem.getSelected() == true) {
@@ -92,6 +97,7 @@ public final class NavigationService implements INavigationService {
     }
 
     private void navigateToFragment(Fragment fragment) {
+        CheckSetup();
 
         FragmentManager fragmentManager = mCurrentActivity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -101,5 +107,10 @@ public final class NavigationService implements INavigationService {
 
         fragmentTransaction.commitAllowingStateLoss();
         mIsHome = false;
+    }
+
+    private void CheckSetup() {
+        if(mCurrentActivity == null) throw new IllegalStateException("Please register the current Activity before using this service");
+        if(mTimeSlotUpdater == null) throw new IllegalStateException("Please register the TimeSLotUpdater before using this service");
     }
 }

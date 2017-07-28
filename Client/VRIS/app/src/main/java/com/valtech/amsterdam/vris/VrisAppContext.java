@@ -1,7 +1,7 @@
 package com.valtech.amsterdam.vris;
 
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
-import com.valtech.amsterdam.vris.boot.AppContext;
+import com.external.boot.AppContext;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 /**

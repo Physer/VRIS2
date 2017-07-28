@@ -69,7 +69,7 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
         reservationTime.append(" - ");
         reservationTime.append(reservationItem.getEndDate().toString("HH:mm"));
 
-        reservationTitleElement.setText(reservationItem.getmTitle());
+        reservationTitleElement.setText(reservationItem.getTitle());
         reservationTimeElement.setText(reservationTime.toString());
         organizerNameElement.setText(reservationItem.getOrganizer().getName());
         organizerEmailElement.setText(reservationItem.getOrganizer().getEmail());

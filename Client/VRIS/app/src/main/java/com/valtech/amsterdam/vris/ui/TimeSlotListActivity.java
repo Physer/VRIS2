@@ -28,6 +28,7 @@ import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFactory;
+import com.valtech.amsterdam.vris.model.OnClickListener;
 
 import org.joda.time.DateTime;
 

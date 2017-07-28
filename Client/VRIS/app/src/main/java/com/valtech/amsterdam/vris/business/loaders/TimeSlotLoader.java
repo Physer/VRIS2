@@ -1,4 +1,4 @@
-package com.valtech.amsterdam.vris.business.listers;
+package com.valtech.amsterdam.vris.business.loaders;
 
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
 import com.valtech.amsterdam.vris.model.Reservation;
@@ -12,10 +12,10 @@ import java.util.List;
  * Created by jasper.van.zijp on 18-7-2017.
  */
 
-public class TimeSlotLister implements ModelLoader<ITimeSlot> {
+public class TimeSlotLoader implements ModelLoader<ITimeSlot> {
     private ModelLoader<Reservation> reservationModelLoader;
 
-    public TimeSlotLister(ModelLoader<Reservation> reservationModelLoader) {
+    public TimeSlotLoader(ModelLoader<Reservation> reservationModelLoader) {
         this.reservationModelLoader = reservationModelLoader;
     }
 

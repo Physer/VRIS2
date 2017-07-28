@@ -1,4 +1,4 @@
-package com.valtech.amsterdam.vris.boot;
+package com.external.boot;
 
 import android.app.ActivityManager;
 import android.app.Service;

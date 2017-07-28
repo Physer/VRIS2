@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.valtech.amsterdam.recyclist.RecyclistViewBinder;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
+import com.valtech.amsterdam.vris.model.OnClickListener;
 import com.valtech.amsterdam.vris.model.Reservation;
 
 /**
@@ -32,7 +33,7 @@ public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
 
         shadow.setVisibility(timeSlot.getSelected() ? LinearLayout.INVISIBLE : LinearLayout.VISIBLE);
         if(timeSlot instanceof Reservation) {
-            titleElement.setText(((Reservation)timeSlot).getmTitle());
+            titleElement.setText(((Reservation)timeSlot).getTitle());
 
             if (timeSlot.getSelected()) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotSelected)));
             else if (position % 2 == 1) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOdd)));

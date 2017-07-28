@@ -6,7 +6,7 @@ import com.valtech.amsterdam.recyclist.modifiers.IHasId;
 import com.valtech.amsterdam.recyclist.modifiers.Inserter;
 import com.valtech.amsterdam.recyclist.modifiers.PositionDeterminator;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
-import com.valtech.amsterdam.vris.ui.OnClickListener;
+import com.valtech.amsterdam.vris.model.OnClickListener;
 
 import java.util.List;
 
