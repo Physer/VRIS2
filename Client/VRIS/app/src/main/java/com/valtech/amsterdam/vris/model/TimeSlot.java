@@ -1,6 +1,7 @@
 package com.valtech.amsterdam.vris.model;
 
 import android.content.ContentValues;
+import android.databinding.BaseObservable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -16,7 +17,7 @@ import org.joda.time.LocalDateTime;
 /**
  * An empty @ITimeSlot between two @Reservations
  */
-public class TimeSlot implements ITimeSlot {
+public class TimeSlot extends BaseObservable implements ITimeSlot {
     @SerializedName("Id") private int mId;
     @SerializedName("Start") private LocalDateTime mStart;
     @SerializedName("End") private LocalDateTime mEnd;

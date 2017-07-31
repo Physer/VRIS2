@@ -4,13 +4,11 @@ package com.valtech.amsterdam.vris.model;
  * Created by jasper.van.zijp on 14-7-2017.
  */
 
-import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.google.gson.annotations.SerializedName;
 import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
 import com.valtech.amsterdam.recyclist.modifiers.IHasId;
-import com.valtech.amsterdam.vris.R;
 
 /**
  * A person returned by the API

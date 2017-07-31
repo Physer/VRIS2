@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="com.valtech.amsterdam.vris.ui.NewTimeSlotFragment" />
+        <variable type="com.valtech.amsterdam.vris.ui.NewTimeSlotFragment" name="context" />
         <variable type="com.valtech.amsterdam.vris.model.Room" name="room" />
         <variable type="com.valtech.amsterdam.vris.model.Reservation" name="newReservation" />
     </data>
@@ -83,18 +85,17 @@
         </LinearLayout>
 
         <EditText
-            android:layout_marginTop="50dp"
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="80dp"
             android:layout_marginStart="80dp"
+            android:layout_marginTop="50dp"
             android:contentDescription="Reservation title"
             android:hint="Reservation title"
             android:inputType="text"
-            android:nextFocusForward="@+id/newReservationTime"
             android:singleLine="true"
-            android:text="@{newReservation.title}"
+            android:text="@={newReservation.title}"
             android:textSize="40sp" />
 
         <LinearLayout
@@ -131,7 +132,8 @@
                     android:gravity="center"
                     android:text="15m"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(15)}"/>
 
                 <Button
                     android:layout_width="0dp"
@@ -145,8 +147,8 @@
                     android:gravity="center"
                     android:text="30m"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
-                />
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(30)}"/>
 
                 <Button
                     android:layout_width="0dp"
@@ -159,7 +161,8 @@
                     android:gravity="center"
                     android:text="1h"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(60)}"/>
 
             </LinearLayout>
 
@@ -187,7 +190,8 @@
                     android:gravity="center"
                     android:text="1h 30m"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(90)}"/>
 
 
                 <Button
@@ -202,7 +206,8 @@
                     android:gravity="center"
                     android:text="2h"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(120)}"/>
 
 
                 <Button
@@ -216,7 +221,8 @@
                     android:gravity="center"
                     android:text="2h 30m"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(150)}"/>
 
             </LinearLayout>
 

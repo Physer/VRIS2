@@ -1,7 +1,10 @@
 package com.valtech.amsterdam.vris.model;
 
+import android.databinding.Bindable;
+
 import com.google.gson.annotations.SerializedName;
 import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
+import com.valtech.amsterdam.vris.BR;
 
 import org.joda.time.LocalDateTime;
 
@@ -60,8 +63,13 @@ public final class Reservation extends TimeSlot {
      * Get the title of the reservation
      * @return
      */
+    @Bindable
     public String getTitle() {
         return mTitle;
+    }
+    public void setTitle(String value) {
+        mTitle = value;
+        notifyPropertyChanged(BR.title);
     }
 
     @Override
