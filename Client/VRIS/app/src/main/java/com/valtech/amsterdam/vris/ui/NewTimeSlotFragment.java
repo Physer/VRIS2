@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -26,6 +28,8 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
 
     private TimeslotDetailNewBinding mNewTimeSlotBinding;
     private Reservation mReservationItem;
+    private EditText mTextField;
+    private Animation fShakeAnimation;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -38,6 +42,7 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
         Log.w("NewTimeSlotFragment","onCreate");
         ((VrisAppContext)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
+        fShakeAnimation = AnimationUtils.loadAnimation(getContext() ,R.anim.shake);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -64,6 +69,7 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
         String title = mReservationItem.getTitle();
         if(title == null || title.trim().isEmpty()) {
             FocusAndShowKeyboard();
+            mTextField.startAnimation(fShakeAnimation);
             return;
         }
         // todo add to list
@@ -74,9 +80,9 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
     }
 
     private void FocusAndShowKeyboard() {
-        EditText input = (EditText)mNewTimeSlotBinding.getRoot().findViewById(R.id.editText);
-        input.requestFocus();
+        mTextField = (EditText)mNewTimeSlotBinding.getRoot().findViewById(R.id.editText);
+        mTextField.requestFocus();
         InputMethodManager inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInputFromWindow( input.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+        inputMethodManager.showSoftInput(mTextField, 0);
     }
 }
