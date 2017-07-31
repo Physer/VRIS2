@@ -9,8 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorSlotOpenSelected">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -29,7 +28,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text='Book room "'
-                    android:textColor="@color/colorAccentText"
                     android:textSize="50sp"
                     android:textStyle="bold" />
 
@@ -37,7 +35,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{room.name, default=RoomName}"
-                    android:textColor="@color/colorAccentText"
                     android:textSize="50sp"
                     android:textStyle="bold" />
 
@@ -45,7 +42,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text='" now'
-                    android:textColor="@color/colorAccentText"
                     android:textSize="50sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -64,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:text="@{newReservation.start.toString(@string/timeFormat), default=@string/timeFormat}"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorAccentText"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="30sp" />
 
@@ -74,7 +69,6 @@
                 android:layout_gravity="center|center_vertical"
                 android:text=" - "
                 android:textAlignment="center"
-                android:textColor="@color/colorAccentText"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="30sp" />
 
@@ -83,7 +77,6 @@
                 android:layout_height="wrap_content"
                 android:text="@{newReservation.end.toString(@string/timeFormat), default=@string/timeFormat}"
                 android:textAlignment="viewStart"
-                android:textColor="@color/colorAccentText"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="30sp" />
 
@@ -138,7 +131,6 @@
                     android:gravity="center"
                     android:text="15m"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccentText"
                     android:textSize="20sp" />
 
                 <Button
@@ -153,7 +145,6 @@
                     android:gravity="center"
                     android:text="30m"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccentText"
                     android:textSize="20sp" />
                 />
 
@@ -168,7 +159,6 @@
                     android:gravity="center"
                     android:text="1h"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccentText"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -197,7 +187,6 @@
                     android:gravity="center"
                     android:text="1h 30m"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccentText"
                     android:textSize="20sp" />
 
 
@@ -213,7 +202,6 @@
                     android:gravity="center"
                     android:text="2h"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccentText"
                     android:textSize="20sp" />
 
 
@@ -228,7 +216,6 @@
                     android:gravity="center"
                     android:text="2h 30m"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccentText"
                     android:textSize="20sp" />
 
             </LinearLayout>
