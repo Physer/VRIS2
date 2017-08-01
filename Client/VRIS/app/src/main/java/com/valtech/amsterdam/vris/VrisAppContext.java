@@ -1,5 +1,7 @@
 package com.valtech.amsterdam.vris;
 
+import android.content.Intent;
+
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
 import com.external.boot.AppContext;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
@@ -9,6 +11,7 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
  */
 
 public final class VrisAppContext extends AppContext {
+    public static final String INACTIVITY_BROADCAST = "com.valtech.amsterdam.vris.INACTIVITY_BROADCAST";
 
     private InjectionComponent applicationComponent;
     public InjectionComponent getApplicationComponent(){
@@ -23,6 +26,11 @@ public final class VrisAppContext extends AppContext {
 
     public void setUpdater(Updater<ITimeSlot> updater) {
         mUpdater = updater;
+    }
+
+    public void broadCastInactivity(){
+        Intent i = new Intent(INACTIVITY_BROADCAST);
+        sendBroadcast(i);
     }
 
     @Override

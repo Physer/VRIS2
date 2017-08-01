@@ -32,6 +32,7 @@ import com.valtech.amsterdam.vris.business.factories.TimeSlotDetailFragmentFacto
 import com.valtech.amsterdam.vris.model.OnClickListener;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import javax.inject.Inject;
 
@@ -48,7 +49,11 @@ import javax.inject.Inject;
 public class TimeSlotListActivity extends BaseActivity implements Recyclistener<ITimeSlot>, OnClickListener {
     private final static String fLogTag = "TimeSlotListActivity";
     private BroadcastReceiver _broadcastReceiver;
-    private DateTime acitvityTimeStamp;
+
+    private DateTime activityTimeStamp;
+    public DateTime getActivityTimeStamp() {
+        return activityTimeStamp  ;
+    }
 
     @Inject
     Recyclist<ITimeSlot> recyclist;
@@ -102,6 +107,28 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
                     AUTHORITY,
                     Bundle.EMPTY,
                     SYNC_INTERVAL); //Framework forces anything lower than 900 to 900
+
+            _broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context ctx, Intent intent) {
+                    if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0){
+                        DateTime currentDateTime = DateTime.now();
+                        if(currentDateTime.isAfter(activityTimeStamp.plusMinutes(MINUTE_IDLE_TIME))){
+                            Log.i("User is idle", activityTimeStamp.toString() + " -> " + currentDateTime.toString());
+                            ((VrisAppContext)getApplication()).broadCastInactivity();
+                            activityTimeStamp = DateTime.now();
+                        }else{
+                            Log.i("User is not idle", activityTimeStamp.toString() + " -> " + currentDateTime.toString());
+                        }
+                    }
+
+                    if (intent.getAction().compareTo(VrisAppContext.INACTIVITY_BROADCAST) == 0) {
+                        navigationService.navigateToHomeSlot();
+                        recyclerView.getLayoutManager().scrollToPosition(0);
+                        HideKeyboard();
+                    }
+                }
+            };
         }
     }
 
@@ -119,7 +146,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        acitvityTimeStamp = DateTime.now();
+        activityTimeStamp = DateTime.now();
     }
 
     /**
@@ -221,25 +248,9 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         });
         mHomeWatcher.startWatch();
 
-        acitvityTimeStamp = DateTime.now();
-        _broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context ctx, Intent intent) {
-                if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0){
-                    DateTime currentDateTime = DateTime.now();
-                    if(currentDateTime.isAfter(acitvityTimeStamp.plusMinutes(MINUTE_IDLE_TIME))){
-                        navigationService.navigateToHomeSlot();
-                        recyclerView.getLayoutManager().scrollToPosition(0);
-                        Log.i("User is idle", acitvityTimeStamp.toString() + " -> " + currentDateTime.toString());
-                        acitvityTimeStamp = DateTime.now();
-                        HideKeyboard();
-                    }else{
-                        Log.i("User is not idle", acitvityTimeStamp.toString() + " -> " + currentDateTime.toString());
-                    }
-                }
-            }
-        };
+        activityTimeStamp = DateTime.now();
         registerReceiver(_broadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+        registerReceiver(_broadcastReceiver, new IntentFilter(VrisAppContext.INACTIVITY_BROADCAST));
     }
 
     @Override

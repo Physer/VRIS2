@@ -75,15 +75,20 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
             mNewTimeSlotBinding.setNewReservation(mReservationItem);
             mNewTimeSlotBinding.setNewReservation(mReservationItem);
 
-        mBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context ctx, Intent intent) {
-                if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0)
-                    mNewTimeSlotBinding.setDateTime(DateTime.now().toLocalDateTime());
-            }
-        };
+            mBroadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context ctx, Intent intent) {
+                    if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0)
+                        mNewTimeSlotBinding.setDateTime(DateTime.now().toLocalDateTime());
 
-        this.getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+                    if (intent.getAction().compareTo(VrisAppContext.INACTIVITY_BROADCAST) == 0) {
+                        mTextField.setText("");
+                        navigationService.navigateToHomeSlot();
+                    }
+                }
+            };
+            this.getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+            this.getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(VrisAppContext.INACTIVITY_BROADCAST));
 
         }
         return mNewTimeSlotBinding.getRoot();
