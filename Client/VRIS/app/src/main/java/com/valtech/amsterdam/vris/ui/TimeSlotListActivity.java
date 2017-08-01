@@ -108,6 +108,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
                     Bundle.EMPTY,
                     SYNC_INTERVAL); //Framework forces anything lower than 900 to 900
 
+            activityTimeStamp = DateTime.now();
             _broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context ctx, Intent intent) {
@@ -123,6 +124,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
                     }
 
                     if (intent.getAction().compareTo(VrisAppContext.INACTIVITY_BROADCAST) == 0) {
+                        activityTimeStamp = DateTime.now();
                         navigationService.navigateToHomeSlot();
                         recyclerView.getLayoutManager().scrollToPosition(0);
                         HideKeyboard();
