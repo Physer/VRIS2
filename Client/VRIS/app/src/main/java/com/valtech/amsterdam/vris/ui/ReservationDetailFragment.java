@@ -27,7 +27,6 @@ import org.joda.time.DateTime;
 public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
     private TimeslotDetailReservationBinding mTimeslotDetailReservationBinding;
-    private BroadcastReceiver mBroadcastReceiver;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -66,11 +65,5 @@ public class ReservationDetailFragment extends BaseTimeSlotFragment {
             this.getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
         }
         return mTimeslotDetailReservationBinding.getRoot();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mBroadcastReceiver != null) this.getContext().unregisterReceiver(mBroadcastReceiver);
     }
 }

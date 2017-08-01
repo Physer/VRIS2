@@ -31,7 +31,7 @@ public interface INavigationService {
     /**
      * Navigate the the timeslot that is NOW regardless if it's already loaded
      */
-    void forceNavigateToHomeSlot();
+    void forceNavigateToHomeSlot(boolean hideKeyboard);
 
     /**
      * Navigate to a timeslot, show reservation if it is one, else show create view

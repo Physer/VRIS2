@@ -5,6 +5,7 @@
     <data>
         <import type="com.valtech.amsterdam.vris.ui.NewTimeSlotFragment" />
         <variable type="com.valtech.amsterdam.vris.ui.NewTimeSlotFragment" name="context" />
+        <variable type="org.joda.time.LocalDateTime" name="dateTime" />
         <variable type="com.valtech.amsterdam.vris.model.Room" name="room" />
         <variable type="com.valtech.amsterdam.vris.model.Reservation" name="newReservation" />
     </data>
@@ -14,10 +15,48 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/current_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:text="@{room.name, default=Room}"
+                android:textAlignment="textStart"
+                android:textAppearance="?attr/textAppearanceListItem"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/current_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:text="@{dateTime.toString(@string/dateFormat), default=@string/dateFormat}"
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+            <TextView
+                android:id="@+id/current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:text="@{dateTime.toString(@string/timeFormat), default=@string/timeFormat}"
+                android:textAlignment="textEnd"
+                android:textAppearance="?attr/textAppearanceListItem"
+                tools:ignore="RtlCompat" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="40dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -93,7 +132,13 @@
             android:layout_marginTop="50dp"
             android:contentDescription="Reservation title"
             android:hint="Reservation title"
-            android:inputType="text"
+            android:inputType="textImeMultiLine"
+            android:imeOptions="actionDone"
+            android:nextFocusForward="@null"
+            android:nextFocusRight="@null"
+            android:nextFocusLeft="@null"
+            android:nextFocusUp="@null"
+            android:nextFocusDown="@null"
             android:singleLine="true"
             android:text="@={newReservation.title}"
             android:textSize="40sp" />
@@ -104,7 +149,7 @@
             android:orientation="vertical"
             android:layout_weight="2"
             android:layout_marginTop="50dp"
-            android:layout_marginBottom="@dimen/text_margin">
+            android:layout_marginBottom="64dp">
 
             <LinearLayout
                 android:id="@+id/newReservationTime"

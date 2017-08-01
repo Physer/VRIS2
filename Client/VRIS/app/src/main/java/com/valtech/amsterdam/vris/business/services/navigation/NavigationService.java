@@ -67,12 +67,12 @@ public final class NavigationService implements INavigationService {
     public void navigateToHomeSlot() {
         CheckSetup();
         if(mIsHome) return;
-        forceNavigateToHomeSlot();
+        forceNavigateToHomeSlot(true);
     }
-    public void forceNavigateToHomeSlot() {
+    public void forceNavigateToHomeSlot(boolean hideKeyboard) {
         CheckSetup();
         ITimeSlot currentTimeSlot = getNowTimeSlot();
-        Fragment fragment = fTimeSlotDetailFragmentFactory.getDetail(currentTimeSlot);
+        Fragment fragment = fTimeSlotDetailFragmentFactory.getDetail(currentTimeSlot, hideKeyboard);
         navigateToFragment(fragment);
         selectTimeSlot(currentTimeSlot.getId());
         mIsHome = true;
@@ -80,7 +80,7 @@ public final class NavigationService implements INavigationService {
 
     public void navigateToTimeSlot(ITimeSlot timeSlot) {
         CheckSetup();
-        Fragment fragment = fTimeSlotDetailFragmentFactory.getDetailOrCreate(timeSlot);
+        Fragment fragment = fTimeSlotDetailFragmentFactory.getDetail(timeSlot, false);
         navigateToFragment(fragment);
         selectTimeSlot(timeSlot.getId());
     }
@@ -102,9 +102,7 @@ public final class NavigationService implements INavigationService {
     private void navigateToFragment(Fragment fragment) {
         CheckSetup();
         // Close keyboard on navigate
-        InputMethodManager inputMethodManager = (InputMethodManager)mCurrentActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        View focusView = mCurrentActivity.getCurrentFocus();
-        if(focusView != null) inputMethodManager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+        HideKeyboard();
 
         FragmentManager fragmentManager = mCurrentActivity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -114,6 +112,12 @@ public final class NavigationService implements INavigationService {
 
         fragmentTransaction.commitAllowingStateLoss();
         mIsHome = false;
+    }
+
+    private void HideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager)mCurrentActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        View focusView = mCurrentActivity.getCurrentFocus();
+        if(focusView != null) inputMethodManager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
     }
 
     private void CheckSetup() {

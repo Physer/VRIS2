@@ -1,5 +1,6 @@
 package com.valtech.amsterdam.vris.ui;
 
+import android.content.BroadcastReceiver;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -19,7 +20,10 @@ public abstract class BaseTimeSlotFragment extends BaseFragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_HIDE_KEYBOARD = "hide_keyboard";
 
+    @Nullable
+    protected BroadcastReceiver mBroadcastReceiver;
     @Nullable
     protected ITimeSlot mTimeSlot;
 
@@ -42,6 +46,18 @@ public abstract class BaseTimeSlotFragment extends BaseFragment {
             // to load content from a content provider.
             // todo find out another way to centralize getting a single timeslot
             mTimeSlot = ((NavigationService)navigationService).getTimeSlotUpdater().getById(getArguments().getInt(ARG_ITEM_ID));
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            if (mBroadcastReceiver != null)
+                this.getContext().unregisterReceiver(mBroadcastReceiver);
+        }
+        catch (IllegalArgumentException e){
+            return;
         }
     }
 }

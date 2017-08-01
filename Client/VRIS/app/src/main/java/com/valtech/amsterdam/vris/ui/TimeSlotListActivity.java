@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 
 import com.external.homewatcher.HomeWatcher;
@@ -41,6 +42,9 @@ import javax.inject.Inject;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
+
+// todo: Custom keyboard(don't opverlap list) https://stackoverflow.com/questions/33077300/android-custom-soft-keyboard-set-keyboard-width-to-match-parent-device-screen
+// https://code.tutsplus.com/tutorials/create-a-custom-keyboard-on-android--cms-22615
 public class TimeSlotListActivity extends BaseActivity implements Recyclistener<ITimeSlot>, OnClickListener {
     private final static String fLogTag = "TimeSlotListActivity";
     private BroadcastReceiver _broadcastReceiver;
@@ -67,6 +71,9 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
 
     private ContentObserver mObserver;
     private RecyclerView recyclerView;
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,13 +188,20 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
         findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 
+    private void HideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        View focusView = getCurrentFocus();
+        if(focusView != null) inputMethodManager.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+    }
+
     @Override
     public void showResults(Updater<ITimeSlot> updater) {
         Log.d(fLogTag, "showResults");
         findViewById(R.id.reservation_list).setVisibility(View.VISIBLE);
         setUpdater(updater);
         navigationService.setTimeSlotUpdater(updater);
-        navigationService.forceNavigateToHomeSlot();
+        navigationService.forceNavigateToHomeSlot(true);
+        HideKeyboard();
 
         final TimeSlotListActivity timeSlotListActivity = this;
         HomeWatcher mHomeWatcher = new HomeWatcher(this);
@@ -196,11 +210,13 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
             public void onHomePressed() {
                 navigationService.navigateToHomeSlot();
                 recyclerView.getLayoutManager().scrollToPosition(0);
+                HideKeyboard();
             }
             @Override
             public void onRecentAppsPressed() {
                 // todo: We might want to do somehting easter eggy (it's impossible to navigate to home neatly)
                 startActivity(new Intent(timeSlotListActivity, TimeSlotListActivity.class));
+                HideKeyboard();
             }
         });
         mHomeWatcher.startWatch();
@@ -216,6 +232,7 @@ public class TimeSlotListActivity extends BaseActivity implements Recyclistener<
                         recyclerView.getLayoutManager().scrollToPosition(0);
                         Log.i("User is idle", acitvityTimeStamp.toString() + " -> " + currentDateTime.toString());
                         acitvityTimeStamp = DateTime.now();
+                        HideKeyboard();
                     }else{
                         Log.i("User is not idle", acitvityTimeStamp.toString() + " -> " + currentDateTime.toString());
                     }
