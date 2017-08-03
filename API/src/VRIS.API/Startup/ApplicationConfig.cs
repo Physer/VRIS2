@@ -33,16 +33,7 @@ namespace VRIS.API.Startup
                 applicationBuilder.UseExceptionHandler("/Home/Error");
             }
 
-            applicationBuilder.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
-
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            applicationBuilder.UseMvc();
         }
     }
 }

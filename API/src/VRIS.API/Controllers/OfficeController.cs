@@ -17,6 +17,7 @@ namespace VRIS.API.Controllers
     {
         private readonly Test _test;
 
+        /// <inheritdoc cref="OfficeController"/>
         public OfficeController(Test test)
         {
             _test = test;
@@ -26,32 +27,38 @@ namespace VRIS.API.Controllers
         /// List all the <see cref="Office"/>s
         /// </summary>
         /// <returns></returns>
-        [HttpGet, ProducesResponseType(typeof(IEnumerable<Office>), (int) HttpStatusCode.OK)]
-        public async Task<IEnumerable<Office>> ListAsync() => (await _test.GetUserInfoAsync()).Select(
-            user => new Office());
+        [HttpGet, 
+            ProducesResponseType(typeof(IEnumerable<Office>), (int) HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> ListAsync() => new ObjectResult((await _test.GetUserInfoAsync()).Select(
+            user => new Office()));
 
         /// <summary>
         /// Get a specific <see cref="Office"/> by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id:int:required}"), ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK)]
-        public Office GetById([Required] int id) => new Office
+        [HttpGet("{id:int:required}"), 
+            ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult GetById([Required] int id) => new ObjectResult(new Office
         {
             Id = 0,
             Name = "5A"
-        };
+        });
 
         /// <summary>
         /// Get a specific <see cref="Office"/> by name
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        [HttpGet("{name:required}"), ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK)]
-        public Office GetByName([Required] string name) => new Office
+        [HttpGet("{name:required}"), 
+            ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult GetByName([Required] string name) => new ObjectResult(new Office
         {
             Id = 1,
             Name = "5B"
-        };
+        });
     }
 }

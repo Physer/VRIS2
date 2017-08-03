@@ -19,8 +19,10 @@ namespace VRIS.API.Controllers
         /// </summary>
         /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
         /// <returns></returns>
-        [HttpGet("{officeId:int:required}"), ProducesResponseType(typeof(IEnumerable<Appointment>), (int) HttpStatusCode.OK)]
-        public IEnumerable<Appointment> List([Required] int officeId) => List(officeId, DateTime.UtcNow);
+        [HttpGet("{officeId:int:required}"), 
+            ProducesResponseType(typeof(IEnumerable<Appointment>), (int) HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult List([Required] int officeId) => List(officeId, DateTime.UtcNow);
 
         /// <summary>
         /// List all the <see cref="Appointment"/>s for this <see cref="Office"/>
@@ -28,8 +30,11 @@ namespace VRIS.API.Controllers
         /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
         /// <param name="date">The day to show the <see cref="Appointment"/>s from</param>
         /// <returns></returns>
-        [HttpGet("{officeId:int:required}/{date:datetime:required}"), ProducesResponseType(typeof(IEnumerable<Appointment>), (int)HttpStatusCode.OK)]
-        public IEnumerable<Appointment> List([Required] int officeId, [Required] DateTime date) => new[] {
+        [HttpGet("{officeId:int:required}/{date:datetime:required}"), 
+            ProducesResponseType(typeof(IEnumerable<Appointment>), (int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult List([Required] int officeId, [Required] DateTime date) => new ObjectResult(new[] {
             new Appointment
             {
                 Id = 99,
@@ -44,7 +49,7 @@ namespace VRIS.API.Controllers
                 EndUtc = date.ToUniversalTime().AddHours(2),
                 OfficeId = officeId
             }
-        };
+        });
 
         // todo get single appointment? or just get data from another api
     }
