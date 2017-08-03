@@ -35,10 +35,17 @@ namespace VRIS.API.Controllers
         /// List all the <see cref="Appointment"/>s for this <see cref="Office"/>
         /// </summary>
         /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
-        /// <returns></returns>
+        /// <returns>List of all the <see cref="Appointment"/>s for this <see cref="Office"/></returns>
+        /// <response code="200">List of all the <see cref="Appointment"/>s for this <see cref="Office"/></response>
+        /// <response code="400">No past dates allowed</response>
+        /// <response code="404">
+        /// No office found with id {officeId} &#10; 
+        /// No appointment found for the office {office.Name}({officeId})
+        /// </response>
         [HttpGet("{officeId:int:required}"),
-             ProducesResponseType(typeof(IEnumerable<Appointment>), (int)HttpStatusCode.OK),
-             ProducesResponseType((int)HttpStatusCode.NotFound)]
+         ProducesResponseType(typeof(IEnumerable<Appointment>), (int)HttpStatusCode.OK),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public IActionResult List([Required] int officeId) => List(officeId, DateTime.UtcNow);
 
         /// <summary>
@@ -46,11 +53,17 @@ namespace VRIS.API.Controllers
         /// </summary>
         /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
         /// <param name="date">The day to show the <see cref="Appointment"/>s from</param>
-        /// <returns></returns>
+        /// <returns>List of all the <see cref="Appointment"/>s for this <see cref="Office"/></returns>
+        /// <response code="200">List of all the <see cref="Appointment"/>s for this <see cref="Office"/></response>
+        /// <response code="400">No past dates allowed</response>
+        /// <response code="404">
+        /// No office found with id {officeId} &#10; 
+        /// No appointment found for the office {office.Name}({officeId})
+        /// </response>
         [HttpGet("{officeId:int:required}/{date:datetime:required}"),
-             ProducesResponseType(typeof(IEnumerable<Appointment>), (int)HttpStatusCode.OK),
-             ProducesResponseType((int)HttpStatusCode.BadRequest),
-             ProducesResponseType((int)HttpStatusCode.NotFound)]
+         ProducesResponseType(typeof(IEnumerable<Appointment>), (int)HttpStatusCode.OK),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public IActionResult List([Required] int officeId, [Required] DateTime date)
         {
             var office = _officeRepository.Read(officeId);
@@ -79,10 +92,15 @@ namespace VRIS.API.Controllers
         /// </summary>
         /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
         /// <param name="appointmentId">The id of the <see cref="Appointment"/> to return</param>
-        /// <returns></returns>
+        /// <returns><see cref="Appointment"/></returns>
+        /// <response code="200"><see cref="Appointment"/></response>
+        /// <response code="404">
+        /// No office found with id {officeId} &#10; 
+        /// No appointment found with the id {appointmentId} for the office {office.Name}({officeId})
+        /// </response>
         [HttpGet("{officeId:int:required}/{appointmentId:int:required}"),
-            ProducesResponseType(typeof(Appointment), (int)HttpStatusCode.OK),
-            ProducesResponseType((int)HttpStatusCode.NotFound)]
+         ProducesResponseType(typeof(Appointment), (int)HttpStatusCode.OK),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public IActionResult Get([Required] int officeId, [Required] int appointmentId)
         {
             var office = _officeRepository.Read(officeId);
@@ -106,11 +124,16 @@ namespace VRIS.API.Controllers
         /// </summary>
         /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
         /// <param name="appointment">A new appointment <see cref="Appointment"/> to create</param>
-        /// <returns></returns>
+        /// <returns><see cref="Appointment"/></returns>
+        /// <response code="200"><see cref="Appointment"/></response>
+        /// <response code="404"> No office found with id {officeId} </response>
+        /// <response code="405"> You are required to have an <see cref="Appointment"/> in the request body </response>
+        /// <response code="406"> New <see cref="Appointment"/> items are not allowed to have an id </response>
         [HttpPost("{officeId:int:required}"),
             ProducesResponseType(typeof(Appointment), (int)HttpStatusCode.Created),
-            ProducesResponseType((int)HttpStatusCode.MethodNotAllowed),
-            ProducesResponseType((int)HttpStatusCode.NotAcceptable)]
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound),
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.MethodNotAllowed),
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.NotAcceptable)]
         public IActionResult Post([Required] int officeId, [Required, FromBody] Appointment appointment)
         {
             var office = _officeRepository.Read(officeId);
@@ -146,12 +169,19 @@ namespace VRIS.API.Controllers
         /// </summary>
         /// <param name="officeId">The id of the <see cref="Office"/> to list the <see cref="Appointment"/>s from</param>
         /// <param name="appointment">An appointment <see cref="Appointment"/> to update</param>
-        /// <returns></returns>
+        /// <returns><see cref="Appointment"/></returns>
+        /// <response code="200"><see cref="Appointment"/></response>
+        /// <response code="404"> 
+        /// No office found with id {officeId} &#10;  
+        /// No appointment found with the id {appointmentId} for the office {office.Name}({officeId})
+        /// </response>
+        /// <response code="405"> You are required to have an <see cref="Appointment"/> in the request body </response>
+        /// <response code="406"> No <see cref="Appointment"/> item found with id {appointment.Id} </response>
         [HttpPut("{officeId:int:required}"),
             ProducesResponseType(typeof(Appointment), (int)HttpStatusCode.OK),
-            ProducesResponseType((int)HttpStatusCode.NotAcceptable),
-            ProducesResponseType((int)HttpStatusCode.MethodNotAllowed),
-            ProducesResponseType((int)HttpStatusCode.NotFound)]
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.NotAcceptable),
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.MethodNotAllowed),
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public IActionResult Put([Required] int officeId, [Required, FromBody] Appointment appointment)
         {
             var office = _officeRepository.Read(officeId);
@@ -195,12 +225,19 @@ namespace VRIS.API.Controllers
         /// Deletes an <see cref="Appointment"/> by id
         /// </summary>
         /// <param name="appointmentId">The id of the <see cref="Appointment"/> to return</param>
-        /// <returns></returns>
+        /// <returns><see cref="Appointment"/></returns>
+        /// <response code="200">Deleted appointment with id {appointmentId}</response>
+        /// <response code="400">Couldn't delete appointment with id {appointmentId}</response>
+        /// <response code="404"> 
+        /// No office found with id {officeId} &#10; 
+        /// No appointment found with the id {appointmentId} for the office {office.Name}({officeId})
+        /// </response>
+        /// <response code="500"> Couldn't delete appointment with id {appointmentId}, reason: {reason} </response>
         [HttpDelete("{appointmentId:int:required}"),
-            ProducesResponseType((int)HttpStatusCode.OK),
-            ProducesResponseType((int)HttpStatusCode.BadRequest),
-            ProducesResponseType((int)HttpStatusCode.NotFound),
-            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.OK),
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest),
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound),
+            ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
         public IActionResult Delete([Required] int appointmentId)
         {
             try

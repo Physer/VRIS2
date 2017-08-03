@@ -24,20 +24,22 @@ namespace VRIS.API.Controllers
         /// <summary>
         /// List all the <see cref="Office"/>s
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of all <see cref="Office"/>s</returns>
+        /// <response code="200">List of all <see cref="Office"/>s</response>
         [HttpGet, 
-            ProducesResponseType(typeof(IEnumerable<Office>), (int) HttpStatusCode.OK),
-            ProducesResponseType((int)HttpStatusCode.NotFound)]
+         ProducesResponseType(typeof(IEnumerable<Office>), (int) HttpStatusCode.OK)]
         public IActionResult List() => new ObjectResult(_officeRepository.List());
 
         /// <summary>
         /// Get a specific <see cref="Office"/> by officeId
         /// </summary>
-        /// <param name="officeId"></param>
-        /// <returns></returns>
+        /// <param name="officeId">Unique identifier of the <see cref="Office"/></param>
+        /// <returns><see cref="Office"/></returns>
+        /// <response code="200"><see cref="Office"/></response>
+        /// <response code="404">No office found with id {officeId}</response>
         [HttpGet("{officeId:int:required}"), 
-            ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
-            ProducesResponseType((int)HttpStatusCode.NotFound)]
+         ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public IActionResult GetById([Required] int officeId)
         {
             var office = _officeRepository.Read(officeId);
@@ -52,17 +54,22 @@ namespace VRIS.API.Controllers
         /// <summary>
         /// Get a specific <see cref="Office"/> by officeName
         /// </summary>
-        /// <param name="officeName"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// If the name is not unique, a 404 is given
+        /// </remarks>
+        /// <param name="officeName">Name of the <see cref="Office"/></param>
+        /// <returns><see cref="Office"/></returns>
+        /// <response code="200"><see cref="Office"/></response>
+        /// <response code="404">No (unique) office found with name {officeName}</response>
         [HttpGet("{officeName:required}"), 
-            ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
-            ProducesResponseType((int)HttpStatusCode.NotFound)]
+         ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public IActionResult GetByName([Required] string officeName)
         {
             var office = _officeRepository.FindByName(officeName);
             if (office == null) return new ContentResult
             {
-                Content = $"No office found with id {officeName}",
+                Content = $"No (unique) office found with name {officeName}",
                 StatusCode = (int)HttpStatusCode.NotFound
             };
             return new ObjectResult(office);

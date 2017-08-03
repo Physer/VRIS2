@@ -24,7 +24,7 @@ namespace VRIS.Business.Repositories
         public TModel Create(TModel addItem)
         {
             if (addItem.Id.HasValue) throw new ArgumentException(
-                $"new {typeof(TModel).Name} items are not allowed to have an id", nameof(addItem.Id));
+                $"New {typeof(TModel).Name} items are not allowed to have an id", nameof(addItem.Id));
             addItem.Id = _mockList.Count;
             _mockList.Add(addItem);
             return addItem;
