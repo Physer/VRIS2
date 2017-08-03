@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VRIS.Business.Repositories.Office;
 using VRIS.Domain.Models;
-using VRIS.OutlookConnect;
 
 namespace VRIS.API.Controllers
 {
@@ -34,32 +31,40 @@ namespace VRIS.API.Controllers
         public IActionResult List() => new ObjectResult(_officeRepository.List());
 
         /// <summary>
-        /// Get a specific <see cref="Office"/> by id
+        /// Get a specific <see cref="Office"/> by officeId
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="officeId"></param>
         /// <returns></returns>
-        [HttpGet("{id:int:required}"), 
+        [HttpGet("{officeId:int:required}"), 
             ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
             ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult GetById([Required] int id)
+        public IActionResult GetById([Required] int officeId)
         {
-            var office = _officeRepository.Read(id);
-            if (office == null) return new NotFoundResult();
+            var office = _officeRepository.Read(officeId);
+            if (office == null) return new ContentResult
+            {
+                Content = $"No office found with id {officeId}",
+                StatusCode = (int)HttpStatusCode.NotFound
+            };
             return new ObjectResult(office);
         }
 
         /// <summary>
-        /// Get a specific <see cref="Office"/> by name
+        /// Get a specific <see cref="Office"/> by officeName
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="officeName"></param>
         /// <returns></returns>
-        [HttpGet("{name:required}"), 
+        [HttpGet("{officeName:required}"), 
             ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
             ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult GetByName([Required] string name)
+        public IActionResult GetByName([Required] string officeName)
         {
-            var office = _officeRepository.FindByName(name);
-            if (office == null) return new NotFoundResult();
+            var office = _officeRepository.FindByName(officeName);
+            if (office == null) return new ContentResult
+            {
+                Content = $"No office found with id {officeName}",
+                StatusCode = (int)HttpStatusCode.NotFound
+            };
             return new ObjectResult(office);
         }
     }

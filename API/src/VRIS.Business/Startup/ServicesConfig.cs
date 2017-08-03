@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Graph;
 using VRIS.Business.Repositories.Appointments;
 using VRIS.Business.Repositories.Office;
 using VRIS.Domain.Models;
