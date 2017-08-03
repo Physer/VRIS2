@@ -19,11 +19,9 @@ namespace VRIS.Business.Repositories
 
         /// <inheritdoc cref="IRepository{TModel}"/>
         public IEnumerable<TModel> List() => new List<TModel>(_mockList);
-        /// <inheritdoc cref="IRepository{TModel}"/>
-        public TModel Get(int id) => _mockList.FirstOrDefault(item => item.Id.Equals(id));
 
         /// <inheritdoc cref="IRepository{TModel}"/>
-        public TModel Add(TModel addItem)
+        public TModel Create(TModel addItem)
         {
             if (addItem.Id.HasValue) throw new ArgumentException(
                 $"new {typeof(TModel).Name} items are not allowed to have an id", nameof(addItem.Id));
@@ -33,12 +31,15 @@ namespace VRIS.Business.Repositories
         }
 
         /// <inheritdoc cref="IRepository{TModel}"/>
+        public TModel Read(int id) => _mockList.FirstOrDefault(item => item.Id.Equals(id));
+
+        /// <inheritdoc cref="IRepository{TModel}"/>
         public TModel Update(TModel setItem)
         {
-            if (!setItem.Id.HasValue) throw new ArgumentException(
+            if (!setItem.Id.HasValue) throw new ArgumentNullException(
                 $"{typeof(TModel).Name} items require an Id", nameof(setItem.Id));
 
-            var originalItem = _mockList.Single(item => setItem.Id.Equals(item.Id));
+            var originalItem = _mockList.SingleOrDefault(item => setItem.Id.Equals(item.Id));
             if (originalItem == null) throw new ArgumentException(
                 $"No {typeof(TModel).Name} item found with id {setItem.Id}", nameof(setItem.Id));
 
@@ -50,7 +51,7 @@ namespace VRIS.Business.Repositories
         /// <inheritdoc cref="IRepository{TModel}"/>
         public bool Delete(int itemId)
         {
-            var originalItem = _mockList.Single(item => itemId.Equals(item.Id));
+            var originalItem = _mockList.SingleOrDefault(item => itemId.Equals(item.Id));
             if (originalItem == null) throw new ArgumentException(
                 $"No {typeof(TModel).Name} item found with id {itemId}", nameof(itemId));
 

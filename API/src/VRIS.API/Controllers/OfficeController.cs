@@ -43,7 +43,7 @@ namespace VRIS.API.Controllers
             ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult GetById([Required] int id)
         {
-            var office = _officeRepository.Get(id);
+            var office = _officeRepository.Read(id);
             if (office == null) return new NotFoundResult();
             return new ObjectResult(office);
         }

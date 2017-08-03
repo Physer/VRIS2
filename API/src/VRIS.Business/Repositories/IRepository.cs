@@ -17,18 +17,18 @@ namespace VRIS.Business.Repositories
         IEnumerable<TModel> List();
 
         /// <summary>
-        /// Get an item by Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        TModel Get(int id);
-
-        /// <summary>
-        /// Add a new item, make sure the id is not set
+        /// Create a new item, make sure the id is not set
         /// </summary>
         /// <param name="addItem"></param>
         /// <returns></returns>
-        TModel Add(TModel addItem);
+        TModel Create(TModel addItem);
+
+        /// <summary>
+        /// Read an item by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        TModel Read(int id);
 
         /// <summary>
         /// Update an item, make sure it has an id
