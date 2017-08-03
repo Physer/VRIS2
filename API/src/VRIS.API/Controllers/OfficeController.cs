@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using VRIS.Business.Repositories.Office;
 using VRIS.Domain.Models;
 using VRIS.OutlookConnect;
 
@@ -15,12 +16,12 @@ namespace VRIS.API.Controllers
     [Route("api/[controller]"), Produces("application/json")]
     public class OfficeController : Controller
     {
-        private readonly Test _test;
+        private readonly IOfficeRepository _officeRepository;
 
         /// <inheritdoc cref="OfficeController"/>
-        public OfficeController(Test test)
+        public OfficeController(IOfficeRepository officeRepository)
         {
-            _test = test;
+            _officeRepository = officeRepository;
         }
 
         /// <summary>
@@ -30,8 +31,7 @@ namespace VRIS.API.Controllers
         [HttpGet, 
             ProducesResponseType(typeof(IEnumerable<Office>), (int) HttpStatusCode.OK),
             ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> ListAsync() => new ObjectResult((await _test.GetUserInfoAsync()).Select(
-            user => new Office()));
+        public IActionResult List() => new ObjectResult(_officeRepository.List());
 
         /// <summary>
         /// Get a specific <see cref="Office"/> by id
@@ -41,11 +41,12 @@ namespace VRIS.API.Controllers
         [HttpGet("{id:int:required}"), 
             ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
             ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult GetById([Required] int id) => new ObjectResult(new Office
+        public IActionResult GetById([Required] int id)
         {
-            Id = 0,
-            Name = "5A"
-        });
+            var office = _officeRepository.Get(id);
+            if (office == null) return new NotFoundResult();
+            return new ObjectResult(office);
+        }
 
         /// <summary>
         /// Get a specific <see cref="Office"/> by name
@@ -55,10 +56,11 @@ namespace VRIS.API.Controllers
         [HttpGet("{name:required}"), 
             ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
             ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult GetByName([Required] string name) => new ObjectResult(new Office
+        public IActionResult GetByName([Required] string name)
         {
-            Id = 1,
-            Name = "5B"
-        });
+            var office = _officeRepository.FindByName(name);
+            if (office == null) return new NotFoundResult();
+            return new ObjectResult(office);
+        }
     }
 }

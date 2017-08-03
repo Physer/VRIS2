@@ -1,5 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Graph;
+using VRIS.Business.Repositories.Appointments;
+using VRIS.Business.Repositories.Office;
+using VRIS.Domain.Models;
+using VRIS.Domain.Models.Appointments;
 
 namespace VRIS.Business.Startup
 {
@@ -21,6 +28,28 @@ namespace VRIS.Business.Startup
             // Add custom services
 
             // Add repositories
+            services.AddSingleton<IOfficeRepository, MockOfficeRepository>(provider => new MockOfficeRepository(new List<Office>
+            {
+                new Office
+                {
+                    Id = 0,
+                    Name = "Ams 5A"
+                },
+                new Office
+                {
+                    Id = 1,
+                    Name = "Ams 5B"
+                }
+            }));
+            services.AddSingleton<IAppointmentRepository, MockAppointmentRepository>(provider => new MockAppointmentRepository(new List<Appointment>
+            {
+                new Appointment
+                {
+                    Id = 0,
+                    OfficeId = 0,
+                    Subject = "Test appointment"
+                }
+            }));
         }
     }
 }

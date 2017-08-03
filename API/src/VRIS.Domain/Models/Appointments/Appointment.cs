@@ -5,12 +5,12 @@ namespace VRIS.Domain.Models.Appointments
     /// <summary>
     /// Model displaying an appointment entry that has no Date and time scope
     /// </summary>
-    public class Appointment
+    public class Appointment : IHasId
     {
         /// <summary>
         /// The unique identifier of the appointment
         /// </summary>
-        [Required] public int Id { get; set; }
+        [Required] public int? Id { get; set; }
 
         /// <summary>
         /// The appointment subject
