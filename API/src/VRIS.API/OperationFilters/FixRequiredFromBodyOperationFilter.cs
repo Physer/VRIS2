@@ -18,7 +18,7 @@ namespace VRIS.API.OperationFilters
             SetBodyParametersAsRequired(operation, context);
         }
 
-        private void SetBodyParametersAsRequired(Operation operation, OperationFilterContext context)
+        private static void SetBodyParametersAsRequired(Operation operation, OperationFilterContext context)
         {
             var bodyParameters = operation.Parameters
                 .Where(p => p is BodyParameter);
