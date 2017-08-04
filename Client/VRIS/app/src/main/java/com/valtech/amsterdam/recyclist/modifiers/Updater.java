@@ -11,7 +11,7 @@ import java.util.List;
  * Created by jasper.van.zijp on 24-7-2017.
  */
 
-public class Updater<TModel> {
+public class Updater<TModel extends IHasId> {
     private final static String fLogTag = "UPDATER";
     private List<Integer> mLastInsertedList;
     private List<Integer> mLastUpdatedList;
@@ -29,6 +29,8 @@ public class Updater<TModel> {
         mLastInsertedList = new ArrayList<>();
         mLastUpdatedList = new ArrayList<>();
     }
+
+    public List<TModel> getList() { return mObjects; }
 
     public int add(TModel object) {
         Log.d(fLogTag, "add: " + object);
@@ -84,5 +86,17 @@ public class Updater<TModel> {
         }
 
         Log.d(fLogTag, "notifyItemUpdated adapter item count after: " + mAdapter.getItemCount());
+    }
+
+    public TModel getById(int id) {
+        if(id < 0) throw new IndexOutOfBoundsException();
+
+        for (TModel timeSlot: mObjects) {
+            if(id != timeSlot.getId()) continue;
+            return timeSlot;
+        }
+
+        throw new IndexOutOfBoundsException();
+
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using VRIS.API.OperationFilters;
 
 namespace VRIS.API.Startup
 {
@@ -29,6 +31,7 @@ namespace VRIS.API.Startup
                 options.SwaggerDoc(SwaggerInfo.Version, SwaggerInfo);
                 options.IncludeXmlComments(pathToDoc);
                 options.DescribeAllEnumsAsStrings();
+                options.OperationFilter<FixRequiredFromBodyOperationFilter>();
             });
         }
 

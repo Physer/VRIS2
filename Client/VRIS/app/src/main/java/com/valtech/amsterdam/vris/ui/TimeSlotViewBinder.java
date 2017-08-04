@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.valtech.amsterdam.recyclist.RecyclistViewBinder;
 import com.valtech.amsterdam.vris.R;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
+import com.valtech.amsterdam.vris.model.OnClickListener;
 import com.valtech.amsterdam.vris.model.Reservation;
 
 /**
@@ -21,37 +22,44 @@ import com.valtech.amsterdam.vris.model.Reservation;
 public class TimeSlotViewBinder implements RecyclistViewBinder<ITimeSlot> {
 
     @Override
-    public void bindView(View view, final ITimeSlot timeSlot, final OnClickListener clickListener, int position) {
+    public void bindView(View view, final ITimeSlot timeSlot, final OnClickListener clickListener, final int position) {
 
         RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.timeslot_layout);
+        RelativeLayout arrow = (RelativeLayout) view.findViewById(R.id.timeslot_arrow);
         RelativeLayout shadow = (RelativeLayout) layout.findViewById(R.id.timeslot_shadow);
         TextView titleElement = (TextView) view.findViewById(R.id.reservation_title);
         TextView startTimeElement = (TextView) view.findViewById(R.id.from);
         TextView endTimeElement = (TextView) view.findViewById(R.id.to);
-        ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();
+        ViewGroup.LayoutParams slotLayoutParams = layout.getLayoutParams();
+        ViewGroup.LayoutParams arrowLayoutParams = arrow.getLayoutParams();
 
         shadow.setVisibility(timeSlot.getSelected() ? LinearLayout.INVISIBLE : LinearLayout.VISIBLE);
         if(timeSlot instanceof Reservation) {
-            titleElement.setText(((Reservation)timeSlot).getmTitle());
+            titleElement.setText(((Reservation)timeSlot).getTitle());
 
-            if (timeSlot.getSelected()) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotSelected)));
-            else if (position % 2 == 1) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOdd)));
+            if (position % 2 == 1) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOdd)));
             else view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotEven)));
         }
-        else{
-            if (timeSlot.getSelected()) view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOpenSelected)));
-            else view.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(view.getContext(),R.color.colorSlotOpen)));
+
+        if (timeSlot.getSelected()) {
+            arrow.setVisibility(View.VISIBLE);
+            shadow.setVisibility(View.INVISIBLE);
+        }
+        else {
+            arrow.setVisibility(View.INVISIBLE);
+            shadow.setVisibility(View.VISIBLE);
         }
 
-        SetDynamicHeigthAccordingToSlotTime(view, timeSlot, layoutParams);
-        layout.setLayoutParams(layoutParams);
-        startTimeElement.setText(timeSlot.getStartDate().toString("HH:mm"));
-        endTimeElement.setText(timeSlot.getEndDate().toString("HH:mm"));
+
+        SetDynamicHeigthAccordingToSlotTime(view, timeSlot, slotLayoutParams);
+        layout.setLayoutParams(slotLayoutParams);
+        startTimeElement.setText(timeSlot.getStart().toString("HH:mm"));
+        endTimeElement.setText(timeSlot.getEnd().toString("HH:mm"));
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onClick(timeSlot);
+                clickListener.onClick(timeSlot, position);
             }
         });
     }

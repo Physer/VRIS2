@@ -2,10 +2,11 @@ package com.valtech.amsterdam.recyclist;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.valtech.amsterdam.recyclist.modifiers.IHasId;
 import com.valtech.amsterdam.recyclist.modifiers.Inserter;
 import com.valtech.amsterdam.recyclist.modifiers.PositionDeterminator;
 import com.valtech.amsterdam.recyclist.modifiers.Updater;
-import com.valtech.amsterdam.vris.ui.OnClickListener;
+import com.valtech.amsterdam.vris.model.OnClickListener;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by jasper.van.zijp on 26-5-2017.
  */
 
-public class Recyclist<TModel> {
+public class Recyclist<TModel extends IHasId> {
 
     private Recyclistener mListener;
     private RecyclistViewBinder<TModel> mViewBinder;
@@ -25,6 +26,7 @@ public class Recyclist<TModel> {
     private RecyclistAdapter<TModel> mAdapter;
     private PositionDeterminator<TModel> mPositionDeterminator;
     private Inserter<TModel> mInserter;
+    private AsyncCommandExecutor<List<TModel>> taskExecutor;
 
     public Recyclist(LoadListCommand<TModel> loadListCommand, ViewSelector<TModel> modelViewSelector, RecyclistViewBinder<TModel> viewBinder, PositionDeterminator<TModel> positionDeterminator, Inserter<TModel> inserter) {
         mLoadListCommand = loadListCommand;
@@ -44,7 +46,8 @@ public class Recyclist<TModel> {
         mListener.hideResults();
         mListener.hideError();
 
-        AsyncCommandExecutor<List<TModel>> taskExecutor = new AsyncCommandExecutor<>(new TaskListener<List<TModel>>() {
+        if(taskExecutor != null) taskExecutor.cancel(true);
+        taskExecutor = new AsyncCommandExecutor<>(new TaskListener<List<TModel>>() {
             @Override
             public void onComplete(List<TModel> results) {
                 onLoadComplete(results);

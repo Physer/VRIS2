@@ -1,6 +1,7 @@
 package com.valtech.amsterdam.vris.model;
 
 import android.content.ContentValues;
+import android.databinding.BaseObservable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -13,39 +14,55 @@ import org.joda.time.LocalDateTime;
  * Created by jasper.van.zijp on 18-7-2017.
  */
 
-public class TimeSlot implements ITimeSlot {
+/**
+ * An empty @ITimeSlot between two @Reservations
+ */
+public class TimeSlot extends BaseObservable implements ITimeSlot {
     @SerializedName("Id") private int mId;
     @SerializedName("Start") private LocalDateTime mStart;
     @SerializedName("End") private LocalDateTime mEnd;
     private boolean isSelected;
 
+    /**
+     * Initiate a new timeslot
+     * @param id
+     * @param start
+     * @param end
+     */
     public TimeSlot(int id, LocalDateTime start, LocalDateTime end) {
         mId = id;
         mStart = start;
         mEnd = end;
     }
 
+    /**
+     * Get the id of the current TimeSlot
+     * @return
+     */
     public int getId() {
         return mId;
     }
-    public void setId(int id) {
-        mId = id;
-    }
 
-    public LocalDateTime getStartDate() {
+    /**
+     * Get the date the TimeSlot starts in local time
+     * @return
+     */
+    public LocalDateTime getStart() {
         return mStart;
     }
-    public void setStartDate(LocalDateTime start) {
-        mStart = start;
-    }
 
-    public LocalDateTime getEndDate() {
+    /**
+     * Get the date the TimeSlot end in local time
+     * @return
+     */
+    public LocalDateTime getEnd() {
         return mEnd;
     }
-    public void setEndDate(LocalDateTime end) {
-        mEnd = end;
-    }
 
+    /**
+     * Get the length of the TimeSlot in minutes
+     * @return
+     */
     public int getDurationInMinutes(){
         long diffInMillis =
             mEnd.toDateTime(DateTimeZone.UTC).getMillis() -
@@ -54,21 +71,37 @@ public class TimeSlot implements ITimeSlot {
         return diffInSeconds / 60;
     }
 
+    /**
+     * Get whether or not this TimeSlot is the selected TimeSlot in the menu
+     * @return
+     */
     public boolean getSelected(){
         return isSelected;
     }
+    /**
+     * Set this TimeSlot to be selected
+     * @param isSelected
+     */
     public void setSelected(boolean isSelected){
         this.isSelected = isSelected;
     }
 
+    /**
+     * Serialize the content
+     * @return
+     */
     public ContentValues toContentValues() {
         ContentValues cv = new ContentValues();
         cv.put("Id", getId());
-        cv.put("Start", getStartDate().toString());
-        cv.put("End", getEndDate().toString());
+        cv.put("Start", getStart().toString());
+        cv.put("End", getStart().toString());
         return cv;
     }
 
+    /**
+     * Deserialize the content
+     * @return
+     */
     public static TimeSlot fromContentValues(ContentValues cv) {
         int id = cv.getAsInteger("Id");
         LocalDateTime start = DateTime.parse(cv.getAsString("Start")).toLocalDateTime();

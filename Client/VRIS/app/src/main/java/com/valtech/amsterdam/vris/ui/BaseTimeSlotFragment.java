@@ -1,9 +1,11 @@
 package com.valtech.amsterdam.vris.ui;
 
+import android.content.BroadcastReceiver;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.Nullable;
 
-import com.valtech.amsterdam.vris.business.loaders.ITimeSlotLoader;
+import com.valtech.amsterdam.vris.business.services.navigation.INavigationService;
+import com.valtech.amsterdam.vris.business.services.navigation.NavigationService;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
 
 import javax.inject.Inject;
@@ -18,37 +20,23 @@ public abstract class BaseTimeSlotFragment extends BaseFragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_HIDE_KEYBOARD = "hide_keyboard";
 
+    @Nullable
+    protected BroadcastReceiver mBroadcastReceiver;
+    @Nullable
+    protected ITimeSlot mTimeSlot;
+
+    // todo remove find out another way to centralize getting a single timeslot
     @Inject
-    ITimeSlotLoader timeSlotLoader;
-    private int stackId;
-    private boolean initiated = false;
+    INavigationService navigationService;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        stackId = fragmentManager.getBackStackEntryCount();
-        if(initiated) return;
-
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            public void onBackStackChanged() {
-                if(!initiated) return;
-                int navigatingStackId = fragmentManager.getBackStackEntryCount();
-
-                if(stackId < navigatingStackId) return;
-                if(stackId == navigatingStackId) selectTimeSlot();
-                if(stackId > navigatingStackId) {
-                    fragmentManager.removeOnBackStackChangedListener(this);
-                    initiated = false;
-                }
-            }
-        });
 
         loadTimeSlotInView();
-        selectTimeSlot();
-        initiated = true;
     }
 
     private void loadTimeSlotInView() {
@@ -56,14 +44,20 @@ public abstract class BaseTimeSlotFragment extends BaseFragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            ITimeSlot timeSlot = timeSlotLoader.getById(getArguments().getInt(ARG_ITEM_ID));
-            if(timeSlot != null ) {
-                timeSlotLoaded(timeSlot);
-            }
+            // todo find out another way to centralize getting a single timeslot
+            mTimeSlot = ((NavigationService)navigationService).getTimeSlotUpdater().getById(getArguments().getInt(ARG_ITEM_ID));
         }
     }
 
-    protected abstract void timeSlotLoaded(ITimeSlot timeSlot);
-    protected abstract void selectTimeSlot();
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            if (mBroadcastReceiver != null)
+                this.getContext().unregisterReceiver(mBroadcastReceiver);
+        }
+        catch (IllegalArgumentException e){
+            return;
+        }
+    }
 }

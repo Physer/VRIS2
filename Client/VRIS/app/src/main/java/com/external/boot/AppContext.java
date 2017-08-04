@@ -1,4 +1,4 @@
-package com.valtech.amsterdam.vris.boot;
+package com.external.boot;
 
 import android.app.Application;
 import android.content.Context;

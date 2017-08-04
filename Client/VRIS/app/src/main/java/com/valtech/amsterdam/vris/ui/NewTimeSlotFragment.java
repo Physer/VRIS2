@@ -1,15 +1,29 @@
 package com.valtech.amsterdam.vris.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.model.ITimeSlot;
+import com.valtech.amsterdam.vris.business.services.navigation.NavigationService;
+import com.valtech.amsterdam.vris.databinding.TimeslotDetailNewBinding;
+import com.valtech.amsterdam.vris.model.Person;
+import com.valtech.amsterdam.vris.model.Reservation;
+import com.valtech.amsterdam.vris.model.Room;
+
+import org.joda.time.DateTime;
 
 /**
  * A fragment representing a single Reservation detail screen.
@@ -18,11 +32,10 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
  */
 public class NewTimeSlotFragment extends BaseTimeSlotFragment {
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    @Nullable
-    private ITimeSlot timeSlot;
+    private TimeslotDetailNewBinding mNewTimeSlotBinding;
+    private Reservation mReservationItem;
+    private EditText mTextField;
+    private Animation fShakeAnimation;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -35,24 +48,76 @@ public class NewTimeSlotFragment extends BaseTimeSlotFragment {
         Log.w("NewTimeSlotFragment","onCreate");
         ((VrisAppContext)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
+        fShakeAnimation = AnimationUtils.loadAnimation(getContext() ,R.anim.shake);
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        mTextField = (EditText)mNewTimeSlotBinding.getRoot().findViewById(R.id.editText);
+        focus();
+        if (getArguments() != null && getArguments().containsKey(ARG_HIDE_KEYBOARD)) {
+            if(getArguments().getInt(ARG_HIDE_KEYBOARD) == 0) return;
+        }
+        focusAndShowKeyboard();
     }
 
     @Override
-    protected void timeSlotLoaded(ITimeSlot timeSlot) {
-        Log.w("NewTimeSlotFragment","timeSlotLoaded ("+timeSlot.getId()+")");
-        this.timeSlot = timeSlot;
-    }
-    @Override
-    protected void selectTimeSlot() {
-        Log.w("NewTimeSlotFragment","selectTimeSlot ("+timeSlot.getId()+")");
-        timeSlotLoader.select(timeSlot);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mNewTimeSlotBinding = DataBindingUtil.inflate( inflater, R.layout.timeslot_detail_new, container, false);
+
+        if (mTimeSlot != null) {
+            // todo a lot
+            mReservationItem = new Reservation(-1, null, mTimeSlot.getStart(), mTimeSlot.getEnd(), new Person(-1, "Vris"), null);
+            // todo resolve room
+            mNewTimeSlotBinding.setContext(this);
+            mNewTimeSlotBinding.setDateTime(DateTime.now().toLocalDateTime());
+            mNewTimeSlotBinding.setRoom(new Room(2, "AMS 0X"));
+            mNewTimeSlotBinding.setNewReservation(mReservationItem);
+            mNewTimeSlotBinding.setNewReservation(mReservationItem);
+
+            mBroadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context ctx, Intent intent) {
+                    if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0)
+                        mNewTimeSlotBinding.setDateTime(DateTime.now().toLocalDateTime());
+
+                    if (intent.getAction().compareTo(VrisAppContext.INACTIVITY_BROADCAST) == 0) {
+                        mTextField.setText("");
+                        navigationService.navigateToHomeSlot();
+                    }
+                }
+            };
+            this.getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+            this.getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(VrisAppContext.INACTIVITY_BROADCAST));
+
+        }
+        return mNewTimeSlotBinding.getRoot();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.timeslot_detail_new, container, false);
+    public void onSubmit(int minuteAmount){
+        String title = mReservationItem.getTitle();
+        if(title == null || title.trim().isEmpty()) {
+            focusAndShowKeyboard();
+            mTextField.startAnimation(fShakeAnimation);
+            return;
+        }
+        // todo add to list
+        Log.i("title", mReservationItem.getTitle());
+        Log.i("submit",String.valueOf( minuteAmount));
 
-        return rootView;
+        /*todo navigationService.navigateToTimeSlot(mReservationItem);*/ navigationService.navigateToHomeSlot();
+        // todo scroll to self instead of top
+        ((TimeSlotListActivity)getActivity()).
+                getRecyclerView().getLayoutManager().scrollToPosition(0);
+    }
+
+    private void focusAndShowKeyboard() {
+        focus();
+        InputMethodManager inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(mTextField, 0);
+    }
+
+    private void focus() {
+        mTextField.requestFocus();
     }
 }
