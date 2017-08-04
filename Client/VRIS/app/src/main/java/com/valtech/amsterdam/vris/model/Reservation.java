@@ -5,30 +5,37 @@ import com.valtech.amsterdam.recyclist.annotation.ApiInfo;
 
 import org.joda.time.LocalDateTime;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 
 /**
  * Created by jasper.van.zijp on 14-7-2017.
  */
 @ApiInfo(methodName = "reservation")
 public class Reservation extends TimeSlot {
-    @SerializedName("Booker") private Person mBooker;
-    @SerializedName("Title") private String title;
+    @SerializedName("Organizer") private Person mOrganizer;
+    @SerializedName("Attendees") @Nullable private List<Person> mAttendees;
+    @SerializedName("Title") private String mTitle;
 
-    public Reservation(int id, String title, LocalDateTime start, LocalDateTime end, Person booker) {
+    public Reservation(int id, String title, LocalDateTime start, LocalDateTime end, Person organizer, @Nullable List<Person> attendees) {
         super(id, start, end);
-        mBooker = booker;
-        this.title = title;
+        mTitle = title;
+        mOrganizer = organizer;
+        mAttendees = attendees;
     }
 
-    public Person getBooker() {
-        return mBooker;
+    public Person getOrganizer() {
+        return mOrganizer;
     }
 
-    public void setBooker(Person booker) {
-        mBooker = booker;
+    public List<Person> getAttendees() {
+        return mAttendees;
     }
 
-    public String getTitle() {
-        return title;
+    public String getmTitle() {
+        return mTitle;
     }
 }
