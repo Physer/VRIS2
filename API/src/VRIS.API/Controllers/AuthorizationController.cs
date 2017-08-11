@@ -82,8 +82,8 @@ namespace VRIS.API.Controllers
                 var url = $"{_graphOptions.AuthContextUrl}/authorize";
                 var payload = new Dictionary<string, string>
                 {
-                    { "client_id", "9d02646e-b39f-4e26-b330-e3434a51585c" },
-                    { "client_secret", "LFBNdRdrGQRQKoam7ckHCwB" },
+                    { "client_id", _graphOptions.ClientId },
+                    { "client_secret", _graphOptions.ClientSecret },
                     { "grant_type", "authorization_code" },
                     { "code", authorizationCode },
                     { "redirect_uri", AuthorizeCallback }
