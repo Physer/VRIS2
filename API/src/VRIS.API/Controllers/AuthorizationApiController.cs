@@ -15,7 +15,7 @@ namespace VRIS.API.Controllers
     /// Controller responsible for authorizing the Graph api
     /// </summary>
     [Route("api/[controller]"), Produces("application/json")]
-    public class AuthorizationController
+    public class AuthorizationApiController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly MicrosoftGraphOptions _graphOptions;
@@ -23,8 +23,8 @@ namespace VRIS.API.Controllers
         private string AuthorizeCallback =>
             $"https://{_httpContextAccessor.HttpContext.Request.Host}/api/authorization/code";
 
-        /// <inheritdoc cref="AuthorizationController"/>
-        public AuthorizationController(IHttpContextAccessor httpContextAccessor, MicrosoftGraphOptions graphOptions)
+        /// <inheritdoc cref="AuthorizationApiController"/>
+        public AuthorizationApiController(IHttpContextAccessor httpContextAccessor, MicrosoftGraphOptions graphOptions)
         {
             _httpContextAccessor = httpContextAccessor;
             _graphOptions = graphOptions;

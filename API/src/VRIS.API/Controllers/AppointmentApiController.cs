@@ -17,15 +17,15 @@ namespace VRIS.API.Controllers
     /// Controller for provicing offcie specific details
     /// </summary>
     [Route("api/[controller]"), Produces("application/json")]
-    public class AppointmentController : Controller
+    public class AppointmentApiController : Controller
     {
 
         private readonly IAppointmentRepository _appointmentRepository;
         // temp and fake
         private readonly IOfficeRepository _officeRepository;
 
-        /// <inheritdoc cref="OfficeController"/>
-        public AppointmentController(IAppointmentRepository appointmentRepository, IOfficeRepository officeRepository)
+        /// <inheritdoc cref="OfficeApiController"/>
+        public AppointmentApiController(IAppointmentRepository appointmentRepository, IOfficeRepository officeRepository)
         {
             _appointmentRepository = appointmentRepository;
             _officeRepository = officeRepository;
