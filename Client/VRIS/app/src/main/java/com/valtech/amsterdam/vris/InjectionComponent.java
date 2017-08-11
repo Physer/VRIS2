@@ -1,5 +1,7 @@
 package com.valtech.amsterdam.vris;
 
+import com.valtech.amsterdam.vris.ui.NewTimeSlotFragment;
+import com.valtech.amsterdam.vris.ui.ReservationDetailFragment;
 import com.valtech.amsterdam.vris.ui.TimeSlotListActivity;
 
 import javax.inject.Singleton;
@@ -19,4 +21,6 @@ public interface InjectionComponent {
     // allow to inject into our TimeSlotListActivity
     // method name not important
     void inject(TimeSlotListActivity main);
+    void inject(NewTimeSlotFragment main);
+    void inject(ReservationDetailFragment main);
 }

@@ -1,0 +1,278 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.valtech.amsterdam.vris.ui.NewTimeSlotFragment" />
+        <variable type="com.valtech.amsterdam.vris.ui.NewTimeSlotFragment" name="context" />
+        <variable type="org.joda.time.LocalDateTime" name="dateTime" />
+        <variable type="com.valtech.amsterdam.vris.model.Room" name="room" />
+        <variable type="com.valtech.amsterdam.vris.model.Reservation" name="newReservation" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/current_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:text="@{room.name, default=Room}"
+                android:textAlignment="textStart"
+                android:textAppearance="?attr/textAppearanceListItem"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/current_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:text="@{dateTime.toString(@string/dateFormat), default=@string/dateFormat}"
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+            <TextView
+                android:id="@+id/current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:text="@{dateTime.toString(@string/timeFormat), default=@string/timeFormat}"
+                android:textAlignment="textEnd"
+                android:textAppearance="?attr/textAppearanceListItem"
+                tools:ignore="RtlCompat" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='Book room "'
+                    android:textSize="50sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{room.name, default=RoomName}"
+                    android:textSize="50sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='" now'
+                    android:textSize="50sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center"
+            android:layout_margin="@dimen/text_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{newReservation.start.toString(@string/timeFormat), default=@string/timeFormat}"
+                android:textAlignment="textEnd"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_vertical"
+                android:text=" - "
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{newReservation.end.toString(@string/timeFormat), default=@string/timeFormat}"
+                android:textAlignment="viewStart"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="80dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="50dp"
+            android:contentDescription="Reservation title"
+            android:hint="Reservation title"
+            android:inputType="textImeMultiLine"
+            android:imeOptions="actionDone"
+            android:nextFocusForward="@null"
+            android:nextFocusRight="@null"
+            android:nextFocusLeft="@null"
+            android:nextFocusUp="@null"
+            android:nextFocusDown="@null"
+            android:singleLine="true"
+            android:text="@={newReservation.title}"
+            android:textSize="40sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="64dp">
+
+            <LinearLayout
+                android:id="@+id/newReservationTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginEnd="80dp"
+                android:layout_marginStart="80dp"
+                android:foregroundGravity="top|center_horizontal"
+                android:gravity="top|center_horizontal"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/text_margin"
+                android:weightSum="3"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:enabled="@{newReservation.start.plusMinutes(15).isEqual(newReservation.end) || newReservation.start.plusMinutes(15).isBefore(newReservation.end)}"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="15m"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(15)}"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:enabled="@{newReservation.start.plusMinutes(30).isEqual(newReservation.end) || newReservation.start.plusMinutes(30).isBefore(newReservation.end)}"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="30m"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(30)}"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:enabled="@{newReservation.start.plusHours(1).isEqual(newReservation.end) || newReservation.start.plusHours(1).isBefore(newReservation.end)}"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="1h"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(60)}"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginEnd="80dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="@dimen/text_margin"
+                android:foregroundGravity="top|center_horizontal"
+                android:gravity="top|center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_weight="1">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:enabled="@{newReservation.start.plusHours(1).plusMinutes(30).isEqual(newReservation.end) || newReservation.start.plusHours(1).plusMinutes(30).isBefore(newReservation.end)}"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="1h 30m"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(90)}"/>
+
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:enabled="@{newReservation.start.plusHours(2).isEqual(newReservation.end) || newReservation.start.plusHours(2).isBefore(newReservation.end)}"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="2h"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(120)}"/>
+
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:enabled="@{newReservation.start.plusHours(2).plusMinutes(30).isEqual(newReservation.end) || newReservation.start.plusHours(2).plusMinutes(30).isBefore(newReservation.end), default=false}"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:text="2h 30m"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:onClick="@{() -> context.onSubmit(150)}"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

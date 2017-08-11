@@ -11,9 +11,10 @@ import java.util.List;
  * Created by jasper.van.zijp on 24-7-2017.
  */
 
-public class Updater<TModel> {
+public class Updater<TModel extends IHasId> {
     private final static String fLogTag = "UPDATER";
     private List<Integer> mLastInsertedList;
+    private List<Integer> mLastUpdatedList;
 
     private List<TModel> mObjects;
     private RecyclistAdapter<TModel> mAdapter;
@@ -26,7 +27,10 @@ public class Updater<TModel> {
         mPositionDeterminator = positionDeterminator;
         mInserter = inserter;
         mLastInsertedList = new ArrayList<>();
+        mLastUpdatedList = new ArrayList<>();
     }
+
+    public List<TModel> getList() { return mObjects; }
 
     public int add(TModel object) {
         Log.d(fLogTag, "add: " + object);
@@ -34,9 +38,18 @@ public class Updater<TModel> {
         int position = mPositionDeterminator.getPosition(mObjects, object);
         Log.d(fLogTag, "add at position: " + position);
 
-        if (mInserter.insert(mObjects, object, position)) {
-            mLastInsertedList.add(position);
-        }
+        mLastUpdatedList.add(position);
+
+        return position;
+    }
+
+    public int update(TModel object) {
+        Log.d(fLogTag, "update: " + object);
+
+        int position = mObjects.indexOf(object);
+        Log.d(fLogTag, "update at position: " + position);
+
+        mLastUpdatedList.add(position);
 
         return position;
     }
@@ -56,5 +69,34 @@ public class Updater<TModel> {
         }
 
         Log.d(fLogTag, "notifyItemInserted adapter item count after: " + mAdapter.getItemCount());
+    }
+
+    public void notifyItemUpdated() {
+        Log.d(fLogTag, "notifyItemUpdated count: " + mLastUpdatedList.size());
+        Log.d(fLogTag, "notifyItemUpdated adapter item count: " + mAdapter.getItemCount());
+
+        while(mLastUpdatedList.size() > 0) {
+            Log.d(fLogTag, "notifyItemUpdated item:" + mLastUpdatedList.size());
+            try {
+                mAdapter.notifyItemChanged(mLastUpdatedList.get(0));
+            } catch (IndexOutOfBoundsException e) {
+                Log.e("Error", "IndexOutOfBoundsException in RecyclerView happens");
+            }
+            mLastUpdatedList.remove(0);
+        }
+
+        Log.d(fLogTag, "notifyItemUpdated adapter item count after: " + mAdapter.getItemCount());
+    }
+
+    public TModel getById(int id) {
+        if(id < 0) throw new IndexOutOfBoundsException();
+
+        for (TModel timeSlot: mObjects) {
+            if(id != timeSlot.getId()) continue;
+            return timeSlot;
+        }
+
+        throw new IndexOutOfBoundsException();
+
     }
 }

@@ -5,12 +5,12 @@ namespace VRIS.Domain.Models
     /// <summary>
     /// Identity of a Meeting office
     /// </summary>
-    public class Office
+    public class Office : IHasId
     {
         /// <summary>
         /// The unique identifier of the room
         /// </summary>
-        [Required] public int Id { get; set; }
+        [Required] public int? Id { get; set; }
 
         /// <summary>
         /// The name of the room

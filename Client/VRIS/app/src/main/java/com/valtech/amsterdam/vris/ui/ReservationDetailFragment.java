@@ -1,72 +1,69 @@
 package com.valtech.amsterdam.vris.ui;
 
-import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.R;
-import com.valtech.amsterdam.vris.dummy.DummyContent;
+import com.valtech.amsterdam.vris.databinding.TimeslotDetailReservationBinding;
 import com.valtech.amsterdam.vris.model.Reservation;
+import com.valtech.amsterdam.vris.model.Room;
+
+import org.joda.time.DateTime;
 
 /**
  * A fragment representing a single Reservation detail screen.
  * This fragment is either contained in a {@link TimeSlotListActivity}
- * in two-pane mode (on tablets) or a {@link ReservationDetailActivity}
  * on handsets.
  */
-public class ReservationDetailFragment extends BaseFragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
+public class ReservationDetailFragment extends BaseTimeSlotFragment {
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private Reservation mItem;
+    private TimeslotDetailReservationBinding mTimeslotDetailReservationBinding;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ReservationDetailFragment() {
-    }
+    public ReservationDetailFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("ReservationDetail...","onCreate");
+        ((VrisAppContext)getActivity().getApplicationContext()).getApplicationComponent().inject(this); //This makes the members injected
         super.onCreate(savedInstanceState);
-
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.RESERVATIONS_MAP.get(getArguments().getInt(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getBooker().getName());
-            }
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.reservation_detail, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mTimeslotDetailReservationBinding = DataBindingUtil.inflate( inflater, R.layout.timeslot_detail_reservation, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.booker)).setText(mItem.getBooker().getName());
-            ((TextView) rootView.findViewById(R.id.from)).setText(mItem.getStartDate().toString("HH:mm"));
-            ((TextView) rootView.findViewById(R.id.to)).setText(mItem.getEndDate().toString("HH:mm"));
+        if (mTimeSlot != null) {
+            Reservation reservationItem = (Reservation)mTimeSlot;
+            // todo resolve room
+            mTimeslotDetailReservationBinding.setRoom(new Room(2, "AMS 0X"));
+            mTimeslotDetailReservationBinding.setDateTime(DateTime.now().toLocalDateTime());
+            mTimeslotDetailReservationBinding.setReservation(reservationItem);
+            mTimeslotDetailReservationBinding.reservationOrganizer.setOrganizer(reservationItem.getOrganizer());
+            mTimeslotDetailReservationBinding.attendeeGrid.setAdapter(new AttendeeGridAdapter(this.getContext(), reservationItem));
+
+            mBroadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context ctx, Intent intent) {
+                    if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0)
+                        mTimeslotDetailReservationBinding.setDateTime(DateTime.now().toLocalDateTime());
+                }
+            };
+
+            this.getContext().registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
         }
-
-        return rootView;
+        return mTimeslotDetailReservationBinding.getRoot();
     }
 }

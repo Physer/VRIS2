@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.valtech.amsterdam.vris.CustomApplication;
+import com.valtech.amsterdam.vris.VrisAppContext;
 import com.valtech.amsterdam.vris.model.TimeSlot;
 
 /**
@@ -44,8 +44,8 @@ public class StubProvider extends ContentProvider {
         Log.d(fLogTag, "insert");
 
         TimeSlot ts = TimeSlot.fromContentValues(values);
-        if ((getContext()) != null && ((CustomApplication)getContext()).getUpdater() != null) {
-            return ContentUris.withAppendedId(uri, ((CustomApplication)getContext()).getUpdater().add(ts));
+        if ((getContext()) != null && ((VrisAppContext)getContext()).getUpdater() != null) {
+            return ContentUris.withAppendedId(uri, ((VrisAppContext)getContext()).getUpdater().add(ts));
         }
 
         return null;

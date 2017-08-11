@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using VRIS.Business.Repositories.Office;
 using VRIS.Domain.Models;
-using VRIS.OutlookConnect;
 
 namespace VRIS.API.Controllers
 {
@@ -15,43 +13,66 @@ namespace VRIS.API.Controllers
     [Route("api/[controller]"), Produces("application/json")]
     public class OfficeController : Controller
     {
-        private readonly Test _test;
+        private readonly IOfficeRepository _officeRepository;
 
-        public OfficeController(Test test)
+        /// <inheritdoc cref="OfficeController"/>
+        public OfficeController(IOfficeRepository officeRepository)
         {
-            _test = test;
+            _officeRepository = officeRepository;
         }
 
         /// <summary>
         /// List all the <see cref="Office"/>s
         /// </summary>
-        /// <returns></returns>
-        [HttpGet, ProducesResponseType(typeof(IEnumerable<Office>), (int) HttpStatusCode.OK)]
-        public async Task<IEnumerable<Office>> ListAsync() => (await _test.GetUserInfoAsync()).Select(
-            user => new Office());
+        /// <returns>List of all <see cref="Office"/>s</returns>
+        /// <response code="200">List of all <see cref="Office"/>s</response>
+        [HttpGet, 
+         ProducesResponseType(typeof(IEnumerable<Office>), (int) HttpStatusCode.OK)]
+        public IActionResult List() => new ObjectResult(_officeRepository.List());
 
         /// <summary>
-        /// Get a specific <see cref="Office"/> by id
+        /// Get a specific <see cref="Office"/> by officeId
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("{id:int:required}"), ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK)]
-        public Office GetById([Required] int id) => new Office
+        /// <param name="officeId">Unique identifier of the <see cref="Office"/></param>
+        /// <returns><see cref="Office"/></returns>
+        /// <response code="200"><see cref="Office"/></response>
+        /// <response code="404">No office found with id {officeId}</response>
+        [HttpGet("{officeId:int:required}"), 
+         ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public IActionResult GetById([Required] int officeId)
         {
-            Id = 0,
-            Name = "5A"
-        };
+            var office = _officeRepository.Read(officeId);
+            if (office == null) return new ContentResult
+            {
+                Content = $"No office found with id {officeId}",
+                StatusCode = (int)HttpStatusCode.NotFound
+            };
+            return new ObjectResult(office);
+        }
 
         /// <summary>
-        /// Get a specific <see cref="Office"/> by name
+        /// Get a specific <see cref="Office"/> by officeName
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        [HttpGet("{name:required}"), ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK)]
-        public Office GetByName([Required] string name) => new Office
+        /// <remarks>
+        /// If the name is not unique, a 404 is given
+        /// </remarks>
+        /// <param name="officeName">Name of the <see cref="Office"/></param>
+        /// <returns><see cref="Office"/></returns>
+        /// <response code="200"><see cref="Office"/></response>
+        /// <response code="404">No (unique) office found with name {officeName}</response>
+        [HttpGet("{officeName:required}"), 
+         ProducesResponseType(typeof(Office), (int)HttpStatusCode.OK),
+         ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public IActionResult GetByName([Required] string officeName)
         {
-            Id = 1,
-            Name = "5B"
-        };
+            var office = _officeRepository.FindByName(officeName);
+            if (office == null) return new ContentResult
+            {
+                Content = $"No (unique) office found with name {officeName}",
+                StatusCode = (int)HttpStatusCode.NotFound
+            };
+            return new ObjectResult(office);
+        }
     }
 }

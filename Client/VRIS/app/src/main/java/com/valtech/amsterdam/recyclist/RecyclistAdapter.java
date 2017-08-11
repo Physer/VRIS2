@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.valtech.amsterdam.vris.ui.OnClickListener;
+import com.valtech.amsterdam.vris.model.OnClickListener;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class RecyclistAdapter<TModel> extends RecyclerView.Adapter<RecyclistAdap
         TModel model = mObjects.get(position);
         if (model == null) return;
 
-        holder.getViewBinder().bindView(holder.getView(), model, mClickListener);
+        holder.getViewBinder().bindView(holder.getView(), model, mClickListener, position);
     }
 
     @Override

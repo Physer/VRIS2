@@ -7,7 +7,6 @@ import com.valtech.amsterdam.vris.model.ITimeSlot;
 import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.ui.NewTimeSlotFragment;
 import com.valtech.amsterdam.vris.ui.ReservationDetailFragment;
-import com.valtech.amsterdam.vris.ui.TimeSlotDetailFragment;
 
 /**
  * Created by jasper.van.zijp on 18-7-2017.
@@ -15,22 +14,7 @@ import com.valtech.amsterdam.vris.ui.TimeSlotDetailFragment;
 
 public class TimeSlotDetailFragmentFactory {
 
-    public Fragment getDetail(ITimeSlot timeSlot) {
-
-        if(timeSlot == null) return null; // todo error view
-
-        Fragment fragment = timeSlot instanceof Reservation ?
-                new ReservationDetailFragment() :
-                new TimeSlotDetailFragment();
-
-        Bundle arguments = new Bundle();
-        arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, timeSlot.getId());
-        fragment.setArguments(arguments);
-
-        return fragment;
-    }
-
-    public Fragment getDetailOrCreate(ITimeSlot timeSlot) {
+    public Fragment getDetail(ITimeSlot timeSlot, boolean hideKeyboard) {
 
         if(timeSlot == null) return null; // todo error view
 
@@ -40,6 +24,7 @@ public class TimeSlotDetailFragmentFactory {
 
         Bundle arguments = new Bundle();
         arguments.putInt(ReservationDetailFragment.ARG_ITEM_ID, timeSlot.getId());
+        arguments.putInt(ReservationDetailFragment.ARG_HIDE_KEYBOARD, hideKeyboard ? 0 : 1);
         fragment.setArguments(arguments);
 
         return fragment;

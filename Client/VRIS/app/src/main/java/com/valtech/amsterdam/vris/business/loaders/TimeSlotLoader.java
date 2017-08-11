@@ -1,64 +1,33 @@
 package com.valtech.amsterdam.vris.business.loaders;
 
 import com.valtech.amsterdam.recyclist.loader.ModelLoader;
+import com.valtech.amsterdam.vris.model.Reservation;
 import com.valtech.amsterdam.vris.model.ITimeSlot;
-
-import org.joda.time.DateTime;
+import com.valtech.amsterdam.vris.model.TimeSlotList;
 
 import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by marvin.brouwer on 20-7-2017.
+ * Created by jasper.van.zijp on 18-7-2017.
  */
 
-public final class TimeSlotLoader implements ITimeSlotLoader {
-    private ModelLoader<ITimeSlot> reservationModelLoader;
+public class TimeSlotLoader implements ModelLoader<ITimeSlot> {
+    private ModelLoader<Reservation> reservationModelLoader;
 
-    public TimeSlotLoader(ModelLoader<ITimeSlot> reservationModelLoader) {
+    public TimeSlotLoader(ModelLoader<Reservation> reservationModelLoader) {
         this.reservationModelLoader = reservationModelLoader;
     }
 
-    public List<ITimeSlot> getList() {
-        List<ITimeSlot> timeSlots;
-        try {
-            timeSlots = reservationModelLoader.getList();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+    @Override
+    public List<ITimeSlot> getList() throws IOException {
+        List<Reservation> reservations = reservationModelLoader.getList();
+        List<ITimeSlot> timeSlots = new TimeSlotList();
+
+        for (Reservation reservation : reservations) {
+            timeSlots.add(reservation);
         }
 
         return timeSlots;
-    }
-
-    public ITimeSlot getByTime(DateTime date) throws IndexOutOfBoundsException {
-        List<ITimeSlot> timeSlots = getList();
-        if(timeSlots ==  null) return null;
-
-        for (ITimeSlot timeSlot: timeSlots) {
-            DateTime startDate = timeSlot.getStartDate();
-            DateTime endDate = timeSlot.getEndDate();
-
-            if(date.isBefore(startDate)) continue;
-            if(date.isAfter(endDate)) continue;
-
-            return timeSlot;
-        }
-
-        throw new IndexOutOfBoundsException();
-    }
-
-    public ITimeSlot getById(int id) throws IndexOutOfBoundsException {
-
-        if(id == -1) return null;
-        List<ITimeSlot> timeSlots = getList();
-        if(timeSlots ==  null) return null;
-
-        for (ITimeSlot timeSlot: timeSlots) {
-            if(id != timeSlot.getId()) continue;
-            return timeSlot;
-        }
-
-        throw new IndexOutOfBoundsException();
     }
 }
