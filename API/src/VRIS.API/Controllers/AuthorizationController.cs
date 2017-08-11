@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using VRIS.API.ViewModels;
+using VRIS.Business.Stores.Token;
 using VRIS.Domain.ConfigurationModels;
 
 namespace VRIS.API.Controllers
@@ -15,47 +17,42 @@ namespace VRIS.API.Controllers
     /// Controller responsible for authorizing the Graph api
     /// </summary>
     [Route("api/[controller]"), Produces("application/json")]
-    public class AuthorizationApiController
+    public class AuthorizationController : Controller
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly MicrosoftGraphOptions _graphOptions;
+        private readonly ITokenStore _tokenStore;
 
         private string AuthorizeCallback =>
-            $"https://{_httpContextAccessor.HttpContext.Request.Host}/api/authorization/code";
+            $"https://{_httpContextAccessor.HttpContext.Request.Host}/api/authorization/token";
+        private string LoginUrl =>
+            $"{_graphOptions.AuthContextUrl}/authorize" +
+            $"?client_id={_graphOptions.ClientId}" +
+            $"&response_type=code" +
+            $"&redirect_uri={AuthorizeCallback}" +
+            $"&response_mode=query" +
+            $"&scope=user.readbasic.all calendars.readwrite.shared";
 
-        /// <inheritdoc cref="AuthorizationApiController"/>
-        public AuthorizationApiController(IHttpContextAccessor httpContextAccessor, MicrosoftGraphOptions graphOptions)
+        /// <inheritdoc cref="AuthorizationController"/>
+        public AuthorizationController(IHttpContextAccessor httpContextAccessor, MicrosoftGraphOptions graphOptions, ITokenStore tokenStore)
         {
             _httpContextAccessor = httpContextAccessor;
             _graphOptions = graphOptions;
+            _tokenStore = tokenStore;
         }
-
-        /// <summary>
-        /// Azure returns the authorization code back to this url
-        /// This method stores it in the TokenRepository
-        /// todo save token
-        /// </summary>
-        /// <param name="code">The authorization code used to request tha bearer token</param>
-        /// <returns>The authorization code used to request tha bearer token</returns>
-        /// <response code="200">The authorization code used to request tha bearer token</response>
-        [HttpGet("code"),
-         ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public IActionResult GetAuthorizationCode(string code) => new ContentResult{ Content = code };
 
         /// <summary>
         /// Get the loginUrl to the azure portal
         /// </summary>
         /// <returns>The url to get a token response from Azure from</returns>
         /// <response code="200">The url to get a token response from Azure from</response>
-        [HttpGet("loginurl"),
+        [HttpGet("loginurl"), Produces("text/html"),
          ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public IActionResult GetLoginUrl() => new ContentResult{ Content = 
-            $"{_graphOptions.AuthContextUrl}/authorize" +
-            $"?client_id={_graphOptions.ClientId}" +
-            $"&response_type=code" +
-            $"&redirect_uri={AuthorizeCallback}" +
-            $"&response_mode=query" +
-            $"&scope=user.readbasic.all calendars.readwrite.shared" };
+        public IActionResult GetLoginUrl() => new ContentResult
+        {
+            Content = $"<a href=\"{LoginUrl}\">{LoginUrl}</a>",
+            ContentType = "text/html"
+        };
 
         /// <summary>
         /// Request a token based on a authorization code
@@ -65,11 +62,11 @@ namespace VRIS.API.Controllers
         /// <response code="200">Authorization token</response>
         /// <response code="405">The parameter {authorizationCode} cannot be empty!</response>
         /// <response code="417">The graph api returned an empty response</response>
-        [HttpPost("token:authorizationCode:required"),
+        [HttpPost("token"),
          ProducesResponseType(typeof(string), (int)HttpStatusCode.OK),
          ProducesResponseType(typeof(string), (int)HttpStatusCode.MethodNotAllowed),
          ProducesResponseType(typeof(string), (int)HttpStatusCode.ExpectationFailed)]
-        public async Task<IActionResult> Token([Required] string authorizationCode)
+        public async Task<IActionResult> Token([Required, FromQuery] string authorizationCode)
         {
             if (string.IsNullOrWhiteSpace(authorizationCode)) return new ContentResult
             {
@@ -77,32 +74,40 @@ namespace VRIS.API.Controllers
                 StatusCode = (int) HttpStatusCode.MethodNotAllowed
             };
 
+            return await AuthorizeGraphToken(authorizationCode);
+        }
+
+        private async Task<IActionResult> AuthorizeGraphToken(string authorizationCode)
+        {
             using (var client = new HttpClient())
             {
                 var url = $"{_graphOptions.AuthContextUrl}/authorize";
                 var payload = new Dictionary<string, string>
                 {
-                    { "client_id", _graphOptions.ClientId },
-                    { "client_secret", _graphOptions.ClientSecret },
-                    { "grant_type", "authorization_code" },
-                    { "code", authorizationCode },
-                    { "redirect_uri", AuthorizeCallback }
+                    {"client_id", _graphOptions.ClientId},
+                    {"client_secret", _graphOptions.ClientSecret},
+                    {"grant_type", "authorization_code"},
+                    {"code", authorizationCode},
+                    {"redirect_uri", AuthorizeCallback}
                 };
                 var response = await client.PostAsync(url, new FormUrlEncodedContent(payload));
                 response.EnsureSuccessStatusCode();
 
                 var responseMessage = await response.Content.ReadAsStringAsync();
-                if (String.IsNullOrWhiteSpace(responseMessage)) return new ContentResult
-                {
-                    Content = "The graph api returned an empty response",
-                    StatusCode = (int)HttpStatusCode.ExpectationFailed
-                };
+                if (String.IsNullOrWhiteSpace(responseMessage))
+                    return new ContentResult
+                    {
+                        Content = "The graph api returned an empty response",
+                        StatusCode = (int) HttpStatusCode.ExpectationFailed
+                    };
                 var responseObject = JObject.Parse(responseMessage);
 
-                var returnString = responseObject?["access_token"] != null ? responseObject["access_token"].Value<string>() : "Unable to parse response";
-
-                // todo save token
-                return new ContentResult { Content = returnString };
+                var returnString = responseObject?["access_token"] != null
+                    ? responseObject["access_token"].Value<string>()
+                    : "Unable to parse response";
+                
+                _tokenStore.StoredToken = returnString;
+                return new ContentResult {Content = $"Stored token: {returnString} using authorizationCode: {authorizationCode}"};
             }
         }
     }

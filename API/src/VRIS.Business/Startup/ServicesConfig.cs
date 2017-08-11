@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VRIS.Business.Repositories.Appointments;
 using VRIS.Business.Repositories.Office;
+using VRIS.Business.Stores.Token;
 using VRIS.Domain.Models;
 using VRIS.Domain.Models.Appointments;
 
@@ -26,6 +27,9 @@ namespace VRIS.Business.Startup
             // Add custom services
 
             // Add repositories
+            services.AddSingleton<ITokenStore, TokenStore>();
+
+            // TEMP
             services.AddSingleton<IOfficeRepository, MockOfficeRepository>(provider => new MockOfficeRepository(new List<Office>
             {
                 new Office

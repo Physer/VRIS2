@@ -32,7 +32,6 @@ namespace VRIS.API.Startup
             {
                 applicationBuilder.UseExceptionHandler("/Home/Error");
             }
-
             applicationBuilder.UseMvc();
         }
     }

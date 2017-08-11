@@ -11,12 +11,12 @@ namespace VRIS.API.Controllers
     /// Controller for provicing <see cref="Office"/> specific details
     /// </summary>
     [Route("api/[controller]"), Produces("application/json")]
-    public class OfficeApiController : Controller
+    public class OfficeController : Controller
     {
         private readonly IOfficeRepository _officeRepository;
 
-        /// <inheritdoc cref="OfficeApiController"/>
-        public OfficeApiController(IOfficeRepository officeRepository)
+        /// <inheritdoc cref="OfficeController"/>
+        public OfficeController(IOfficeRepository officeRepository)
         {
             _officeRepository = officeRepository;
         }
