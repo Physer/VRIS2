@@ -1,6 +1,8 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using VRIS.Business.HttpFilters;
@@ -43,6 +45,8 @@ namespace VRIS.API.Startup
                 })
                 .AddJsonFormatters()
                 .AddApiExplorer();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
     }
 }
