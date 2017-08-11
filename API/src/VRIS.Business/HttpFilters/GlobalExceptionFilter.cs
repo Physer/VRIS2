@@ -31,8 +31,7 @@ namespace VRIS.Business.HttpFilters
         private IActionResult WriteResponse(WebExceptionStatus statusCode, Exception exception)
             => WriteResponse((int) statusCode, exception);
 
-        private IActionResult WriteResponse(int statusCode, Exception exception) 
-            => new JsonResult(new
+        private IActionResult WriteResponse(int statusCode, Exception exception) => new JsonResult(new
             {
                 Exception = exception.GetType().FullName,
                 Data = _showStackTrace ? exception.Data : null,
