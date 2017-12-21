@@ -46,4 +46,6 @@ dependencies {
 
     compile 'com.github.salomonbrys.kodein:kodein:4.1.0'
     compile 'com.github.salomonbrys.kodein:kodein-android:4.1.0'
+
+    kapt 'com.android.databinding:compiler:2.3.1'
 }
