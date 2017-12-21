@@ -8,8 +8,8 @@ class SettingRepository: ISettingRepository {
 
     private var _roomId: String? = null;
 
-    override var RoomId: String
-        get() = this._roomId!!
-        set(value: String) { this._roomId = value }
+    override var RoomId: String?
+        get() = this._roomId
+        set(value: String?) { this._roomId = value!! }
 
 }

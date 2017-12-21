@@ -6,5 +6,5 @@ package com.labs.valtech.vris.repositories.settings
 
 interface ISettingRepository {
 
-    val RoomId: String
+    val RoomId: String?
 }
