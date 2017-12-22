@@ -25,11 +25,18 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setModel(this, R.layout.activity_main, MainViewModel(arrayListOf("Test")))
+        val roomOptions = getRoomOptions();
+        setModel(this, R.layout.activity_main, MainViewModel(roomOptions))
+
         roomName.setAdapter(ArrayAdapter(roomName.context, android.R.layout.simple_list_item_1, Model.Options))
         roomName.onItemClickListener = object : AdapterView.OnItemClickListener {
             override fun onItemClick(adapter: AdapterView<*>?, view: View?, index: Int, id: Long) = submitRoom()
         }
+    }
+
+    private fun getRoomOptions(): ArrayList<String> {
+        // todo get from firebase, maybe even while typing with a custom adapter
+        return arrayListOf("Test")
     }
 
     override fun onStart() {
