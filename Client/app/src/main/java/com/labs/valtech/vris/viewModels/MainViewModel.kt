@@ -4,15 +4,16 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.labs.valtech.vris.BR
 
+
+
 /**
  * Created by marvin.brouwer on 21-12-2017.
  */
 data class MainViewModel(
+        private var _options: ArrayList<String>,
         private var _roomName: String = "",
         private var _valid: Boolean = false
 ): BaseObservable() {
-
-    // todo: append a list of available rooms
 
     var RoomName
         @Bindable get() = _roomName
@@ -26,5 +27,12 @@ data class MainViewModel(
         set(value) {
             _valid = value
             notifyPropertyChanged(BR.valid);
+        }
+
+    var Options: ArrayList<String>
+        @Bindable get() = _options
+        set(value) {
+            _options = value
+            notifyPropertyChanged(BR.options);
         }
 }

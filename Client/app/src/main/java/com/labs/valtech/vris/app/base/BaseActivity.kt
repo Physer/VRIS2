@@ -1,5 +1,6 @@
 package com.labs.valtech.vris.app.base
 
+import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -28,8 +29,8 @@ import com.labs.valtech.vris.databinding.ActivityMainBinding
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    fun setModel(layout: Int, model: TModel) {
-        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, layout)
+    fun <TActivity: Activity> setModel(context: TActivity, layout: Int, model: TModel) {
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(context, layout)
 
         binding.setVariable(BR.activity, this)
         binding.setVariable(BR.model, model)
