@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                android:text="@{ model.roomName }"
+                android:text="Select Room"
                 android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="30sp"

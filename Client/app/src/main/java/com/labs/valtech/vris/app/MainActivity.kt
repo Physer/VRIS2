@@ -1,5 +1,6 @@
 package com.labs.valtech.vris.app
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -24,14 +25,17 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(_settingRepository.RoomId != null)
-            navigateToAvailabilityActivity()
-
         setModel(this, R.layout.activity_main, MainViewModel(arrayListOf("Test")))
         roomName.setAdapter(ArrayAdapter(roomName.context, android.R.layout.simple_list_item_1, Model.Options))
         roomName.onItemClickListener = object : AdapterView.OnItemClickListener {
             override fun onItemClick(adapter: AdapterView<*>?, view: View?, index: Int, id: Long) = submitRoom()
         }
+    }
+
+    override fun onStart() {
+        if(_settingRepository.RoomId != null)
+            navigateToAvailabilityActivity()
+        super.onStart()
     }
 
     fun submitRoom() {
@@ -51,5 +55,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun navigateToAvailabilityActivity() {
         Log.i("roomId",_settingRepository.RoomId)
+        startActivity(Intent(this, RoomActivity::class.java))
     }
 }
