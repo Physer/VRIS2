@@ -22,7 +22,8 @@
         android:clearTaskOnLaunch="true"
         android:stateNotNeeded="false"
         android:screenOrientation="landscape"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fitsSystemWindows="true">
         <activity
             android:name=".app.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
