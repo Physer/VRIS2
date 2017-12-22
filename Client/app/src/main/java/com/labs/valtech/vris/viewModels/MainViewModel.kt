@@ -1,13 +1,30 @@
 package com.labs.valtech.vris.viewModels
 
+import android.databinding.BaseObservable
+import android.databinding.Bindable
+import com.labs.valtech.vris.BR
+
 /**
  * Created by marvin.brouwer on 21-12-2017.
  */
 data class MainViewModel(
-        var roomName: String = ""
-) {
-    val Valid: Boolean
-        get() {
-            return !roomName.isNullOrEmpty()
+        private var _roomName: String = "",
+        private var _valid: Boolean = false
+): BaseObservable() {
+
+    // todo: append a list of available rooms
+
+    var RoomName
+        @Bindable get() = _roomName
+        set(value) {
+            _roomName = value
+            notifyPropertyChanged(BR.roomName);
+        }
+
+    var Valid: Boolean
+        @Bindable get() = _valid
+        set(value) {
+            _valid = value
+            notifyPropertyChanged(BR.valid);
         }
 }

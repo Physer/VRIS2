@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <variable type="com.labs.valtech.vris.app.MainActivity" name="activity" />
         <variable type="com.labs.valtech.vris.viewModels.MainViewModel" name="model" />
     </data>
 
@@ -26,10 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                android:text="Room"
+                android:text="@{ model.roomName }"
                 android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceListItem"
-                android:textColor="@android:color/white"
                 android:textSize="30sp"
                 tools:ignore="RtlCompat" />
 
@@ -39,7 +39,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                tools:ignore="RtlCompat" />
+                tools:ignore="RtlCompat"
+                android:text="@={ model.roomName }"
+                android:afterTextChanged="@{() -> activity.validateRoomName()}"/>
 
         </LinearLayout>
 
@@ -56,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="Button"
-                android:enabled="@{ model.valid }"/>
+                android:enabled="@{ model.valid }"
+                android:onClick="@{() -> activity.submitRoom() }"/>
         </LinearLayout>
 
         <!-- This FrameLayout insets its children based on system windows using
