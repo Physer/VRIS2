@@ -6,12 +6,15 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.github.salomonbrys.kodein.LazyKodein
 import com.github.salomonbrys.kodein.LazyKodeinAware
 import com.github.salomonbrys.kodein.android.appKodein
 import com.labs.valtech.vris.BR
 import com.labs.valtech.vris.VrisApplication
+
+
 
 
 /**
@@ -32,6 +35,12 @@ import com.labs.valtech.vris.VrisApplication
         super.onCreate(savedInstanceState)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.hide();
+        val decorView = window.decorView
+        // Hide the status bar.
+        val uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
+        decorView.systemUiVisibility = uiOptions
+
         Application.ActivityContext = this
     }
 

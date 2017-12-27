@@ -23,6 +23,8 @@ import com.labs.valtech.vris.models.IRoom
 import com.labs.valtech.vris.models.Room
 import me.xdrop.fuzzywuzzy.FuzzySearch
 
+// Todo continue http://makovkastar.github.io/blog/2014/04/12/android-autocompletetextview-with-suggestions-from-a-web-service/
+// todo filter also on amsterdam see datamodel
 
 /**
  * Created by marvin.brouwer on 27-12-2017.

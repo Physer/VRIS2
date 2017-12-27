@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * Created by jasper.van.zijp on 18-7-2017.
  */
 
-class Room (
+data class Room (
     @field:SerializedName("id") override var id: String = "",
     @field:SerializedName("venue") override var venue: String = "",
     @field:SerializedName("country") override var country: String = "",

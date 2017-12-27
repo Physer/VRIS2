@@ -10,10 +10,10 @@ import org.joda.time.LocalDateTime
  * Created by jasper.van.zijp on 18-7-2017.
  */
 
-class Timeslot(
+data class Timeslot(
     @field:SerializedName("id") override var id: String,
     @field:SerializedName("start") override var startDate: LocalDateTime,
-    @field:SerializedName("end") override var endDate: LocalDateTime?) : ITimeslot {
+    @field:SerializedName("end") override var endDate: LocalDateTime? = null) : ITimeslot {
 
     override val durationInMinutes: Int
         get() {

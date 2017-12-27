@@ -9,9 +9,9 @@ import org.joda.time.LocalDateTime
 
 interface ITimeslot {
 
-    val id: String
+    val id: String?
 
-    val startDate: LocalDateTime
+    val startDate: LocalDateTime?
 
     val endDate: LocalDateTime?
 
