@@ -19,8 +19,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.labs.valtech.vris.R
+import com.labs.valtech.vris.business.factories.DataModel.IDataModelFactory
 import com.labs.valtech.vris.models.IRoom
-import com.labs.valtech.vris.models.Room
 import me.xdrop.fuzzywuzzy.FuzzySearch
 
 // Todo continue http://makovkastar.github.io/blog/2014/04/12/android-autocompletetextview-with-suggestions-from-a-web-service/
@@ -32,31 +32,24 @@ import me.xdrop.fuzzywuzzy.FuzzySearch
 class RoomAutoCompleteAdapter(private val context: Context, override val kodein: LazyKodein):BaseAdapter(), Filterable, LazyKodeinAware {
 
     val _roomsFirebase: DatabaseReference by kodein.with("Rooms").instance()
+    val _dataModelFactory: IDataModelFactory by instance()
 
     @Volatile
     var _availableRooms: ArrayList<IRoom> = ArrayList()
 
     init {
         _roomsFirebase
-                .limitToLast(2000)
-                .addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
+            .limitToLast(2000)
+            .addValueEventListener(object: ValueEventListener {
 
-                _availableRooms.addAll(
-                        dataSnapshot.children.map { child ->
-                            {
-                                val room = child.getValue<Room>(Room::class.java)!!
-                                room.id = child.key;
-                                room;
-                            }()
-                        }
-                )
-            }
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    _availableRooms.addAll(_dataModelFactory.createRooms(dataSnapshot))
+                }
 
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w("Rooms", "Failed to read value.", error.toException());
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    // Failed to read value
+                    Log.w("Rooms", "Failed to read value.", error.toException());
+                }
         })
     }
 

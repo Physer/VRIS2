@@ -11,6 +11,8 @@ import com.external.kioskmode.IHomePressedListener
 import com.github.salomonbrys.kodein.*
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.labs.valtech.vris.business.factories.DataModel.DataModelFactory
+import com.labs.valtech.vris.business.factories.DataModel.IDataModelFactory
 import com.labs.valtech.vris.business.repositories.Settings.ISettingRepository
 import com.labs.valtech.vris.business.repositories.Settings.SettingRepository
 import com.orhanobut.hawk.Hawk
@@ -44,7 +46,8 @@ class VrisApplication : Application(), KodeinAware {
 
     override val kodein by Kodein.lazy {
 
-        bind<ISettingRepository>() with instance(SettingRepository())
+        bind<ISettingRepository>() with singleton { SettingRepository() }
+        bind<IDataModelFactory>() with singleton { DataModelFactory() }
         bind<FirebaseDatabase>() with singleton { FirebaseDatabase.getInstance() }
         bind<DatabaseReference>() with factory {
             reference: String -> GetFireBaseReference(reference)

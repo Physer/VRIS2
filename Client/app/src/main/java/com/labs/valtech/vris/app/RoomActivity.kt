@@ -15,9 +15,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.labs.valtech.vris.R
 import com.labs.valtech.vris.app.base.BaseActivity
-import com.labs.valtech.vris.models.ITimeslot
-import com.labs.valtech.vris.models.Timeslot
+import com.labs.valtech.vris.business.factories.DataModel.IDataModelFactory
 import com.labs.valtech.vris.business.repositories.Settings.ISettingRepository
+import com.labs.valtech.vris.models.ITimeslot
 import com.labs.valtech.vris.viewModels.RoomViewModel
 import kotlinx.android.synthetic.main.activity_room.*
 import org.joda.time.DateTime
@@ -33,6 +33,7 @@ import org.joda.time.LocalDateTime
 class RoomActivity : BaseActivity<RoomViewModel>() {
 
     val _settingRepository: ISettingRepository by instance()
+    val _dataModelFactory: IDataModelFactory by instance()
     val _roomsFirebase: DatabaseReference by kodein.with("Rooms").instance()
     @Volatile var _timeslots: ArrayList<ITimeslot> = ArrayList()
 
@@ -60,28 +61,20 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
         })
 
         // todo: https://firebaseopensource.com/projects/firebase/firebaseui-android/database/README.md
-        // todo create factories for models
         _roomsFirebase
                 .child(_settingRepository.Room!!.id)
                 .child("timeslots")
+                .limitToLast(20)
                 .addChildEventListener(object: ChildEventListener {
 
                     override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                        val startDate = DateTime.parse(dataSnapshot.child("startDate").value.toString()).toLocalDateTime()
-                        val endDateValue = dataSnapshot.child("endDate").value.toString();
-                        val endDate = if (endDateValue.isNullOrBlank()) null else DateTime.parse(endDateValue).toLocalDateTime()
-                        val timeslot = Timeslot(dataSnapshot.key, startDate, endDate)
-                        _timeslots.add(timeslot)
+                        _timeslots.add(_dataModelFactory.createTimeSlot(dataSnapshot))
                         checkAvailable()
                     }
 
                     override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                         val index = _timeslots.indexOfFirst { timeslot -> timeslot.id.equals(dataSnapshot.key)  }
-                        val startDate = DateTime.parse(dataSnapshot.child("startDate").value.toString()).toLocalDateTime()
-                        val endDateValue = dataSnapshot.child("endDate").value.toString();
-                        val endDate = if (endDateValue.isNullOrBlank()) null else DateTime.parse(endDateValue).toLocalDateTime()
-                        val timeslot = Timeslot(dataSnapshot.key, startDate, endDate)
-                        _timeslots[index] = timeslot;
+                        _timeslots[index] = _dataModelFactory.createTimeSlot(dataSnapshot);
                         checkAvailable()
                     }
 
