@@ -5,7 +5,10 @@ package com.labs.valtech.vris.models
  */
 interface IRoom {
 
-    fun getId(): Int;
-    fun getName(): String;
+    var id: String
+    var country: String
+    var venue: String
+    var name: String
 
+    fun getFullRoomName(): String
 }

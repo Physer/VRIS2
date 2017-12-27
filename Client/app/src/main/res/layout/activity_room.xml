@@ -22,12 +22,24 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/fullscreen_content"
+                android:id="@+id/roomName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                android:text="@{ model.roomName }"
+                android:text="@{ model.room.name }"
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="30sp"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/fullRoomName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:text="@{ model.room.getFullRoomName() }"
                 android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="30sp"

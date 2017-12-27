@@ -1,5 +1,6 @@
 package com.labs.valtech.vris.repositories.settings
 
+import com.labs.valtech.vris.models.IRoom
 import com.orhanobut.hawk.Hawk
 
 /**
@@ -8,13 +9,13 @@ import com.orhanobut.hawk.Hawk
 
 class SettingRepository: ISettingRepository {
 
-    private var _roomId: String? = Hawk.get("roomId", null)
+    private var _room: IRoom? = Hawk.get("room", null)
 
-    override var RoomId: String?
-        get() = this._roomId
-        set(value: String?) {
-            this._roomId = value!!
-            Hawk.put("roomId", value)
+    override var Room: IRoom?
+        get() = this._room
+        set(value: IRoom?) {
+            this._room = value
+            Hawk.put("room", value)
         }
 
 }

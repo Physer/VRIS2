@@ -9,29 +9,29 @@ import android.util.Log;
 /**
  * Created by marvin.brouwer on 22-12-2017.
  */
-class HomeWatcher(private val mContext: Context) {
-    private val mFilter: IntentFilter
-    private var mListener: IHomePressedListener? = null
-    private var mRecevier: InnerRecevier? = null
+class HomeWatcher(private val context: Context) {
+    private val filter: IntentFilter
+    private var listener: IHomePressedListener? = null
+    private var recevier: InnerRecevier? = null
 
     init {
-        mFilter = IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)
+        filter = IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)
     }
 
     fun setOnHomePressedListener(listener: IHomePressedListener) {
-        mListener = listener
-        mRecevier = InnerRecevier()
+        this.listener = listener
+        recevier = InnerRecevier()
     }
 
     fun startWatch() {
-        if (mRecevier != null) {
-            mContext.registerReceiver(mRecevier, mFilter)
+        if (recevier != null) {
+            context.registerReceiver(recevier, filter)
         }
     }
 
     fun stopWatch() {
-        if (mRecevier != null) {
-            mContext.unregisterReceiver(mRecevier)
+        if (recevier != null) {
+            context.unregisterReceiver(recevier)
         }
     }
 
@@ -46,20 +46,16 @@ class HomeWatcher(private val mContext: Context) {
             if (action == Intent.ACTION_CLOSE_SYSTEM_DIALOGS) {
                 val reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY)
                 if (reason != null) {
-                    Log.e(TAG, "action:$action,reason:$reason")
-                    if (mListener != null) {
+                    Log.w("HomeWatcher", "action:$action,reason:$reason")
+                    if (listener != null) {
                         if (reason == SYSTEM_DIALOG_REASON_HOME_KEY) {
-                            mListener!!.onHomePressed()
+                            listener!!.onHomePressed()
                         } else if (reason == SYSTEM_DIALOG_REASON_RECENT_APPS) {
-                            mListener!!.onRecentAppsPressed()
+                            listener!!.onRecentAppsPressed()
                         }
                     }
                 }
             }
         }
-    }
-
-    companion object {
-        internal val TAG = "hg"
     }
 }

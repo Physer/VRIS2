@@ -7,8 +7,7 @@ import com.labs.valtech.vris.R
 import com.labs.valtech.vris.app.base.BaseActivity
 import com.labs.valtech.vris.repositories.settings.ISettingRepository
 import com.labs.valtech.vris.viewModels.RoomViewModel
-
-
+import kotlinx.android.synthetic.main.activity_room.*
 
 
 /**
@@ -22,13 +21,18 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setModel(this, R.layout.activity_room, RoomViewModel(_settingRepository.RoomId!!))
+        setModel(this, R.layout.activity_room, RoomViewModel(_settingRepository.Room!!))
     }
 
     override fun onStart() {
-        if(_settingRepository.RoomId == null)
+        if(_settingRepository.Room == null)
             navigateToMainActivity()
         super.onStart()
+        // todo temp
+        roomName.setOnClickListener {
+            _settingRepository.Room = null
+            navigateToMainActivity()
+        }
     }
 
     private fun navigateToMainActivity() = startActivity(Intent(this, MainActivity::class.java))

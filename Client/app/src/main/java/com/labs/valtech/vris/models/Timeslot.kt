@@ -11,7 +11,7 @@ import org.joda.time.LocalDateTime
  */
 
 class Timeslot(
-    @field:SerializedName("id") override var id: Int,
+    @field:SerializedName("id") override var id: String,
     @field:SerializedName("start") override var startDate: LocalDateTime,
     @field:SerializedName("end") override var endDate: LocalDateTime?) : ITimeslot {
 
