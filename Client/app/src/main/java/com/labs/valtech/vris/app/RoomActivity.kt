@@ -9,10 +9,10 @@ import android.util.Log
 import android.view.View
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import com.labs.valtech.vris.R
 import com.labs.valtech.vris.app.base.BaseActivity
 import com.labs.valtech.vris.models.ITimeslot
@@ -22,6 +22,8 @@ import com.labs.valtech.vris.viewModels.RoomViewModel
 import kotlinx.android.synthetic.main.activity_room.*
 import org.joda.time.DateTime
 import org.joda.time.LocalDateTime
+
+
 
 
 /**
@@ -57,27 +59,48 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
             }
         })
 
-        _roomsFirebase.child(_settingRepository.Room!!.id).child("timeslots").addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                _timeslots.addAll(
-                    dataSnapshot.children.map { child ->
-                        {
-                            val startDate = DateTime.parse(child.child("startDate").value.toString()).toLocalDateTime()
-                            val endDateValue = child.child("endDate").value.toString();
-                            val endDate = if (endDateValue.isNullOrBlank()) null else DateTime.parse(endDateValue).toLocalDateTime()
-                            val timeslot = Timeslot(child.key, startDate, endDate)
-                            timeslot;
-                        }()
-                    }
-                )
-                checkAvailable()
-            }
+        // todo: https://firebaseopensource.com/projects/firebase/firebaseui-android/database/README.md
+        // todo create factories for models
+        _roomsFirebase
+                .child(_settingRepository.Room!!.id)
+                .child("timeslots")
+                .addChildEventListener(object: ChildEventListener {
 
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w("Rooms", "Failed to read value.", error.toException());
-            }
+                    override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                        val startDate = DateTime.parse(dataSnapshot.child("startDate").value.toString()).toLocalDateTime()
+                        val endDateValue = dataSnapshot.child("endDate").value.toString();
+                        val endDate = if (endDateValue.isNullOrBlank()) null else DateTime.parse(endDateValue).toLocalDateTime()
+                        val timeslot = Timeslot(dataSnapshot.key, startDate, endDate)
+                        _timeslots.add(timeslot)
+                        checkAvailable()
+                    }
+
+                    override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                        val index = _timeslots.indexOfFirst { timeslot -> timeslot.id.equals(dataSnapshot.key)  }
+                        val startDate = DateTime.parse(dataSnapshot.child("startDate").value.toString()).toLocalDateTime()
+                        val endDateValue = dataSnapshot.child("endDate").value.toString();
+                        val endDate = if (endDateValue.isNullOrBlank()) null else DateTime.parse(endDateValue).toLocalDateTime()
+                        val timeslot = Timeslot(dataSnapshot.key, startDate, endDate)
+                        _timeslots[index] = timeslot;
+                        checkAvailable()
+                    }
+
+                    override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                        val index = _timeslots.indexOfFirst { timeslot -> timeslot.id.equals(dataSnapshot.key)  }
+                        _timeslots.removeAt(index)
+                        checkAvailable()
+                    }
+
+                    override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                        throw NotImplementedError("Should never happen")
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // Failed to read value
+                        Log.w("Rooms", "Failed to read value.", error.toException());
+                    }
         })
+
         var timeListener = object : BroadcastReceiver() {
             override fun onReceive(ctx: Context, intent: Intent) {
                 if (intent.action!!.compareTo(Intent.ACTION_TIME_TICK) != 0) return

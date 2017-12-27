@@ -37,7 +37,9 @@ class RoomAutoCompleteAdapter(private val context: Context, override val kodein:
     var _availableRooms: ArrayList<IRoom> = ArrayList()
 
     init {
-        _roomsFirebase.addValueEventListener(object: ValueEventListener {
+        _roomsFirebase
+                .limitToLast(2000)
+                .addValueEventListener(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 _availableRooms.addAll(
