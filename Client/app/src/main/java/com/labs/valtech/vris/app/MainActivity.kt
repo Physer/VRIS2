@@ -3,8 +3,11 @@ package com.labs.valtech.vris.app
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
+import android.widget.TextView
 import com.github.salomonbrys.kodein.instance
 import com.labs.valtech.vris.R
 import com.labs.valtech.vris.adapters.RoomAutoCompleteAdapter
@@ -12,6 +15,8 @@ import com.labs.valtech.vris.app.base.BaseActivity
 import com.labs.valtech.vris.repositories.settings.ISettingRepository
 import com.labs.valtech.vris.viewModels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+
+
 
 
 /**
@@ -35,22 +40,42 @@ class MainActivity : BaseActivity<MainViewModel>() {
             override fun onItemClick(adapter: AdapterView<*>?, view: View?, index: Int, id: Long) = {
                 val room = _roomAutoCompleteAdapter.getItem(index);
                 Model.RoomName = room.getFullRoomName()
+                HideKeyboard()
                 _settingRepository.Room = room
                 navigateToAvailabilityActivity()
             }()
         }
+        roomName.setOnEditorActionListener(object: TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
+                if (event != null && event!!.getKeyCode() === KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
+                    HideKeyboard()
+                    submitRoom()
+                }
+                return false
+            }
+
+        });
     }
 
     override fun onStart() {
         if(_settingRepository.Room != null)
             navigateToAvailabilityActivity()
+
         super.onStart()
+        roomName.requestFocus()
+    }
+
+    override fun finishAfterTransition() {
+        super.finishAfterTransition()
         roomName.requestFocus()
     }
 
     fun submitRoom() {
         validateRoomName()
-        if(!Model.Valid) return
+        if(!Model.Valid) {
+            roomName.requestFocus()
+            return
+        }
 
         val room = _roomAutoCompleteAdapter.findRooms(Model.RoomName).first()
         _settingRepository.Room = room

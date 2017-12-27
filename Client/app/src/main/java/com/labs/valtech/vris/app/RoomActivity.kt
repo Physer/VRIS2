@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 import com.google.firebase.database.DataSnapshot
@@ -47,11 +48,14 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
             navigateToMainActivity()
 
         super.onStart()
-        // todo temp
-        roomName.setOnClickListener {
-            _settingRepository.Room = null
-            navigateToMainActivity()
-        }
+        roomName.setOnLongClickListener(object: View.OnLongClickListener {
+            override fun onLongClick(view: View?): Boolean {
+                // todo ask for password or something
+                _settingRepository.Room = null
+                navigateToMainActivity()
+                return true;
+            }
+        })
 
         _roomsFirebase.child(_settingRepository.Room!!.id).child("timeslots").addValueEventListener(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

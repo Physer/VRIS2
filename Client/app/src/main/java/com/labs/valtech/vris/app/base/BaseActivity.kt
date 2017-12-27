@@ -34,13 +34,6 @@ import com.labs.valtech.vris.VrisApplication
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        supportActionBar?.hide();
-        val decorView = window.decorView
-        // Hide the status bar.
-        val uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
-        decorView.systemUiVisibility = uiOptions
-
         Application.ActivityContext = this
     }
 
@@ -58,6 +51,14 @@ import com.labs.valtech.vris.VrisApplication
 
     override fun onStart() {
         super.onStart()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.hide();
+        val decorView = window.decorView
+        // Hide the status bar.
+        val uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
+        decorView.systemUiVisibility = uiOptions
+
         if(Model == null) throw IllegalStateException("Make sure you call the setModel method in the onCreate method")
     }
 
@@ -67,5 +68,6 @@ import com.labs.valtech.vris.VrisApplication
         val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val focusView = this.getCurrentFocus()
         if (focusView != null) inputMethodManager.hideSoftInputFromWindow(focusView!!.getWindowToken(), 0)
+        supportActionBar?.hide()
     }
 }

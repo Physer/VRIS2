@@ -49,6 +49,7 @@
                     android:afterTextChanged="@{() -> activity.validateRoomName()}"
                     android:completionThreshold="1"
                     android:text="@={ model.roomName }"
+                    android:inputType="text"
                     tools:ignore="RtlCompat" />
 
                 <Button
