@@ -17,7 +17,7 @@ import com.labs.valtech.vris.R
 import com.labs.valtech.vris.app.base.BaseActivity
 import com.labs.valtech.vris.models.ITimeslot
 import com.labs.valtech.vris.models.Timeslot
-import com.labs.valtech.vris.repositories.settings.ISettingRepository
+import com.labs.valtech.vris.business.repositories.Settings.ISettingRepository
 import com.labs.valtech.vris.viewModels.RoomViewModel
 import kotlinx.android.synthetic.main.activity_room.*
 import org.joda.time.DateTime

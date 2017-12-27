@@ -1,4 +1,4 @@
-package com.labs.valtech.vris.extensions
+package com.labs.valtech.vris.business.extensions
 
 import android.content.ContentValues
 import com.labs.valtech.vris.models.ITimeslot

@@ -1,4 +1,4 @@
-package com.labs.valtech.vris.repositories.settings
+package com.labs.valtech.vris.business.repositories.Settings
 
 import com.labs.valtech.vris.models.IRoom
 

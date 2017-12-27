@@ -11,8 +11,8 @@ import com.external.kioskmode.IHomePressedListener
 import com.github.salomonbrys.kodein.*
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.labs.valtech.vris.repositories.settings.ISettingRepository
-import com.labs.valtech.vris.repositories.settings.SettingRepository
+import com.labs.valtech.vris.business.repositories.Settings.ISettingRepository
+import com.labs.valtech.vris.business.repositories.Settings.SettingRepository
 import com.orhanobut.hawk.Hawk
 
 

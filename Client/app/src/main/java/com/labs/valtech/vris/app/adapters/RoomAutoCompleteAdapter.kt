@@ -1,4 +1,4 @@
-package com.labs.valtech.vris.adapters
+package com.labs.valtech.vris.app.adapters
 
 import android.content.Context
 import android.support.annotation.Nullable

@@ -10,9 +10,9 @@ import android.widget.AdapterView
 import android.widget.TextView
 import com.github.salomonbrys.kodein.instance
 import com.labs.valtech.vris.R
-import com.labs.valtech.vris.adapters.RoomAutoCompleteAdapter
+import com.labs.valtech.vris.app.adapters.RoomAutoCompleteAdapter
 import com.labs.valtech.vris.app.base.BaseActivity
-import com.labs.valtech.vris.repositories.settings.ISettingRepository
+import com.labs.valtech.vris.business.repositories.Settings.ISettingRepository
 import com.labs.valtech.vris.viewModels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
