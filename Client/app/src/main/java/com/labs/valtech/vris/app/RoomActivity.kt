@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 import com.google.firebase.database.ChildEventListener
@@ -22,6 +23,7 @@ import com.labs.valtech.vris.viewModels.RoomViewModel
 import kotlinx.android.synthetic.main.activity_room.*
 import org.joda.time.DateTime
 import org.joda.time.LocalDateTime
+import org.joda.time.format.ISODateTimeFormat
 
 
 
@@ -36,6 +38,7 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
     val _dataModelFactory: IDataModelFactory by instance()
     val _roomsFirebase: DatabaseReference by kodein.with("Rooms").instance()
     @Volatile var _timeslots: ArrayList<ITimeslot> = ArrayList()
+    lateinit var _timeListener: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +60,15 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
                 _settingRepository.Room = null
                 navigateToMainActivity()
                 return true;
+            }
+        })
+        currentTime.setOnLongClickListener(object: View.OnLongClickListener {
+            override fun onLongClick(view: View?): Boolean {
+                val date = DateTime.now().toLocalDateTime().toString(ISODateTimeFormat.dateTime())
+                Log.i("currentDate", date)
+                Toast.makeText(applicationContext, "Written current time ($date) to your console", Toast.LENGTH_LONG).show();
+
+                return true
             }
         })
 
@@ -94,7 +106,7 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
                     }
         })
 
-        var timeListener = object : BroadcastReceiver() {
+        _timeListener = object : BroadcastReceiver() {
             override fun onReceive(ctx: Context, intent: Intent) {
                 if (intent.action!!.compareTo(Intent.ACTION_TIME_TICK) != 0) return
 
@@ -103,8 +115,13 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
             }
         }
 
-        this.applicationContext.registerReceiver(timeListener, IntentFilter(Intent.ACTION_TIME_TICK))
+        this.applicationContext.registerReceiver(_timeListener, IntentFilter(Intent.ACTION_TIME_TICK))
         checkAvailable()
+    }
+
+    override fun onStop() {
+        this.applicationContext.unregisterReceiver(_timeListener)
+        super.onStop()
     }
 
     private fun checkAvailable() {
