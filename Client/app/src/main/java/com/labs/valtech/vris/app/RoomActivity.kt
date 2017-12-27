@@ -66,7 +66,7 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
             override fun onLongClick(view: View?): Boolean {
                 val date = DateTime.now().toLocalDateTime().toString(ISODateTimeFormat.dateTime())
                 Log.i("currentDate", date)
-                Toast.makeText(applicationContext, "Written current time ($date) to your console", Toast.LENGTH_LONG).show();
+                Toast.makeText(applicationContext, "Written current time ($date) to your console", Toast.LENGTH_SHORT).show();
 
                 return true
             }
