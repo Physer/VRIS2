@@ -5,9 +5,9 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.external.boot.KioskActivity
 import com.github.salomonbrys.kodein.LazyKodein
 import com.github.salomonbrys.kodein.LazyKodeinAware
 import com.github.salomonbrys.kodein.android.appKodein
@@ -21,7 +21,7 @@ import com.labs.valtech.vris.VrisApplication
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
- abstract class BaseActivity<TModel> : AppCompatActivity(), LazyKodeinAware {
+ abstract class BaseActivity<TModel> : KioskActivity(), LazyKodeinAware {
     override val kodein = LazyKodein(appKodein)
 
     private var _model: TModel? = null
