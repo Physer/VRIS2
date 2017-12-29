@@ -43,7 +43,10 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setModel(this, R.layout.activity_room, RoomViewModel(_settingRepository.Room!!))
+        setModel(this, R.layout.activity_room, RoomViewModel(
+            _settingRepository.Room!!,
+            getString(R.string.available),
+            resources.getDimension(R.dimen.available)))
     }
 
     override fun onStart() {
@@ -130,14 +133,52 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
 
         if(Model.Available){
             roomInfoBar.setBackgroundColor(getColor(R.color.colorAccent))
+            val nextAppointment = _timeslots.firstOrNull { timeslot -> timeslot.startDate!!.isAfter(now) }
+
+            if(nextAppointment == null || nextAppointment.startDate!!.isAfter(now.plusDays(1))) {
+                Model.AvailabilityLabel = getString(R.string.available)
+                Model.AvailabilitySize = resources.getDimension(R.dimen.available)
+                return
+            }
+            else {
+                Model.AvailabilityLabel = getString(R.string.availableUntil, nextAppointment.startDate!!.toString(getString(R.string.timeFormat)))
+                Model.AvailabilitySize = resources.getDimension(R.dimen.availableWithValue)
+                return
+            }
         }
         else{
             roomInfoBar.setBackgroundColor(getColor(R.color.colorInactive))
+            var nextAvailable = localDateTime(now)
+
+            if(nextAvailable?.endDate == null) {
+                Model.AvailabilityLabel = getString(R.string.notAvailable)
+                Model.AvailabilitySize = resources.getDimension(R.dimen.available)
+                return
+            }
+            else {
+                Model.AvailabilityLabel = getString(R.string.availableAfter, nextAvailable.endDate!!.toString(getString(R.string.timeFormat)))
+                Model.AvailabilitySize = resources.getDimension(R.dimen.availableWithValue)
+                return
+            }
         }
     }
 
+    private fun localDateTime(now: LocalDateTime): ITimeslot? {
+        var nextAvailable: LocalDateTime = now;
+        for (ts in _timeslots) {
+            // skip old
+            if (ts.endDate!!.isBefore(now)) continue;
+            if (ts.startDate!!.isAfter(nextAvailable.plusMinutes(30))) {
+                return ts
+                break
+            }
+            nextAvailable = ts.endDate!!;
+        }
+        return null
+    }
+
     private fun isReserved(now: LocalDateTime , timeslot: ITimeslot): Boolean{
-        if(timeslot.startDate!!.isAfter(now)) return false
+        if(timeslot.startDate!!.isAfter(now.plusMinutes(10))) return false
         if(timeslot.endDate == null) return true
         if(timeslot.endDate!!.isBefore(now)) return false;
         return true;

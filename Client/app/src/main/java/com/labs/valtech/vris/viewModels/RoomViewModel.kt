@@ -13,6 +13,8 @@ import org.joda.time.LocalDateTime
  */
 data class RoomViewModel(
         private var _room: IRoom,
+        private var _availabilityLabel: String,
+        private var _availabilitySize: Float,
         private var _available: Boolean = true,
         private var _date: LocalDateTime = DateTime.now().toLocalDateTime()
 ): BaseObservable() {
@@ -35,5 +37,19 @@ data class RoomViewModel(
         set(value) {
             _available = value
             notifyPropertyChanged(BR.available);
+        }
+
+    var AvailabilityLabel
+        @Bindable get() = _availabilityLabel
+        set(value) {
+            _availabilityLabel = value
+            notifyPropertyChanged(BR.availabilityLabel);
+        }
+
+    var AvailabilitySize
+        @Bindable get() = _availabilitySize
+        set(value) {
+            _availabilitySize = value
+            notifyPropertyChanged(BR.availabilitySize);
         }
 }

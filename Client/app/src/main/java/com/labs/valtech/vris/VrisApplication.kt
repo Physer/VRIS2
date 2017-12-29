@@ -3,6 +3,7 @@ package com.labs.valtech.vris
 /**
  * Created by marvin.brouwer on 21-12-2017.
  */
+import android.content.res.Resources
 import com.external.kioskmode.KioskApplication
 import com.github.salomonbrys.kodein.*
 import com.google.firebase.database.DatabaseReference
@@ -36,4 +37,11 @@ class VrisApplication : KioskApplication(), KodeinAware {
         return firebaseDb.getReference(reference)
     }
 
+    companion object {
+
+        fun getResources(): Resources {
+            return KioskApplication.ActivityContext.resources!!
+        }
+
+    }
 }

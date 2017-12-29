@@ -1,1 +1,4 @@
-<resources></resources>
+<resources>
+    <dimen name="available">68dp</dimen>
+    <dimen name="availableWithValue">65dp</dimen>
+</resources>

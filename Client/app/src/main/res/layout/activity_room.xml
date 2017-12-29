@@ -56,5 +56,14 @@
                 tools:ignore="RtlCompat" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/availabilityLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@{ model.availabilityLabel , default = @string/available}"
+            android:textAlignment="center"
+            android:textSize="@{ model.availabilitySize }" />
+
     </LinearLayout>
 </layout>
