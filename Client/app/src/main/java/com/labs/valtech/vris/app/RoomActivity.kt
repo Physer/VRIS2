@@ -174,7 +174,7 @@ class RoomActivity : BaseActivity<RoomViewModel>() {
             }
             nextAvailable = ts.endDate!!;
         }
-        return null
+        return _timeslots.firstOrNull{ timeslot -> isReserved(now!!, timeslot) }
     }
 
     private fun isReserved(now: LocalDateTime , timeslot: ITimeslot): Boolean{
