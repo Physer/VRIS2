@@ -23,10 +23,11 @@ class DataModelFactory() : IDataModelFactory{
 
     override fun createTimeSlot(dataSnapshot: DataSnapshot): ITimeslot {
 
+        val caption = dataSnapshot.child("caption").value.toString()
         val startDate = DateTime.parse(dataSnapshot.child("startDate").value.toString()).toLocalDateTime()
-        val endDateValue = dataSnapshot.child("endDate").value.toString();
-        val endDate = if (endDateValue.isNullOrBlank()) null else DateTime.parse(endDateValue).toLocalDateTime()
-        val timeslot = Timeslot(dataSnapshot.key, startDate, endDate)
+        val endDateValue = dataSnapshot.child("endDate")?.value?.toString();
+        val endDate = if (endDateValue?.isNullOrBlank() != false) null else DateTime.parse(endDateValue).toLocalDateTime()
+        val timeslot = Timeslot(dataSnapshot.key, startDate, caption, endDate)
 
         return timeslot
 

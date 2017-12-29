@@ -4,6 +4,6 @@
     <string name="timeFormat">HH:mm</string>
     <string name="available">Available</string>
     <string name="notAvailable">Not available</string>
-    <string name="availableUntil">Available untill %1$s</string>
+    <string name="availableUntil">Available until %1$s</string>
     <string name="availableAfter">Available after %1$s</string>
 </resources>

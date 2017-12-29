@@ -13,6 +13,7 @@ import org.joda.time.LocalDateTime
 data class Timeslot(
     @field:SerializedName("id") override var id: String,
     @field:SerializedName("start") override var startDate: LocalDateTime,
+    @field:SerializedName("caption") override var caption: String,
     @field:SerializedName("end") override var endDate: LocalDateTime? = null) : ITimeslot {
 
     override val durationInMinutes: Int
@@ -21,4 +22,11 @@ data class Timeslot(
             val diffInSeconds = (diffInMillis / 1000).toInt()
             return diffInSeconds / 60
         }
+
+    override fun active(now: LocalDateTime): Boolean{
+        if(startDate!!.isAfter(now.plusMinutes(10))) return false
+        if(endDate == null) return true
+        if(endDate!!.isBefore(now)) return false;
+        return true;
+    }
 }

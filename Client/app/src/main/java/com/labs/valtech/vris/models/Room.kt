@@ -1,8 +1,6 @@
 package com.labs.valtech.vris.models
 
 import com.google.gson.annotations.SerializedName
-import com.labs.valtech.vris.R
-import com.labs.valtech.vris.VrisApplication
 
 
 /**
