@@ -11,16 +11,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="1.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VRIS.OutlookConnect\VRIS.OutlookConnect.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Mvc.Formatters.Json">
-      <HintPath>..\..\..\..\..\..\Users\marvin.brouwer\.nuget\packages\microsoft.aspnetcore.mvc.formatters.json\1.1.3\lib\netstandard1.6\Microsoft.AspNetCore.Mvc.Formatters.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

@@ -19,10 +19,4 @@
     <ProjectReference Include="..\VRIS.Domain\VRIS.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Web">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Web.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
