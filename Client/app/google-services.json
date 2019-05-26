@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "985003723480",
+    "firebase_url": "https://vris2-e1851.firebaseio.com",
+    "project_id": "vris2-e1851",
+    "storage_bucket": "vris2-e1851.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985003723480:android:88b49f411202f09e",
+        "android_client_info": {
+          "package_name": "com.labs.valtech.vris"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985003723480-jj6d5tk957sjbonp0n8dg9t13n931g29.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.labs.valtech.vris",
+            "certificate_hash": "c0edbb42b15271f9b83969a5d39340f42264d6a8"
+          }
+        },
+        {
+          "client_id": "985003723480-ptkh5a268og1ugeb89ti7c8vg7oj921j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_rzrddIoZYNJi5Rq6u8C7ZV6jOV6n0q0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985003723480-ptkh5a268og1ugeb89ti7c8vg7oj921j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

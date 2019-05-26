@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="time_slot_part_minutes">5</integer>
-    <integer name="time_slot_part_heigth">10</integer>
-    <integer name="time_slot_start_height">100</integer>
-</resources>

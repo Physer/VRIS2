@@ -1,0 +1,72 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable type="com.labs.valtech.vris.app.MainActivity" name="activity" />
+        <variable type="com.labs.valtech.vris.viewModels.MainViewModel" name="model" />
+    </data>
+
+    <LinearLayout android:id="@+id/activity_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <!-- The primary full-screen view. This can be replaced with whatever view
+             is needed to present your content, e.g. VideoView, SurfaceView,
+             TextureView, etc. -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fullscreen_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:text="Select Room"
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="30sp"
+                tools:ignore="RtlCompat" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <AutoCompleteTextView
+                    android:id="@+id/roomName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_weight="1"
+                    android:afterTextChanged="@{() -> activity.validateRoomName()}"
+                    android:completionThreshold="1"
+                    android:text="@={ model.roomName }"
+                    android:inputType="text"
+                    tools:ignore="RtlCompat" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:enabled="@{ model.valid }"
+                    android:onClick="@{() -> activity.submitRoom() }"
+                    android:text="OK" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- This FrameLayout insets its children based on system windows using
+             android:fitsSystemWindows. -->
+
+    </LinearLayout>
+</layout>

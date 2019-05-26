@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">VRIS</string>
+    <string name="dateFormat">dd-MM-yyyy</string>
+    <string name="timeFormat">HH:mm</string>
+    <string name="available">Available</string>
+    <string name="notAvailable">Not available</string>
+    <string name="availableUntil">Available until %1$s</string>
+    <string name="availableAfter">Available after %1$s</string>
+</resources>

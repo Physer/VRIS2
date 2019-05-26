@@ -1,0 +1,81 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable type="com.labs.valtech.vris.app.RoomActivity" name="activity" />
+        <variable type="com.labs.valtech.vris.viewModels.RoomViewModel" name="model" />
+    </data>
+
+    <LinearLayout android:id="@+id/activity_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- The primary full-screen view. This can be replaced with whatever view
+             is needed to present your content, e.g. VideoView, SurfaceView,
+             TextureView, etc. -->
+
+        <LinearLayout
+            android:id="@+id/roomInfoBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/roomName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:text="@{model.room.name , default=Room}"
+                android:textAlignment="textStart"
+                android:textAppearance="?attr/textAppearanceListItem"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/currentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:text="@{model.date.toString(@string/dateFormat), default=@string/dateFormat}"
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceListItem" />
+
+            <TextView
+                android:id="@+id/currentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:text="@{model.date.toString(@string/timeFormat), default=@string/timeFormat}"
+                android:textAlignment="textEnd"
+                android:textAppearance="?attr/textAppearanceListItem"
+                tools:ignore="RtlCompat" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/availabilityLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@{ model.availabilityLabel , default = @string/available}"
+            android:textAlignment="center"
+            android:textSize="@{ model.availabilitySize }" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/timeSlots"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
+            android:scrollbars="vertical">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+</layout>
